@@ -3,99 +3,162 @@ import {
     parseAsReadonlyArray,
     parseAsString,
 } from 'parse-dont-validate';
-import { equal } from '../../database/common/whereClause';
-import PostgreSQL from '../../database/postgres';
-import select from '../../database/query/select';
-import {
-    AccommodationType,
-    HandlerType,
-    Month,
-    Region,
-} from '../../scrapper/scrapper/fetchParser';
+import { Value } from '../../database/postgres';
+import { Month, Region } from '../../scrapper/scrapper/fetchParser';
 
-const queryAccommodation = async (region: Region) => {
-    const rows = await PostgreSQL.getPoolInstance().select(
-        select([
-            'id',
-            'handler',
-            'address',
-            'latitude',
-            'longitude',
-            'remark',
-            'month',
-            'year',
-            'facilities',
-            'accommodationType',
-        ])
-            .from('accommodation')
-            .where(equal('available', true))
-            .and(equal('region', region))
-            .toQuery()
-    );
+type CommonQuery = Readonly<{
+    region: Region;
+    minRental: number | undefined;
+    maxRental: number | undefined;
+    address: string | undefined;
+    remark: string | undefined;
+    facilities: string | undefined;
+}>;
 
-    return parseAsReadonlyArray(rows, (row) => {
-        return {
-            id: parseAsString(row.id).orElseThrowDefault('id'),
-            handlerID: parseAsString(row.handler).orElseThrowDefault('handler'),
-            address: parseAsString(row.address).orElseThrowDefault('address'),
-            latitude: parseAsNumber(row.latitude).orElseGetUndefined(),
-            longitude: parseAsNumber(row.longitude).orElseGetUndefined(),
-            remark: parseAsString(row.remark).orElseThrowDefault('remark'),
-            month: parseAsString(row.month).orElseThrowDefault(
-                'month'
-            ) as Month,
-            year: parseAsNumber(row.year).orElseThrowDefault('year'),
-            facilities: parseAsString(row.facilities).orElseThrowDefault(
-                'facilities'
-            ),
-            accommodationType: parseAsString(
-                row.accommodationType
-            ).orElseThrowDefault('accommodationType') as AccommodationType,
-        };
-    }).orElseThrowDefault('rows');
+type OrganizedQuery = Readonly<{
+    key: string;
+    value: Value;
+}>;
+
+type GenerateQuery = (keys: ReadonlyArray<string>) => string;
+
+const generateRegionQuery: GenerateQuery = (keys) => {
+    const index = findIndex(keys, 'region');
+    return !index ? '' : `AND region=$${index}`;
 };
 
-const queryHandler = async (id: string) => {
-    const rows = await PostgreSQL.getPoolInstance().select(
-        select(['id', 'name', 'handlerType'])
-            .from('handler')
-            .where(equal('id', id))
-            .toQuery()
-    );
-    return parseAsReadonlyArray(rows, (row) => {
-        return {
-            id: parseAsString(row.id).orElseThrowDefault('id'),
-            name: parseAsString(row.name).orElseThrowDefault('name'),
-            handlerType: parseAsString(row.address).orElseThrowDefault(
-                'handlerType'
-            ) as HandlerType,
-        };
-    }).orElseThrowDefault('rows');
+const findIndex = (keys: ReadonlyArray<string>, searchKey: string) =>
+    keys.findIndex((key) => key === searchKey) + 1;
+
+const generateAddressQuery: GenerateQuery = (keys) => {
+    const index = findIndex(keys, 'address');
+    return !index ? '' : `AND LOWER(address) LIKE LOWER($${index})`;
 };
 
-const queryEmail = async (handler: string) => {
-    const rows = await PostgreSQL.getPoolInstance().select(
-        select(['id']).from('email').where(equal('handler', handler)).toQuery()
-    );
-    return parseAsReadonlyArray(rows, (row) => {
-        return {
-            email: parseAsString(row.id).orElseThrowDefault('id'),
-        };
-    }).orElseThrowDefault('rows');
+const generateRemarkQuery: GenerateQuery = (keys) => {
+    const index = findIndex(keys, 'remark');
+    return !index ? '' : `AND LOWER(remark) LIKE LOWER($${index})`;
 };
 
-const queryMobileNumber = async (handler: string) => {
-    const rows = await PostgreSQL.getPoolInstance().select(
-        select(['id'])
-            .from('mobile_number')
-            .where(equal('handler', handler))
-            .toQuery()
-    );
-    return parseAsReadonlyArray(rows, (row) => {
-        return {
-            mobileNumber: parseAsString(row.id).orElseThrowDefault('id'),
-        };
-    }).orElseThrowDefault('rows');
+const generateFacilitiesQuery: GenerateQuery = (keys) => {
+    const index = findIndex(keys, 'facilities');
+    return !index ? '' : `AND LOWER(facilities) LIKE LOWER($${index})`;
 };
 
-export { queryMobileNumber, queryEmail, queryHandler, queryAccommodation };
+const generateRentalQuery: GenerateQuery = (keys) => {
+    const min = findIndex(keys, 'minRental');
+    const max = findIndex(keys, 'maxRental');
+    return !min && !max ? '' : `AND rental BETWEEN $${min} AND $${max}`;
+};
+
+const generateRangeQuery = ({
+    keys,
+    columnName,
+    minRange,
+    maxRange,
+    clause,
+}: Readonly<{
+    keys: ReadonlyArray<string>;
+    columnName: 'bed_rooms' | 'bath_rooms' | 'capacity' | 'rental';
+    minRange: string;
+    maxRange: string;
+    clause: 'WHERE' | 'AND';
+}>) => {
+    const min = findIndex(keys, minRange);
+    const max = findIndex(keys, maxRange);
+    return !min && !max
+        ? ''
+        : `${clause} ${columnName} BETWEEN $${min} AND $${max}`;
+};
+
+const generateAccommodationQuery: GenerateQuery = (keys) =>
+    `${generateRegionQuery(keys)} ${generateAddressQuery(
+        keys
+    )} ${generateRemarkQuery(keys)} ${generateFacilitiesQuery(keys)}`;
+
+const parseContact = (mobileNumber: unknown, email: unknown) =>
+    ({
+        mobileNumber:
+            mobileNumber === null
+                ? []
+                : parseAsReadonlyArray(mobileNumber, (val) =>
+                      parseAsString(val).orElseThrowDefault('mobileNumber')
+                  ).orElseThrowDefault('mobileNumber'),
+        email:
+            email === null
+                ? []
+                : parseAsReadonlyArray(email, (val) =>
+                      parseAsString(val).orElseThrowDefault('email')
+                  ).orElseThrowDefault('email'),
+    } as const);
+
+const parseLocation = ({
+    address,
+    latitude,
+    longitude,
+}: Readonly<{
+    address: unknown;
+    latitude: unknown;
+    longitude: unknown;
+}>) =>
+    ({
+        address: parseAsString(address).orElseThrowDefault('address'),
+        coordinate: {
+            latitude: parseAsNumber(latitude).orElseThrowDefault('latitude'),
+            longitude: parseAsNumber(longitude).orElseThrowDefault('longitude'),
+        },
+    } as const);
+
+const parseRental = (rental: unknown) =>
+    parseFloat(
+        parseAsString(rental)
+            .orElseThrowDefault('rental')
+            .replace('RM', '')
+            .replace(/,/g, '')
+    );
+
+const parseFacilities = (facilities: unknown) =>
+    parseAsString(facilities).orElseThrowDefault('facilities');
+
+const parseRemarks = ({
+    remark,
+    year,
+    month,
+}: Readonly<{
+    remark: unknown;
+    year: unknown;
+    month: unknown;
+}>) =>
+    ({
+        remark: parseAsString(remark).orElseThrowDefault('remark'),
+        year: parseAsNumber(year).orElseThrowDefault('year'),
+        month: parseAsString(month).orElseThrowDefault('month') as Month,
+    } as const);
+
+const parseRating = (rating: unknown) =>
+    parseAsReadonlyArray(rating, (val) =>
+        parseAsNumber(val).inRangeOf(1, 5).orElseThrowDefault('rating')
+    ).orElseGetReadonlyEmptyArray();
+
+const parseVisitCount = (visitCount: unknown) =>
+    parseInt(
+        parseAsString(visitCount).orElseLazyGet(() => '0'),
+        10
+    );
+
+export {
+    CommonQuery,
+    OrganizedQuery,
+    GenerateQuery,
+    generateRentalQuery,
+    generateAccommodationQuery,
+    generateRangeQuery,
+    findIndex,
+    parseContact,
+    parseLocation,
+    parseRental,
+    parseFacilities,
+    parseRemarks,
+    parseRating,
+    parseVisitCount,
+};

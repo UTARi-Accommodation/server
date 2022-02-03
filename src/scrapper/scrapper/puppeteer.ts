@@ -29,12 +29,12 @@ const getGeoCode = async (page: puppeteer.Page, address: string) => {
         latitude: parseAsNumber(parseFloat(lat ?? ''))
             .inRangeOf(-90, 90)
             .orElseThrowCustom(
-                `lat must be in range of -90 to 90, got "${lat}" instead`
+                `Expect lat to be in range of -90 to 90, got "${lat}" instead`
             ),
         longitude: parseAsNumber(parseFloat(long ?? ''))
             .inRangeOf(-180, 180)
             .orElseThrowCustom(
-                `long must be in range of -180 to 180, got "${long}" instead`
+                `Expect long to be in range of -180 to 180, got "${long}" instead`
             ),
     };
 };

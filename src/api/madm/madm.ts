@@ -1,7 +1,7 @@
 import { isBlank, isEmpty, isWhiteSpace } from 'granula-string';
 import {
-    Contact,
     Month,
+    QueriedContact,
     QueriedRoom,
     QueriedUnit,
     RoomSize,
@@ -60,28 +60,12 @@ const determinePunishmentForBadRoomRental = ({
     max: number;
 }>) => (rental < min ? -1 : rental > max ? -2 : 0);
 
-const punishmentForBadRoomRental = (rental: number, size: RoomSize) => {
-    switch (size) {
-        case 'Small':
-            return determinePunishmentForBadRoomRental({
-                rental,
-                min: 350,
-                max: 550,
-            });
-        case 'Middle':
-            return determinePunishmentForBadRoomRental({
-                rental,
-                min: 350,
-                max: 500,
-            });
-        case 'Master':
-            return determinePunishmentForBadRoomRental({
-                rental,
-                min: 300,
-                max: 450,
-            });
-    }
-};
+const punishmentForBadRoomRental = (rental: number, size: RoomSize) =>
+    determinePunishmentForBadRoomRental({
+        rental,
+        min: size === 'Master' ? 300 : 350,
+        max: size === 'Small' ? 550 : size === 'Middle' ? 500 : 450,
+    });
 
 const computeAddressScore = (address: string) =>
     normalizeNonQuantifiableAttribute({
@@ -143,12 +127,15 @@ const computeRemarkScore = (remark: string) =>
         delimiter: /\W/gm,
     });
 
-const computeContactScore = ({ mobileNumber, email }: Contact) =>
-    mobileNumber && email
+const computeContactScore = ({
+    mobileNumber: { length: mLength },
+    email: { length: eLength },
+}: QueriedContact) =>
+    mLength && eLength
         ? 1
-        : mobileNumber && !email
+        : mLength && !eLength
         ? 0.8
-        : !mobileNumber && email
+        : !mLength && eLength
         ? 0.5
         : 0;
 

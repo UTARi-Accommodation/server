@@ -5,6 +5,7 @@ import {
     Accommodations,
     Region,
     RoomProperties,
+    RoomSize,
     RoomType,
 } from '../scrapper/fetchParser';
 import select from '../../database/query/select';
@@ -37,7 +38,7 @@ const insertRoom = async ({
                         available: true,
                     })
                     .returning(['id'])
-                    .command()
+                    .toQuery()
             )
         )[0]?.id
     )
@@ -53,7 +54,7 @@ const insertRoom = async ({
                             capacity: roomCapacity,
                         })
                         .returning(['id'])
-                        .command()
+                        .toQuery()
                 )
         )
     );
@@ -104,7 +105,7 @@ const updateRoom = async ({
                             capacity: roomCapacity,
                         })
                         .returning(['id'])
-                        .command()
+                        .toQuery()
                 )
         )
     );
@@ -304,7 +305,7 @@ const insertToDatabase = async (rooms: Accommodations, region: Region) => {
                             ),
                             roomSize: parseAsString(
                                 val.roomSize
-                            ).orElseThrowDefault('room size'),
+                            ).orElseThrowDefault('room size') as RoomSize,
                         } as const)
                 ).orElseThrowDefault('queried room IDs and room size');
                 const { small, middle, master } = accommodationType.rooms;
@@ -342,10 +343,6 @@ const insertToDatabase = async (rooms: Accommodations, region: Region) => {
                                 });
                             }
                             break;
-                        default:
-                            throw new Error(
-                                `Expected roomSize to be Master, Middle or Small, got ${roomSize} instead`
-                            );
                     }
                 });
             }
@@ -373,7 +370,7 @@ const insertToDatabase = async (rooms: Accommodations, region: Region) => {
                                 available: true,
                             })
                             .returning(['id'])
-                            .command()
+                            .toQuery()
                     )
                 )[0]?.id
             )

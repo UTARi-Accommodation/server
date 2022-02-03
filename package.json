@@ -13,12 +13,13 @@
         "build": "rm -rf build && tsc -p tsconfig.prod.json && yarn add-js-extension",
         "build:dev": "rm -rf build && tsc -p tsconfig.dev.json && yarn add-js-extension",
         "add-js-extension": "ts-add-js-extension add --dir=build",
-        "test:database": "jest test/database/* --run-in-band",
-        "test:api": "jest test/api/madm/*",
-        "test": "yarn test:database & yarn test:api",
-        "code-cov:database": "yarn test:database --coverage --coverageDirectory='coverage/database'",
-        "code-cov:api": "yarn test:api --coverage --coverageDirectory='coverage/api'",
-        "code-cov": "yarn code-cov:database & yarn code-cov:api"
+        "test:api-query": "jest test/api/query/* --run-in-band",
+        "test:api-madm": "jest test/api/madm/*",
+        "test:scrapper-populate": "jest test/scrapper/populate/* --run-in-band",
+        "test:scrapper-scrapper": "jest test/scrapper/scrapper/*",
+        "test": "(yarn test:scrapper-scrapper & yarn test:api-madm) & (yarn test:scrapper-populate && yarn test:api-query) && echo '\nTest Completed. Take some rest bro\n'",
+        "code-cov:api-madm": "yarn test:api-madm --coverage --coverageDirectory='coverage/api-madm'",
+        "code-cov": "yarn code-cov:api-madm && echo '\nCode Cov Completed. Take some rest bro\n'"
     },
     "devDependencies": {
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",

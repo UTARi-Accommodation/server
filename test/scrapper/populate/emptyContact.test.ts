@@ -1,10 +1,10 @@
-import { create, drop } from './initDb';
-import PostgreSQL from '../../src/database/postgres';
-import { Accommodations } from '../../src/scrapper/scrapper/fetchParser';
-import insertToDatabase from '../../src/scrapper/populate/populate';
-import room from '../dummy/database/emptyContact/room.json';
-import select from '../../src/database/query/select';
-import Puppeteer from '../../src/scrapper/scrapper/puppeteer';
+import { create, drop } from '../../script/schema';
+import PostgreSQL from '../../../src/database/postgres';
+import { Accommodations } from '../../../src/scrapper/scrapper/fetchParser';
+import insertToDatabase from '../../../src/scrapper/populate/populate';
+import room from '../../dummy/populate/emptyContact.json';
+import select from '../../../src/database/query/select';
+import Puppeteer from '../../../src/scrapper/scrapper/puppeteer';
 
 describe('Insert Empty Contact', () => {
     beforeAll(async () => {

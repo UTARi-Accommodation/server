@@ -29,7 +29,9 @@ const createPool = () => {
     return client;
 };
 
-const convertUnderScoreRowToCamelCase = <T extends NullableValue | Value>(
+const convertUnderScoreRowToCamelCase = <
+    T extends unknown | NullableValue | Value
+>(
     rows: ReadonlyArray<any>
 ) =>
     !rows.length
@@ -77,6 +79,7 @@ const createPostgresPool = () => {
     return {
         close: async () => pool.end(),
         exec,
+        execParam,
         resetSomeTablesAndColumns: async () => {
             try {
                 await exec('TRUNCATE TABLE email');
@@ -157,4 +160,4 @@ class PostgreSQL {
 
 export default PostgreSQL;
 
-export { Value, NullableValue, Fields };
+export { Value, NullableValue, Fields, convertUnderScoreRowToCamelCase };

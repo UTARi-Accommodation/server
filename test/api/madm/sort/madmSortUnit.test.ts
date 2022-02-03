@@ -1,6 +1,5 @@
 import { multiAttributeDecisionModelUnit } from '../../../../src/api/madm/madm';
-import unitOne from '../../../dummy/madm/unitOne.json';
-import unitTwo from '../../../dummy/madm/unitTwo.json';
+import { unitOne, unitTwo } from '../../../dummy/api/madm/unit.json';
 import { QueriedUnit } from '../../../../src/scrapper/scrapper/fetchParser';
 
 describe('Multi-Attribute Decision Model', () => {

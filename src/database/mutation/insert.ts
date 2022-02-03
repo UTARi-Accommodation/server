@@ -28,7 +28,7 @@ const insertInto = (table: string) => ({
                 values,
             }),
             returning: (fields: Fields) => ({
-                command: (): Query => {
+                toQuery: (): Query => {
                     const underScoredFields = fields.reduce((prev, key) => {
                         const underscoreCasedKey = camelCaseToUnderScore(key);
                         return !prev

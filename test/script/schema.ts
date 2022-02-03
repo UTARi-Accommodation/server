@@ -43,15 +43,15 @@ CREATE TABLE accommodation (
 	id INTEGER PRIMARY KEY NOT NULL,
 	handler TEXT NOT NULL REFERENCES handler (id),
 	address TEXT NOT NULL,
-    latitude DOUBLE PRECISION NULL,
-    longitude DOUBLE PRECISION NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
 	remark TEXT NOT NULL,
 	month MONTH NOT NULL,
 	year INTEGER NOT NULL,
 	region Region NOT NULL,
 	facilities TEXT NOT NULL,
     accommodation_type AccommodationType NOT NULL,
-    available BOOLEAN NOT NULl
+    available BOOLEAN NOT NULL
 );
 
 -- CREATE UNIT
@@ -68,7 +68,7 @@ CREATE TABLE unit (
 CREATE TABLE unit_rating (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print (id),
+	finger_print TEXT NOT NULL REFERENCES finger_print (id) UNIQUE,
 	rating DOUBLE PRECISION NOT NULL,
 	time_created TIMESTAMPTZ NOT NULL
 );
@@ -76,14 +76,14 @@ CREATE TABLE unit_rating (
 CREATE TABLE unit_saved (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE unit_visit (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
@@ -106,7 +106,7 @@ CREATE TABLE room_capacity (
 CREATE TABLE room_rating (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	rating DOUBLE PRECISION NOT NULL,
 	time_created TIMESTAMPTZ NOT NULL
 );
@@ -114,14 +114,14 @@ CREATE TABLE room_rating (
 CREATE TABLE room_saved (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE room_visit (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 `;

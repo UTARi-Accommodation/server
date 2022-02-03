@@ -5,5 +5,7 @@ const config = {
         '^.+\\.(js)$': 'babel-jest',
     },
     transformIgnorePatterns: [],
+    testTimeout: 43200,
 };
+
 export default config;

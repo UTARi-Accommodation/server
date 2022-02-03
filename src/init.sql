@@ -99,7 +99,7 @@ CREATE TABLE unit (
 CREATE TABLE unit_rating (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print (id),
+	finger_print TEXT NOT NULL REFERENCES finger_print (id) UNIQUE,
 	rating DOUBLE PRECISION NOT NULL,
 	time_created TIMESTAMPTZ NOT NULL
 );
@@ -107,14 +107,14 @@ CREATE TABLE unit_rating (
 CREATE TABLE unit_saved (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE unit_visit (
 	id SERIAL PRIMARY KEY NOT NULL,
 	unit INTEGER NOT NULL REFERENCES unit (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
@@ -137,7 +137,7 @@ CREATE TABLE room_capacity (
 CREATE TABLE room_rating (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	rating DOUBLE PRECISION NOT NULL,
 	time_created TIMESTAMPTZ NOT NULL
 );
@@ -145,13 +145,13 @@ CREATE TABLE room_rating (
 CREATE TABLE room_saved (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );
 
 CREATE TABLE room_visit (
 	id SERIAL PRIMARY KEY NOT NULL,
 	room INTEGER NOT NULL REFERENCES room (id),
-	finger_print TEXT NOT NULL REFERENCES finger_print(id),
+	finger_print TEXT NOT NULL REFERENCES finger_print(id) UNIQUE,
 	time_created TIMESTAMPTZ NOT NULL
 );

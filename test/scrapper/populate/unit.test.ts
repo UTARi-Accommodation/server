@@ -1,22 +1,21 @@
-import { create, drop } from './initDb';
-import PostgreSQL from '../../src/database/postgres';
-import { Accommodations } from '../../src/scrapper/scrapper/fetchParser';
-import insertToDatabase from '../../src/scrapper/populate/populate';
-import insertRoom from '../dummy/database/insert/room.json';
-import updateRoom from '../dummy/database/update/room.json';
-import select from '../../src/database/query/select';
-import { equal } from '../../src/database/common/whereClause';
-import Puppeteer from '../../src/scrapper/scrapper/puppeteer';
+import { create, drop } from '../../script/schema';
+import PostgreSQL from '../../../src/database/postgres';
+import { Accommodations } from '../../../src/scrapper/scrapper/fetchParser';
+import insertToDatabase from '../../../src/scrapper/populate/populate';
+import { insert, update } from '../../dummy/populate/unit.json';
+import select from '../../../src/database/query/select';
+import { equal } from '../../../src/database/common/whereClause';
+import Puppeteer from '../../../src/scrapper/scrapper/puppeteer';
 
-describe('Room', () => {
+describe('Unit', () => {
     beforeAll(async () => {
         await PostgreSQL.getPoolInstance().exec(drop);
         await PostgreSQL.getPoolInstance().exec(create);
     });
     describe('Insert', () => {
         it('should insert all', async () => {
-            await insertToDatabase(insertRoom as Accommodations, 'BTHO');
-            const handlerID = '0183899550';
+            await insertToDatabase(insert as Accommodations, 'BTHO');
+            const handlerID = '0123038119';
 
             // handler
             const handlers = await PostgreSQL.getPoolInstance().select(
@@ -34,7 +33,7 @@ describe('Room', () => {
             }
 
             const { name, id, handlerType } = handler;
-            expect(name).toBe('Chew Chu Yao');
+            expect(name).toBe('Chea Moon Sing');
             expect(id).toBe(handlerID);
             expect(handlerType).toBe('Owner');
 
@@ -54,7 +53,7 @@ describe('Room', () => {
             }
 
             const { id: emailID, handler: emailHandler } = email;
-            expect(emailID).toBe('chewyao@hotmail.com');
+            expect(emailID).toBe('moonsing@gmail.com');
             expect(emailHandler).toBe(handlerID);
 
             // mobile number
@@ -74,7 +73,7 @@ describe('Room', () => {
 
             const { id: mobileNumberID, handler: mobileNumberHandler } =
                 mobileNumber;
-            expect(mobileNumberID).toBe('0183899550');
+            expect(mobileNumberID).toBe('0123038119');
             expect(mobileNumberHandler).toBe(handlerID);
 
             // accommodation
@@ -119,23 +118,23 @@ describe('Room', () => {
                 accommodationType,
                 available,
             } = accommodation;
-            expect(accommodationID).toBe(26729);
+            expect(accommodationID).toBe(26767);
             expect(accommodationHandler).toBe(handlerID);
-            expect(latitude).toBe(3.046815);
-            expect(longitude).toBe(101.786024);
+            expect(latitude).toBe(3.065828);
+            expect(longitude).toBe(101.795256);
             expect(address).toBe(
-                '32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor'
+                '9, Jalan Bentara 8/5, Sek 5, Bandar Makhota Cheras 43200, Cheras, Selangor'
             );
             expect(remark).toBe(
-                'Small room attached with toilet can fit 1 person.RM380 for whole room'
+                'Partial furnished double storey house, 3+1 rooms, 3 bathrooms with water heater, 2 air-conds, kitchen cabinet with stove, wardrobe in master bedroom and stainless steel grilles. View to appreciate'
             );
-            expect(month).toBe('August');
+            expect(month).toBe('May');
             expect(year).toBe(2020);
             expect(region).toBe('BTHO');
             expect(facilities).toBe(
-                'Table/Chair, Cupboard, Fan, Internet, Washing Machine, Water Heater'
+                'Cupboard, Fan, Air-Conditioner, Water Heater'
             );
-            expect(accommodationType).toBe('Room');
+            expect(accommodationType).toBe('Unit');
             expect(available).toBe(true);
 
             if (accommodationID === undefined) {
@@ -143,89 +142,53 @@ describe('Room', () => {
                     'accommodationID is undefined, which is impossible'
                 );
             }
-            // room
-            const rooms = await PostgreSQL.getPoolInstance().select(
+
+            // unit
+            const units = await PostgreSQL.getPoolInstance().select(
                 select([
                     'id',
                     'accommodation',
-                    'roomType',
-                    'roomSize',
+                    'bathRooms',
+                    'bedRooms',
                     'rental',
+                    'unitType',
                     'available',
                 ])
-                    .from('room')
+                    .from('unit')
                     .where(equal('accommodation', accommodationID))
                     .toQuery()
             );
-            expect(rooms.length).toBe(3);
+            expect(units.length).toBe(1);
 
-            const [small, middle, master] = rooms;
+            const [unit] = units;
 
-            if (!small) {
-                throw new Error('small is undefined');
+            if (!unit) {
+                throw new Error('unit is undefined');
             }
 
-            expect(small.id).toBe(1);
-            expect(small.accommodation).toBe(accommodationID);
-            expect(small.rental).toBe('RM380.00');
-            expect(small.roomType).toBe('Room');
-            expect(small.roomSize).toBe('Small');
-            expect(small.available).toBe(true);
-
-            if (!middle) {
-                throw new Error('middle is undefined');
-            }
-
-            expect(middle.id).toBe(2);
-            expect(middle.accommodation).toBe(accommodationID);
-            expect(middle.rental).toBe('RM3,800.00');
-            expect(middle.roomType).toBe('Room');
-            expect(middle.roomSize).toBe('Middle');
-            expect(middle.available).toBe(true);
-
-            if (!master) {
-                throw new Error('master is undefined');
-            }
-
-            expect(master.id).toBe(3);
-            expect(master.accommodation).toBe(accommodationID);
-            expect(master.rental).toBe('RM38,000.00');
-            expect(master.roomType).toBe('Room');
-            expect(master.roomSize).toBe('Master');
-            expect(master.available).toBe(true);
-
-            // room_capacity
-            const capacity = await PostgreSQL.getPoolInstance().select(
-                select(['id', 'room', 'capacity'])
-                    .from('room_capacity')
-                    .toQuery()
-            );
-            expect(capacity.length).toBe(5);
-
-            expect(capacity[0]?.id).toBe(1);
-            expect(capacity[0]?.room).toBe(1);
-            expect(capacity[0]?.capacity).toBe(1);
-            expect(capacity[1]?.id).toBe(2);
-            expect(capacity[1]?.room).toBe(1);
-            expect(capacity[1]?.capacity).toBe(2);
-
-            expect(capacity[2]?.id).toBe(3);
-            expect(capacity[2]?.room).toBe(2);
-            expect(capacity[2]?.capacity).toBe(1);
-            expect(capacity[3]?.id).toBe(4);
-            expect(capacity[3]?.room).toBe(2);
-            expect(capacity[3]?.capacity).toBe(3);
-
-            expect(capacity[4]?.id).toBe(5);
-            expect(capacity[4]?.room).toBe(3);
-            expect(capacity[4]?.capacity).toBe(5);
+            const {
+                id: unitID,
+                accommodation: unitAccommodationID,
+                bathRooms,
+                bedRooms,
+                rental,
+                unitType,
+                available: unitAvailable,
+            } = unit;
+            expect(unitID).toBe(1);
+            expect(unitAccommodationID).toBe(26767);
+            expect(bathRooms).toBe(3);
+            expect(bedRooms).toBe(4);
+            expect(rental).toBe('RM1,500.00');
+            expect(unitType).toBe('House');
+            expect(unitAvailable).toBe(true);
         });
     });
     describe('Update', () => {
         it('should update for same data', async () => {
             await PostgreSQL.getPoolInstance().resetSomeTablesAndColumns();
-            await insertToDatabase(updateRoom as Accommodations, 'BTHO');
-            const handlerID = '0183899550';
+            await insertToDatabase(update as Accommodations, 'BTHO');
+            const handlerID = '0123038119';
 
             //handler
             const handlers = await PostgreSQL.getPoolInstance().select(
@@ -243,9 +206,9 @@ describe('Room', () => {
             }
 
             const { name, id, handlerType } = handler;
-            expect(name).toBe('Tony Stark');
+            expect(name).toBe('MoonKnight');
             expect(id).toBe(handlerID);
-            expect(handlerType).toBe('Owner');
+            expect(handlerType).toBe('Tenant');
 
             // email
             const emails = await PostgreSQL.getPoolInstance().select(
@@ -263,7 +226,7 @@ describe('Room', () => {
             }
 
             const { id: emailID, handler: emailHandler } = email;
-            expect(emailID).toBe('tonystark@google.com');
+            expect(emailID).toBe('moonKnight@gmail.com');
             expect(emailHandler).toBe(handlerID);
 
             // mobile number
@@ -283,7 +246,7 @@ describe('Room', () => {
 
             const { id: mobileNumberID, handler: mobileNumberHandler } =
                 mobileNumber;
-            expect(mobileNumberID).toBe('0183899550');
+            expect(mobileNumberID).toBe('0123038119');
             expect(mobileNumberHandler).toBe(handlerID);
 
             // accommodation
@@ -328,19 +291,19 @@ describe('Room', () => {
                 accommodationType,
                 available,
             } = accommodation;
-            expect(accommodationID).toBe(26729);
-            expect(accommodationHandler).toBe(handlerID);
-            expect(latitude).toBe(3.046815);
-            expect(longitude).toBe(101.786024);
+            expect(accommodationID).toBe(26767);
+            expect(latitude).toBe(3.065828);
+            expect(longitude).toBe(101.795256);
             expect(address).toBe(
-                '32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor'
+                '9, Jalan Bentara 8/5, Sek 5, Bandar Makhota Cheras 43200, Cheras, Selangor'
             );
-            expect(remark).toBe('I am Iron Man');
-            expect(month).toBe('September');
-            expect(year).toBe(2000);
+            expect(accommodationHandler).toBe(handlerID);
+            expect(remark).toBe('Who needs remark??');
+            expect(month).toBe('June');
+            expect(year).toBe(9999);
             expect(region).toBe('BTHO');
-            expect(facilities).toBe('Mark Suits');
-            expect(accommodationType).toBe('Room');
+            expect(facilities).toBe('Contact me to find out');
+            expect(accommodationType).toBe('Unit');
             expect(available).toBe(true);
 
             if (accommodationID === undefined) {
@@ -348,78 +311,46 @@ describe('Room', () => {
                     'accommodationID is undefined, which is impossible'
                 );
             }
-            // room
-            const rooms = await PostgreSQL.getPoolInstance().select(
+
+            // unit
+            const units = await PostgreSQL.getPoolInstance().select(
                 select([
                     'id',
                     'accommodation',
-                    'roomType',
-                    'roomSize',
+                    'bathRooms',
+                    'bedRooms',
                     'rental',
+                    'unitType',
                     'available',
                 ])
-                    .from('room')
+                    .from('unit')
                     .where(equal('accommodation', accommodationID))
                     .toQuery()
             );
-            expect(rooms.length).toBe(3);
+            expect(units.length).toBe(1);
 
-            const [small, middle, master] = Array.from(rooms).sort(
-                (a: any, b: any) => a.id - b.id
-            );
+            const [unit] = units;
 
-            if (!small) {
-                throw new Error('small is undefined');
+            if (!unit) {
+                throw new Error('unit is undefined');
             }
 
-            expect(small.id).toBe(1);
-            expect(small.accommodation).toBe(accommodationID);
-            expect(small.rental).toBe('RM380.00');
-            expect(small.roomType).toBe('Room');
-            expect(small.roomSize).toBe('Small');
-            expect(small.available).toBe(true);
-
-            if (!middle) {
-                throw new Error('middle is undefined');
-            }
-
-            expect(middle.id).toBe(2);
-            expect(middle.accommodation).toBe(accommodationID);
-            expect(middle.rental).toBe('RM385.00');
-            expect(middle.roomType).toBe('Room');
-            expect(middle.roomSize).toBe('Middle');
-            expect(middle.available).toBe(true);
-
-            if (!master) {
-                throw new Error('master is undefined');
-            }
-
-            expect(master.id).toBe(3);
-            expect(master.accommodation).toBe(accommodationID);
-            expect(master.rental).toBe('RM900.00');
-            expect(master.roomType).toBe('Room');
-            expect(master.roomSize).toBe('Master');
-            expect(master.available).toBe(true);
-
-            // room_capacity
-            const capacity = await PostgreSQL.getPoolInstance().select(
-                select(['id', 'room', 'capacity'])
-                    .from('room_capacity')
-                    .toQuery()
-            );
-            expect(capacity.length).toBe(3);
-
-            expect(capacity[0]?.id).toBe(1);
-            expect(capacity[0]?.room).toBe(1);
-            expect(capacity[0]?.capacity).toBe(1);
-
-            expect(capacity[1]?.id).toBe(2);
-            expect(capacity[1]?.room).toBe(2);
-            expect(capacity[1]?.capacity).toBe(2);
-
-            expect(capacity[2]?.id).toBe(3);
-            expect(capacity[2]?.room).toBe(3);
-            expect(capacity[2]?.capacity).toBe(4);
+            const {
+                id: unitID,
+                accommodation: unitAccommodationID,
+                bathRooms,
+                bedRooms,
+                rental,
+                unitType,
+                available: unitAvailable,
+            } = unit;
+            expect(unitID).toBe(1);
+            expect(unitAccommodationID).toBe(26767);
+            expect(bathRooms).toBe(9);
+            expect(bedRooms).toBe(4);
+            expect(rental).toBe('RM1,500,000.00');
+            expect(unitType).toBe('House');
+            expect(unitAvailable).toBe(true);
         });
     });
     afterAll(async () => {

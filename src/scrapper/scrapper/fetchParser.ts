@@ -1,4 +1,4 @@
-import { inRangeOf, isPositiveInt } from 'granula-string';
+import { capitalize, inRangeOf, isPositiveInt } from 'granula-string';
 import fetch from 'node-fetch';
 import { parse, HTMLElement } from 'node-html-parser';
 import { parseAsNumber, parseAsString } from 'parse-dont-validate';
@@ -45,16 +45,14 @@ const removeSpaceFromString = (string: string) =>
         .replace(/\r/g, '')
         .replace(/\u00a0/g, ' ');
 
+type MobileNumber = Readonly<{
+    mobileNumberType: 'Mobile' | 'Line';
+    contact: string;
+}>;
+
 type Contact = Readonly<{
     email: ReadonlyArray<string> | undefined;
-    mobileNumber:
-        | ReadonlyArray<
-              Readonly<{
-                  mobileNumberType: 'Mobile' | 'Line';
-                  contact: string;
-              }>
-          >
-        | undefined;
+    mobileNumber: ReadonlyArray<MobileNumber> | undefined;
 }>;
 
 const getContact = (element: HTMLElement) =>
@@ -177,8 +175,8 @@ const getAddress = (element: HTMLElement) =>
                           .reduce(
                               (prev, curr) =>
                                   prev
-                                      ? `${prev}, ${curr.trim()}`
-                                      : `${curr.trim()}`,
+                                      ? `${prev}, ${capitalize(curr.trim())}`
+                                      : `${capitalize(curr.trim())}`,
                               ''
                           ),
             ''
@@ -332,16 +330,16 @@ const getRooms = (element: HTMLElement) =>
         const roomInfo = text
             .trim()
             .split(/\u00a0/)
-            .flatMap((room) => {
-                return removeSpaceFromString(room)
+            .flatMap((room) =>
+                removeSpaceFromString(room)
                     .replace(/persons|person/gim, '')
                     .replace('RM', '')
                     .trim()
                     .split('/ ')
                     .flatMap((info) =>
                         info ? (info === '/' ? [] : [info]) : []
-                    );
-            });
+                    )
+            );
         if (roomInfo.length !== 3) {
             throw new Error(
                 `Room info of ${roomInfo} does not contain 3 elements: type, rental, capacities`
@@ -401,6 +399,21 @@ const getUnits = (element: HTMLElement): Unit => {
 
         return unit ? [unit] : [];
     });
+    if (unitInfo.length === 4) {
+        return {
+            bedRooms: 0,
+            bathRooms: 0,
+            rental: parseAsNumber(
+                parsePositiveInteger(
+                    parseAsString(unitInfo[2]).orElseThrowDefault(
+                        'Whole Unit or unitInfo[2]'
+                    )
+                )
+            )
+                .inRangeOf(1, Number.MAX_SAFE_INTEGER)
+                .orElseThrowDefault('rental'),
+        };
+    }
     if (unitInfo.length === 6) {
         return {
             bedRooms: parseAsNumber(
@@ -425,21 +438,6 @@ const getUnits = (element: HTMLElement): Unit => {
                 parsePositiveInteger(
                     parseAsString(unitInfo[4]).orElseThrowDefault(
                         'wholeUnit or unitInfo[4]'
-                    )
-                )
-            )
-                .inRangeOf(1, Number.MAX_SAFE_INTEGER)
-                .orElseThrowDefault('rental'),
-        };
-    }
-    if (unitInfo.length === 4) {
-        return {
-            bedRooms: 0,
-            bathRooms: 0,
-            rental: parseAsNumber(
-                parsePositiveInteger(
-                    parseAsString(unitInfo[2]).orElseThrowDefault(
-                        'Whole Unit or unitInfo[2]'
                     )
                 )
             )
@@ -497,13 +495,14 @@ type Accommodations = ReadonlyArray<
     }>
 >;
 
+type QueriedContact = Readonly<{
+    mobileNumber: ReadonlyArray<MobileNumber['contact']>;
+    email: NonNullable<Contact['email']>;
+}>;
+
 type QueriedAccommodation = Readonly<{
     id: number;
-    handler: Readonly<{
-        name: string;
-        handlerType: HandlerType;
-    }>;
-    contact: Contact;
+    contact: QueriedContact;
     location: Location;
     facilities: string;
     remarks: Remarks;
@@ -580,17 +579,17 @@ const scrapper = async (region: Region) => {
                 type: 'Room',
                 roomType: 'Room',
             },
-            urlLists(
-                html,
-                /a href="accomDetail\.jsp\?fftrsid=.+type=Roomate"/gm
-            )
+            urlLists(html, /a href="accomDetail\.jsp\?fftrsid=.+type=Room"/gm)
         ),
         scrapRoommate: await scrapAccommodationInfo(
             {
                 type: 'Room',
                 roomType: 'Roommate',
             },
-            urlLists(html, /a href="accomDetail\.jsp\?fftrsid=.+type=Room"/gm)
+            urlLists(
+                html,
+                /a href="accomDetail\.jsp\?fftrsid=.+type=Roomate"/gm
+            )
         ),
         scrapApartmentCondominium: await scrapAccommodationInfo(
             {
@@ -626,6 +625,7 @@ export {
     QueriedRoom,
     HandlerType,
     AccommodationType,
+    QueriedContact,
 };
 
 export default scrapper;

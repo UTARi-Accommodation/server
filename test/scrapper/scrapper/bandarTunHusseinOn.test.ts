@@ -1,7 +1,7 @@
-import scrapper from '../../src/scrapper/scrapper/scrapper';
+import scrapper from '../../../src/scrapper/scrapper/fetchParser';
 
-describe('Kampar', () => {
-    const scrapped = scrapper('KP');
+describe('Bandar Tun Hussein On', () => {
+    const scrapped = scrapper('BTHO');
     it('should return an array of rooms', async () => {
         const { scrapRoom } = await scrapped;
         expect(Array.isArray(scrapRoom));

@@ -1,4 +1,4 @@
-import scrapper from '../../src/scrapper/scrapper/scrapper';
+import scrapper from '../../../src/scrapper/scrapper/fetchParser';
 
 describe('Sungai Long', () => {
     const scrapped = scrapper('SL');
