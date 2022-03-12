@@ -6,15 +6,15 @@ start:
 	node build/index.js
 
 start-watch:
-	./node_modules/.bin/nodemon
+	node_modules/.bin/nodemon
 
 start-dev:
 	make compile && make start
 
 ## build
-tsc=./node_modules/.bin/tsc
+tsc=node_modules/.bin/tsc
 add-js-extension:
-	./node_modules/.bin/ts-add-js-extension add --dir=build
+	node_modules/.bin/ts-add-js-extension add --dir=build
 
 build:
 	rm -rf build && $(tsc) -p tsconfig.prod.json && make add-js-extension
@@ -38,7 +38,7 @@ geocode=test/api/geocode/*
 scrapper=test/scrapper/*
 
 ## test
-jest=./node_modules/.bin/jest
+jest=node_modules/.bin/jest
 api=test-api
 $(api)-query:
 	$(jest) $(query)
@@ -96,7 +96,7 @@ $(cov):
 	make $(cov)-scrapper
 
 ## pg typed generator
-pgtyped=./node_modules/.bin/pgtyped
+pgtyped=node_modules/.bin/pgtyped
 pg-gen:
 	$(pgtyped) -w -c pgTyped.json
 
@@ -112,6 +112,6 @@ format:
 	make format-ts
 
 ## lint
-eslint=./node_modules/.bin/eslint
+eslint=node_modules/.bin/eslint
 lint-src:
 	${eslint} src/** -f='stylish' --color

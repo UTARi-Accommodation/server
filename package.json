@@ -5,9 +5,6 @@
     "author": "PoolOfDeath20",
     "license": "MIT",
     "type": "module",
-    "scripts": {
-        "start": "node build/index.js"
-    },
     "devDependencies": {
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",
         "@babel/preset-env": "^7.16.8",

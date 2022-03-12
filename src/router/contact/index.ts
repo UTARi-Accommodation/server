@@ -9,8 +9,8 @@ import {
     getMessage,
     getName,
 } from 'utari-common';
-import createParsedConfig from '../../config/parsed';
 import logger from '../../logger/index';
+import { contactConfig } from '../../config/parsed';
 
 const contactRouter = (app: express.Application) => ({
     sendEmail: () =>
@@ -36,7 +36,7 @@ const contactRouter = (app: express.Application) => ({
                     )
                 );
                 if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
-                    const { EMAIL, PASS } = createParsedConfig();
+                    const { EMAIL, PASS } = contactConfig;
                     const myEmail = EMAIL;
                     const options = {
                         from: `${parsedName.value.trim()} <${myEmail}>`,

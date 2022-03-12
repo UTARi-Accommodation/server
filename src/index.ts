@@ -65,10 +65,10 @@ const { static: expressStatic, json, urlencoded } = express;
                 )
             );
 
-            // app.all('*', (req, res, next) => {
-            //     res.cookie('XSRF-TOKEN', req.csrfToken());
-            //     next();
-            // });
+            app.all('*', (req, res, next) => {
+                res.cookie('XSRF-TOKEN', req.csrfToken());
+                next();
+            });
 
             return app;
         })();
