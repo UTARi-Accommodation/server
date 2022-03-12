@@ -1,4 +1,4 @@
-import { computeFacilitiesScore } from '../../../../src/api/madm/madm';
+import { computeFacilitiesScore } from '../../../../src/api/madm';
 
 describe('Facilities Computation for Multi-Attribute Decision Model', () => {
     describe('Non-Empty/Blank Facilities', () => {

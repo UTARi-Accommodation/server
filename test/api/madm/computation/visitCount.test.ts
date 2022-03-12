@@ -1,4 +1,4 @@
-import { computeVisitCountScore } from '../../../../src/api/madm/madm';
+import { computeVisitCountScore } from '../../../../src/api/madm';
 
 describe('Visit Count Computation for Multi-Attribute Decision Model', () => {
     describe('Different Visit Count', () => {

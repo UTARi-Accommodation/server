@@ -1,4 +1,4 @@
-import { computeAddressScore } from '../../../../src/api/madm/madm';
+import { computeAddressScore } from '../../../../src/api/madm';
 
 describe('Address Computation for Multi-Attribute Decision Model', () => {
     describe('Non Empty/Blank Address', () => {

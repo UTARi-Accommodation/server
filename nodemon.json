@@ -2,5 +2,5 @@
     "watch": ["src"],
     "ignore": ["node_modules"],
     "ext": "ts",
-    "exec": "yarn start:dev"
+    "exec": "make start-dev"
 }

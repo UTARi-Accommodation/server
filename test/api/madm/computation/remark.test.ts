@@ -1,4 +1,4 @@
-import { computeRemarkScore } from '../../../../src/api/madm/madm';
+import { computeRemarkScore } from '../../../../src/api/madm';
 
 describe('Remark Computation for Multi-Attribute Decision Model', () => {
     describe('Non-Empty/Blank Remark', () => {

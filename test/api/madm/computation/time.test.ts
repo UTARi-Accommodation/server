@@ -1,4 +1,4 @@
-import { computeTimeScore } from '../../../../src/api/madm/madm';
+import { computeTimeScore } from '../../../../src/api/madm';
 
 describe('Time Computation for Multi-Attribute Decision Model', () => {
     it('should give higher priority for time closer to current date', () => {

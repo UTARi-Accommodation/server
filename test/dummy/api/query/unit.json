@@ -5,16 +5,7 @@
             "handlerType": "Tenant",
             "name": "Lam Synn Wynn",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0133358899"
-                    },
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0124270766"
-                    }
-                ],
+                "mobileNumber": ["0133358899", "0124270766"],
                 "email": ["kelvin_lam@live.com"]
             },
             "address": "C-3-10, Mahkota Garden, Persiaran Residence, Bandar Mahkota Cheras, 43200, Cheras, Selangor",
@@ -39,12 +30,7 @@
             "handlerType": "Owner",
             "name": "May Chua",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0189611928"
-                    }
-                ],
+                "mobileNumber": ["0189611928"],
                 "email": ["cmei77@gmail.com"]
             },
             "address": "A-33, Landmark Residence 1, 43000, Kajang, Selangor",
@@ -69,16 +55,7 @@
             "handlerType": "Tenant",
             "name": "Ms Swathi/Ms Aminath",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "01164070045"
-                    },
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0167432134"
-                    }
-                ],
+                "mobileNumber": ["01164070045", "0167432134"],
                 "email": ["swathijayanthi.1997@gmail.com"]
             },
             "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
@@ -103,12 +80,7 @@
             "handlerType": "Agent",
             "name": "Shan Jia Lyao",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0167061671"
-                    }
-                ],
+                "mobileNumber": ["0167061671"],
                 "email": ["jialyaoshan@yahoo.com"]
             },
             "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
@@ -133,12 +105,7 @@
             "handlerType": "Owner",
             "name": "Wai Jeng Ching",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0163232540"
-                    }
-                ],
+                "mobileNumber": ["0163232540"],
                 "email": ["waistacy@icloud.com"]
             },
             "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
@@ -163,12 +130,7 @@
             "handlerType": "Owner",
             "name": "Mr Joseph Low",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0163361789"
-                    }
-                ],
+                "mobileNumber": ["0163361789"],
                 "email": ["joelow1789@yahoo.com"]
             },
             "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
@@ -193,12 +155,7 @@
             "handlerType": "Owner",
             "name": "Mr Joseph Low",
             "contact": {
-                "mobileNumber": [
-                    {
-                        "mobileNumberType": "Mobile",
-                        "contact": "0123453451"
-                    }
-                ],
+                "mobileNumber": ["0123453451"],
                 "email": []
             },
             "address": "Malibu",
@@ -222,6 +179,7 @@
     "btho": [
         {
             "id": 1,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0133358899", "0124270766"],
                 "email": ["kelvin_lam@live.com"]
@@ -244,11 +202,12 @@
                 "bathRooms": 2,
                 "rental": 1000
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         },
         {
             "id": 2,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0189611928"],
                 "email": ["cmei77@gmail.com"]
@@ -271,13 +230,14 @@
                 "bathRooms": 2,
                 "rental": 1400
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         }
     ],
     "kp": [
         {
             "id": 3,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["01164070045", "0167432134"],
                 "email": ["swathijayanthi.1997@gmail.com"]
@@ -285,8 +245,8 @@
             "location": {
                 "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
                 "coordinate": {
-                    "latitude": 3.049361,
-                    "longitude": 101.792054
+                    "latitude": 3.041058,
+                    "longitude": 101.788217
                 }
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
@@ -300,11 +260,12 @@
                 "bathRooms": 2,
                 "rental": 1400
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         },
         {
             "id": 4,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0167061671"],
                 "email": ["jialyaoshan@yahoo.com"]
@@ -327,13 +288,14 @@
                 "bathRooms": 5,
                 "rental": 900
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         }
     ],
     "sl": [
         {
             "id": 5,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0163232540"],
                 "email": ["waistacy@icloud.com"]
@@ -356,11 +318,12 @@
                 "bathRooms": 2,
                 "rental": 1650
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         },
         {
             "id": 6,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0163361789"],
                 "email": ["joelow1789@yahoo.com"]
@@ -383,13 +346,42 @@
                 "bathRooms": 2,
                 "rental": 1100
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         }
     ],
-    "address": [
+    "searchOne": [
+        {
+            "id": 5,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0163232540"],
+                "email": ["waistacy@icloud.com"]
+            },
+            "location": {
+                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.049361,
+                    "longitude": 101.792054
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
+            "remarks": {
+                "remark": "",
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "bedRooms": 4,
+                "rental": 1650,
+                "bathRooms": 2
+            },
+            "ratings": [],
+            "visitCount": 0
+        },
         {
             "id": 6,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0163361789"],
                 "email": ["joelow1789@yahoo.com"]
@@ -412,100 +404,14 @@
                 "bathRooms": 2,
                 "rental": 1100
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         }
     ],
-    "bedRooms": [
-        {
-            "id": 6,
-            "contact": {
-                "mobileNumber": ["0163361789"],
-                "email": ["joelow1789@yahoo.com"]
-            },
-            "location": {
-                "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.026723,
-                    "longitude": 101.814524
-                }
-            },
-            "facilities": "Table · Chair · Fan · Parking Bay · Washing Machine · study  ·  dining table (6�2.5ft), 3seater sofa settee",
-            "remarks": {
-                "remark": "2 parking bays; full access to clubhouse facilities; facilities can be negotiated pending rental",
-                "month": "January",
-                "year": 2020
-            },
-            "properties": {
-                "bedRooms": 3,
-                "bathRooms": 2,
-                "rental": 1100
-            },
-            "rating": [],
-            "visitCount": 0
-        }
-    ],
-    "bathRooms": [
-        {
-            "id": 4,
-            "contact": {
-                "mobileNumber": ["0167061671"],
-                "email": ["jialyaoshan@yahoo.com"]
-            },
-            "location": {
-                "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.022523,
-                    "longitude": 101.762727
-                }
-            },
-            "facilities": "Parking Bay · Water Heater",
-            "remarks": {
-                "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
-                "month": "January",
-                "year": 2020
-            },
-            "properties": {
-                "bedRooms": 3,
-                "bathRooms": 5,
-                "rental": 900
-            },
-            "rating": [],
-            "visitCount": 0
-        }
-    ],
-    "rental": [
-        {
-            "id": 4,
-            "contact": {
-                "mobileNumber": ["0167061671"],
-                "email": ["jialyaoshan@yahoo.com"]
-            },
-            "location": {
-                "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.022523,
-                    "longitude": 101.762727
-                }
-            },
-            "facilities": "Parking Bay · Water Heater",
-            "remarks": {
-                "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
-                "month": "January",
-                "year": 2020
-            },
-            "properties": {
-                "bedRooms": 3,
-                "bathRooms": 5,
-                "rental": 900
-            },
-            "rating": [],
-            "visitCount": 0
-        }
-    ],
-    "remark": [
+    "searchTwo": [
         {
             "id": 1,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0133358899", "0124270766"],
                 "email": ["kelvin_lam@live.com"]
@@ -528,13 +434,42 @@
                 "bathRooms": 2,
                 "rental": 1000
             },
-            "rating": [],
+            "ratings": [],
             "visitCount": 0
         }
     ],
-    "facilities": [
+    "searchThree": [
+        {
+            "id": 3,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["01164070045", "0167432134"],
+                "email": ["swathijayanthi.1997@gmail.com"]
+            },
+            "location": {
+                "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.041058,
+                    "longitude": 101.788217
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "remark": "The rental is negotiable, however not inclusive of utility bills; Prefer female (any nationality",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1400
+            },
+            "ratings": [],
+            "visitCount": 0
+        },
         {
             "id": 4,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0167061671"],
                 "email": ["jialyaoshan@yahoo.com"]
@@ -557,13 +492,104 @@
                 "bathRooms": 5,
                 "rental": 900
             },
-            "rating": [],
+            "ratings": [],
+            "visitCount": 0
+        }
+    ],
+    "bedRooms": [
+        {
+            "id": 6,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0163361789"],
+                "email": ["joelow1789@yahoo.com"]
+            },
+            "location": {
+                "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.026723,
+                    "longitude": 101.814524
+                }
+            },
+            "facilities": "Table · Chair · Fan · Parking Bay · Washing Machine · study  ·  dining table (6�2.5ft), 3seater sofa settee",
+            "remarks": {
+                "remark": "2 parking bays; full access to clubhouse facilities; facilities can be negotiated pending rental",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "ratings": [],
+            "visitCount": 0
+        }
+    ],
+    "bathRooms": [
+        {
+            "id": 4,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0167061671"],
+                "email": ["jialyaoshan@yahoo.com"]
+            },
+            "location": {
+                "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.022523,
+                    "longitude": 101.762727
+                }
+            },
+            "facilities": "Parking Bay · Water Heater",
+            "remarks": {
+                "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 5,
+                "rental": 900
+            },
+            "ratings": [],
+            "visitCount": 0
+        }
+    ],
+    "rental": [
+        {
+            "id": 4,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0167061671"],
+                "email": ["jialyaoshan@yahoo.com"]
+            },
+            "location": {
+                "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.022523,
+                    "longitude": 101.762727
+                }
+            },
+            "facilities": "Parking Bay · Water Heater",
+            "remarks": {
+                "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 5,
+                "rental": 900
+            },
+            "ratings": [],
             "visitCount": 0
         }
     ],
     "unitType": [
         {
             "id": 7,
+            "bookmarked": false,
             "contact": {
                 "mobileNumber": ["0123453451"],
                 "email": []
@@ -586,8 +612,222 @@
                 "bathRooms": 2,
                 "rental": 1100
             },
-            "rating": [4, 3],
-            "visitCount": 2
+            "ratings": [],
+            "visitCount": 0
+        }
+    ],
+    "detailedUnit": {
+        "id": 7,
+        "bookmarked": false,
+        "handler": {
+            "name": "Mr Joseph Low",
+            "handlerType": "Owner"
+        },
+        "contact": {
+            "mobileNumber": ["0123453451"],
+            "email": []
+        },
+        "location": {
+            "address": "Malibu",
+            "coordinate": {
+                "latitude": 34.025922,
+                "longitude": -118.779757
+            }
+        },
+        "facilities": "Nothing at all",
+        "remarks": {
+            "remark": "",
+            "month": "January",
+            "year": 2020
+        },
+        "properties": {
+            "bedRooms": 3,
+            "bathRooms": 2,
+            "rental": 1100
+        },
+        "ratings": [3],
+        "visitCount": 0
+    },
+    "bathAndBedRooms": [
+        {
+            "id": 3,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["01164070045", "0167432134"],
+                "email": ["swathijayanthi.1997@gmail.com"]
+            },
+            "location": {
+                "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.041058,
+                    "longitude": 101.788217
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "remark": "The rental is negotiable, however not inclusive of utility bills; Prefer female (any nationality",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1400
+            },
+            "ratings": [],
+            "visitCount": 0
+        },
+        {
+            "id": 4,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0167061671"],
+                "email": ["jialyaoshan@yahoo.com"]
+            },
+            "location": {
+                "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.022523,
+                    "longitude": 101.762727
+                }
+            },
+            "facilities": "Parking Bay · Water Heater",
+            "remarks": {
+                "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 5,
+                "rental": 900
+            },
+            "ratings": [],
+            "visitCount": 0
+        }
+    ],
+    "bookmarkedUnit": [
+        {
+            "id": 6,
+            "bookmarked": true,
+            "location": {
+                "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.026723,
+                    "longitude": 101.814524
+                }
+            },
+            "facilities": "Table · Chair · Fan · Parking Bay · Washing Machine · study  ·  dining table (6�2.5ft), 3seater sofa settee",
+            "remarks": {
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "ratings": []
+        },
+        {
+            "id": 7,
+            "bookmarked": true,
+            "location": {
+                "address": "Malibu",
+                "coordinate": {
+                    "latitude": 34.025922,
+                    "longitude": -118.779757
+                }
+            },
+            "facilities": "Nothing at all",
+            "remarks": {
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "ratings": [5, 3]
+        }
+    ],
+    "downloadBookmarkedOne": [
+        {
+            "id": 6,
+            "handler": {
+                "handlerType": "Owner",
+                "name": "Mr Joseph Low"
+            },
+            "contact": {
+                "mobileNumber": ["0163361789"],
+                "email": ["joelow1789@yahoo.com"]
+            },
+            "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
+            "facilities": "Table · Chair · Fan · Parking Bay · Washing Machine · study  ·  dining table (6�2.5ft), 3seater sofa settee",
+            "remarks": {
+                "remark": "2 parking bays; full access to clubhouse facilities; facilities can be negotiated pending rental",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "ratings": []
+        },
+        {
+            "id": 7,
+            "handler": {
+                "handlerType": "Owner",
+                "name": "Mr Joseph Low"
+            },
+            "contact": {
+                "mobileNumber": ["0123453451"],
+                "email": []
+            },
+            "address": "Malibu",
+            "facilities": "Nothing at all",
+            "remarks": {
+                "remark": "",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "rating": 5,
+            "ratings": [5, 3]
+        }
+    ],
+    "downloadBookmarkedTwo": [
+        {
+            "id": 7,
+            "handler": {
+                "handlerType": "Owner",
+                "name": "Mr Joseph Low"
+            },
+            "contact": {
+                "mobileNumber": ["0123453451"],
+                "email": []
+            },
+            "address": "Malibu",
+            "facilities": "Nothing at all",
+            "remarks": {
+                "remark": "",
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "rating": 3,
+            "ratings": [3]
         }
     ]
 }

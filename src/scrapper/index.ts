@@ -1,45 +1,37 @@
-import PostgreSQL from '../database/postgres';
-import insertToDatabase from './populate/populate';
-import scrapper, { Region } from './scrapper/fetchParser';
-import Puppeteer from './scrapper/puppeteer';
+import { Region } from 'utari-common';
+import postgreSQL from '../database/postgres';
+import resetTablesAndColumns from '../database/action/resetTablesAndColumns/index';
+import upsertToDatabase from '../api/populate/index';
+import scrapper from './accommodation';
+import geocode from './geocode';
 
-const insertAllToDatabase = async (region: Region) => {
-    const { scrapRoom, scrapRoommate, scrapHouse, scrapApartmentCondominium } =
+const upsertAllToDatabase = async (region: Region) => {
+    const { scrapRoom, scrapRoommate, scrapHouse, scrapCondominium } =
         await scrapper(region);
-    const result = await Promise.all([
-        await insertToDatabase(scrapRoom, region),
-        await insertToDatabase(scrapRoommate, region),
-        await insertToDatabase(scrapHouse, region),
-        await insertToDatabase(scrapApartmentCondominium, region),
-    ]);
-    if (result.length !== 4) {
-        throw new Error('Some database insertion failed');
+    if (
+        (
+            await Promise.all([
+                await upsertToDatabase(scrapRoom, region),
+                await upsertToDatabase(scrapRoommate, region),
+                await upsertToDatabase(scrapHouse, region),
+                await upsertToDatabase(scrapCondominium, region),
+            ])
+        ).length !== 4
+    ) {
+        throw new Error(`Some database insertion failed`);
     }
 };
 
 const main = async () => {
-    // use client for now, pool connection has problem on config
-    await PostgreSQL.getPoolInstance().resetSomeTablesAndColumns();
-    // pool
-    // await Promise.all(
-    //     [
-    //         insertAllToDatabase('SL'),
-    //         insertAllToDatabase('KP'),
-    //         insertAllToDatabase('BTHO'),
-    //     ].map(async (accommodations) => await accommodations)
-    // );
-    // client
-    await [
-        insertAllToDatabase('SL'),
-        insertAllToDatabase('KP'),
-        insertAllToDatabase('BTHO'),
-    ].reduce(async (prev, curr) => {
-        await prev;
-        await curr;
-    }, Promise.resolve());
-    console.log('Completed Insertion and Update');
-    PostgreSQL.getPoolInstance().close();
-    (await Puppeteer.getInstance()).close();
+    await resetTablesAndColumns(postgreSQL.instance.pool);
+    await Promise.all(
+        [
+            upsertAllToDatabase('SL'),
+            upsertAllToDatabase('KP'),
+            upsertAllToDatabase('BTHO'),
+        ].map(async (accommodations) => await accommodations)
+    );
+    (await geocode).close();
 };
 
-main();
+export default main;

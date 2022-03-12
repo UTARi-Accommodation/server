@@ -1,4 +1,4 @@
-import { computeRatingScore } from '../../../../src/api/madm/madm';
+import { computeRatingScore } from '../../../../src/api/madm';
 
 describe('Rating Computation for Multi-Attribute Decision Model', () => {
     describe('Same Number of Rating', () => {

@@ -3,6 +3,7 @@
         "before": [
             {
                 "id": 26767,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0123038119"],
                     "email": ["moonsing@gmail.com"]
@@ -25,11 +26,12 @@
                     "bathRooms": 3,
                     "rental": 1500
                 },
-                "rating": [4, 5, 1, 1, 3, 4],
+                "ratings": [4, 5, 1, 1, 3, 4],
                 "visitCount": 45
             },
             {
                 "id": 26711,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0133358899", "0124270766"],
                     "email": ["kelvin_lam@live.com"]
@@ -52,11 +54,12 @@
                     "bathRooms": 2,
                     "rental": 1000
                 },
-                "rating": [4, 3, 2, 1, 3, 4],
+                "ratings": [4, 3, 2, 1, 3, 4],
                 "visitCount": 15
             },
             {
                 "id": 26588,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0189611928"],
                     "email": ["cmei77@gmail.com"]
@@ -79,11 +82,12 @@
                     "bathRooms": 2,
                     "rental": 1400
                 },
-                "rating": [4, 5, 3, 4],
+                "ratings": [4, 5, 3, 4],
                 "visitCount": 13
             },
             {
                 "id": 26491,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["01164070045", "0167432134"],
                     "email": ["swathijayanthi.1997@gmail.com"]
@@ -106,17 +110,14 @@
                     "bathRooms": 2,
                     "rental": 1400
                 },
-                "rating": [1, 2, 3, 4],
+                "ratings": [1, 2, 3, 4],
                 "visitCount": 132
             }
         ],
         "after": [
             {
                 "id": 26711,
-                "contact": {
-                    "mobileNumber": ["0133358899", "0124270766"],
-                    "email": ["kelvin_lam@live.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "C-3-10, Mahkota Garden, Persiaran Residence, Bandar Mahkota Cheras, 43200, Cheras, Selangor",
                     "coordinate": {
@@ -126,7 +127,6 @@
                 },
                 "facilities": "Fan, Air-Conditioner, Parking Bay, Water Heater, Gym, swimming pool, sauna",
                 "remarks": {
-                    "remark": "MRT Feeder Bus and UTAR Bus available.3 min away from UTAR",
                     "month": "May",
                     "year": 2020
                 },
@@ -135,15 +135,11 @@
                     "bathRooms": 2,
                     "rental": 1000
                 },
-                "rating": [4, 3, 2, 1, 3, 4],
-                "visitCount": 15
+                "ratings": [4, 3, 2, 1, 3, 4]
             },
             {
                 "id": 26491,
-                "contact": {
-                    "mobileNumber": ["01164070045", "0167432134"],
-                    "email": ["swathijayanthi.1997@gmail.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
                     "coordinate": {
@@ -153,7 +149,6 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "The rental is negotiable, however not inclusive of utility bills; Prefer female (any nationality",
                     "month": "January",
                     "year": 2021
                 },
@@ -162,15 +157,11 @@
                     "bathRooms": 2,
                     "rental": 1400
                 },
-                "rating": [1, 2, 3, 4],
-                "visitCount": 132
+                "ratings": [1, 2, 3, 4]
             },
             {
                 "id": 26767,
-                "contact": {
-                    "mobileNumber": ["0123038119"],
-                    "email": ["moonsing@gmail.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "9, Jalan Bentara 8/5, Sek 5, Bandar Makhota Cheras 43200, Cheras, Selangor",
                     "coordinate": {
@@ -180,7 +171,6 @@
                 },
                 "facilities": "Cupboard, Fan, Air-Conditioner, Water Heater",
                 "remarks": {
-                    "remark": "Partial furnished double storey house, 3+1 rooms, 3 bathrooms with water heater, 2 air-conds, kitchen cabinet with stove, wardrobe in master bedroom and stainless steel grilles. View to appreciate",
                     "month": "May",
                     "year": 2020
                 },
@@ -189,15 +179,11 @@
                     "bathRooms": 3,
                     "rental": 1500
                 },
-                "rating": [4, 5, 1, 1, 3, 4],
-                "visitCount": 45
+                "ratings": [4, 5, 1, 1, 3, 4]
             },
             {
                 "id": 26588,
-                "contact": {
-                    "mobileNumber": ["0189611928"],
-                    "email": ["cmei77@gmail.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "A-33, Landmark Residence 1, 43000, Kajang, Selangor",
                     "coordinate": {
@@ -207,7 +193,6 @@
                 },
                 "facilities": "Fan, Air-Conditioner, Parking Bay, Water Heater",
                 "remarks": {
-                    "remark": "",
                     "month": "January",
                     "year": 2020
                 },
@@ -216,8 +201,7 @@
                     "bathRooms": 2,
                     "rental": 1400
                 },
-                "rating": [4, 5, 3, 4],
-                "visitCount": 13
+                "ratings": [4, 5, 3, 4]
             }
         ]
     },
@@ -225,6 +209,7 @@
         "before": [
             {
                 "id": 26412,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0167061671"],
                     "email": ["jialyaoshan@yahoo.com"]
@@ -247,11 +232,12 @@
                     "bathRooms": 2,
                     "rental": 900
                 },
-                "rating": [1, 2, 3, 4, 5],
+                "ratings": [1, 2, 3, 4, 5],
                 "visitCount": 100
             },
             {
                 "id": 26388,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0163232540"],
                     "email": ["waistacy@icloud.com"]
@@ -274,11 +260,12 @@
                     "bathRooms": 2,
                     "rental": 1650
                 },
-                "rating": [1, 4, 4, 4, 5],
+                "ratings": [1, 4, 4, 4, 5],
                 "visitCount": 20
             },
             {
                 "id": 24658,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0163361789"],
                     "email": ["joelow1789@yahoo.com"]
@@ -301,17 +288,14 @@
                     "bathRooms": 2,
                     "rental": 1100
                 },
-                "rating": [1, 4, 4, 4, 5],
+                "ratings": [1, 4, 4, 4, 5],
                 "visitCount": 25
             }
         ],
         "after": [
             {
                 "id": 26412,
-                "contact": {
-                    "mobileNumber": ["0167061671"],
-                    "email": ["jialyaoshan@yahoo.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "12-8, Taming Mutiara, 43200, Kajang, Selangor",
                     "coordinate": {
@@ -321,7 +305,6 @@
                 },
                 "facilities": "Parking Bay, Water Heater",
                 "remarks": {
-                    "remark": "All utilities include wifi.Share among tenants.Price includes 2 carpark lots.Partially furnished.Whatsapp 016-7061671 if interested",
                     "month": "January",
                     "year": 2020
                 },
@@ -330,15 +313,11 @@
                     "bathRooms": 2,
                     "rental": 900
                 },
-                "rating": [1, 2, 3, 4, 5],
-                "visitCount": 100
+                "ratings": [1, 2, 3, 4, 5]
             },
             {
                 "id": 24658,
-                "contact": {
-                    "mobileNumber": ["0163361789"],
-                    "email": ["joelow1789@yahoo.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "Blk B06-09, Sutera Pines Condo, Jln Sutera Pines 43000, Kajang, Selangor",
                     "coordinate": {
@@ -348,7 +327,6 @@
                 },
                 "facilities": "Table/Chair, Fan, Parking Bay, Washing Machine, study / dining table (6�2.5ft), 3seater sofa settee",
                 "remarks": {
-                    "remark": "2 parking bays; full access to clubhouse facilities; facilities can be negotiated pending rental",
                     "month": "January",
                     "year": 2020
                 },
@@ -357,15 +335,11 @@
                     "bathRooms": 2,
                     "rental": 1100
                 },
-                "rating": [1, 4, 4, 4, 5],
-                "visitCount": 25
+                "ratings": [1, 4, 4, 4, 5]
             },
             {
                 "id": 26388,
-                "contact": {
-                    "mobileNumber": ["0163232540"],
-                    "email": ["waistacy@icloud.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
                     "coordinate": {
@@ -375,7 +349,6 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater, Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
                 "remarks": {
-                    "remark": "",
                     "month": "January",
                     "year": 2020
                 },
@@ -384,8 +357,7 @@
                     "bathRooms": 2,
                     "rental": 1650
                 },
-                "rating": [1, 4, 4, 4, 5],
-                "visitCount": 20
+                "ratings": [1, 4, 4, 4, 5]
             }
         ]
     }

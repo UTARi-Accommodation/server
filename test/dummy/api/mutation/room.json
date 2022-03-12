@@ -1,0 +1,124 @@
+{
+    "room": [
+        {
+            "id": 10000,
+            "handlerType": "Owner",
+            "name": "Tony Stark",
+            "contact": {
+                "mobileNumber": ["0123456789"],
+                "email": ["tonyStark@gmail.com"]
+            },
+            "address": "Malibu",
+            "facilities": "Mark Suit",
+            "remarks": {
+                "remark": "",
+                "month": "November",
+                "year": 2021
+            },
+            "accommodationType": {
+                "type": "Room",
+                "roomType": "Roommate",
+                "rooms": {
+                    "small": {
+                        "rental": 350,
+                        "capacities": [3]
+                    },
+                    "middle": {
+                        "rental": 250,
+                        "capacities": [2]
+                    },
+                    "master": {
+                        "rental": 150,
+                        "capacities": [1]
+                    }
+                }
+            }
+        }
+    ],
+    "mutated": [
+        {
+            "id": 1,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0123456789"],
+                "email": ["tonyStark@gmail.com"]
+            },
+            "location": {
+                "address": "Malibu",
+                "coordinate": {
+                    "latitude": 34.025922,
+                    "longitude": -118.779757
+                }
+            },
+            "facilities": "Mark Suit",
+            "remarks": {
+                "remark": "",
+                "month": "November",
+                "year": 2021
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 350,
+                "capacities": [3]
+            },
+            "ratings": [3, 4],
+            "visitCount": 2
+        },
+        {
+            "id": 2,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0123456789"],
+                "email": ["tonyStark@gmail.com"]
+            },
+            "location": {
+                "address": "Malibu",
+                "coordinate": {
+                    "latitude": 34.025922,
+                    "longitude": -118.779757
+                }
+            },
+            "facilities": "Mark Suit",
+            "remarks": {
+                "remark": "",
+                "month": "November",
+                "year": 2021
+            },
+            "properties": {
+                "size": "Middle",
+                "rental": 250,
+                "capacities": [2]
+            },
+            "ratings": [5],
+            "visitCount": 1
+        },
+        {
+            "id": 3,
+            "bookmarked": false,
+            "contact": {
+                "mobileNumber": ["0123456789"],
+                "email": ["tonyStark@gmail.com"]
+            },
+            "location": {
+                "address": "Malibu",
+                "coordinate": {
+                    "latitude": 34.025922,
+                    "longitude": -118.779757
+                }
+            },
+            "facilities": "Mark Suit",
+            "remarks": {
+                "remark": "",
+                "month": "November",
+                "year": 2021
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 150,
+                "capacities": [1]
+            },
+            "ratings": [],
+            "visitCount": 0
+        }
+    ]
+}

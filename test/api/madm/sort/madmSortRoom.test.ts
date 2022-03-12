@@ -1,6 +1,6 @@
-import { multiAttributeDecisionModelRoom } from '../../../../src/api/madm/madm';
+import { QueriedRoom } from 'utari-common';
+import { multiAttributeDecisionModelRoom } from '../../../../src/api/madm';
 import { roomOne, roomTwo } from '../../../dummy/api/madm/room.json';
-import { QueriedRoom } from '../../../../src/scrapper/scrapper/fetchParser';
 
 describe('Multi-Attribute Decision Model', () => {
     it('should sort according to MADM', () =>

@@ -1,238 +1,471 @@
-import { create, drop } from '../../script/schema';
-import PostgreSQL from '../../../src/database/postgres';
-import { Accommodations } from '../../../src/scrapper/scrapper/fetchParser';
-import insertToDatabase from '../../../src/scrapper/populate/populate';
+import schema from '../../script/schema';
+import postgreSQL from '../../../src/database/postgres';
+import upsertToDatabase from '../../../src/api/populate';
 import {
     rooms,
     btho,
     sl,
     kp,
-    remark,
-    address,
+    searchOne,
+    searchTwo,
+    searchThree,
     rental,
-    capacity,
+    capacities,
     roomType,
-    facilities,
+    detailedRoom,
+    bookmarkedRoom,
+    downloadBookmarkedOne,
+    downloadBookmarkedTwo,
 } from '../../dummy/api/query/room.json';
-import Puppeteer from '../../../src/scrapper/scrapper/puppeteer';
-import { queryRoom } from '../../../src/api/query/room';
-import update from '../../../src/database/mutation/update';
-import { equal } from '../../../src/database/common/whereClause';
-import { createRoomRating } from '../../../src/api/mutation/rating';
-import createFingerPrint from '../../../src/api/mutation/fingerPrint';
-import { createRoomVisitCount } from '../../../src/api/mutation/visitCount';
+import geocode from '../../../src/scrapper/geocode';
+import {
+    generalRoom,
+    bookmarkedRoom as bookmarkRoomQuery,
+    detailedRoom as detailRoomQuery,
+} from '../../../src/api/query/room';
+import { Accommodations } from 'utari-common';
+import utariUser from '../../../src/database/table/utariUser';
+import roomRating from '../../../src/database/table/roomRating';
+import roomBookmarked from '../../../src/database/table/roomBookmarked';
 
 describe('Room', () => {
+    const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
     beforeAll(async () => {
-        await PostgreSQL.getPoolInstance().exec(drop);
-        await PostgreSQL.getPoolInstance().exec(create);
-        await insertToDatabase(rooms as Accommodations, 'BTHO');
-
+        await postgreSQL.instance.exec((await schema).drop);
+        await postgreSQL.instance.exec((await schema).create);
+        await upsertToDatabase(rooms as Accommodations, 'BTHO');
         // set region to KP
-        PostgreSQL.getPoolInstance().update(
-            update('accommodation')
-                .set({
-                    region: 'KP',
-                })
-                .where(equal('id', 26387))
-                .or(equal('id', 26375))
-                .or(equal('id', 30000))
-                .toQuery()
+        await postgreSQL.instance.exec(
+            `UPDATE accommodation SET region='KP' WHERE id=26387 OR id=26375 OR id=30000`
         );
 
         //set region to SL
-        PostgreSQL.getPoolInstance().update(
-            update('accommodation')
-                .set({
-                    region: 'SL',
-                })
-                .where(equal('id', 27082))
-                .or(equal('id', 27078))
-                .or(equal('id', 27065))
-                .or(equal('id', 27064))
-                .or(equal('id', 26354))
-                .toQuery()
+        await postgreSQL.instance.exec(
+            `UPDATE accommodation SET region='SL' WHERE id=27082 OR id=27078 OR id=27065 OR id=27064 OR id=26354`
+        );
+
+        //add new user
+        await utariUser.insert(
+            { id: userId, timeCreated: new Date() },
+            postgreSQL.instance.pool
         );
     });
     describe('Query', () => {
         it('should return rooms that matches the general query', async () => {
-            const bthoQueried = await queryRoom({
-                region: 'BTHO',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
+            const bthoQueried = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'BTHO',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
             expect(bthoQueried.length).toBe(5);
             expect(bthoQueried).toStrictEqual(btho);
 
-            const kpQueried = await queryRoom({
-                region: 'KP',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
+            const kpQueried = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'KP',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
             expect(kpQueried.length).toBe(6);
             expect(kpQueried).toStrictEqual(kp);
 
-            const slQueried = await queryRoom({
-                region: 'SL',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
+            const slQueried = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'SL',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
             expect(slQueried.length).toBe(8);
             expect(slQueried).toStrictEqual(sl);
         });
-        it('should return rooms that matches the address query', async () => {
-            const rows = await queryRoom({
-                region: 'SL',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: 'Cypress',
-                remark: undefined,
-                facilities: undefined,
-            });
-            expect(rows.length).toBe(5);
-            expect(rows).toStrictEqual(address);
+        it('should return rooms that matches the search query', async () => {
+            const rowsOne = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'SL',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: 'Cypress',
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
+            expect(rowsOne.length).toBe(5);
+            expect(rowsOne).toStrictEqual(searchOne);
+
+            const rowsTwo = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'BTHO',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: 'Utilities',
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
+            expect(rowsTwo.length).toBe(3);
+            expect(rowsTwo).toStrictEqual(searchTwo);
+
+            const rowsThree = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'SL',
+                    roomType: 'Room',
+                    minRental: 500,
+                    maxRental: Number.MAX_SAFE_INTEGER,
+                    search: 'bed',
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
+            expect(rowsThree.length).toBe(2);
+            expect(rowsThree).toStrictEqual(searchThree);
         });
-        it('should return rooms that matches the capacity query', async () => {
-            const rows = await queryRoom({
-                region: 'SL',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: 2,
-                maxCapacity: 3,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
+        it('should return rooms that matches the capacities query', async () => {
+            const rows = await generalRoom.selectWithCapacities(
+                {
+                    region: 'SL',
+                    roomType: 'Room',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    capacities: [2, 3],
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
             expect(rows.length).toBe(3);
-            expect(rows).toStrictEqual(capacity);
+            expect(rows).toStrictEqual(capacities);
         });
         it('should return rooms that matches the rental query', async () => {
-            const rows = await queryRoom({
-                region: 'KP',
-                roomType: 'Room',
-                minRental: 500,
-                maxRental: Number.MAX_SAFE_INTEGER,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
-            expect(rows.length).toBe(5);
-            expect(rows).toStrictEqual(rental);
-        });
-        it('should return rooms that matches the remark query', async () => {
-            const rows = await queryRoom({
-                region: 'BTHO',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: 'Utilities',
-                facilities: undefined,
-            });
-            expect(rows.length).toBe(2);
-            expect(rows).toStrictEqual(remark);
-        });
-        it('should return rooms that matches the facilifies query', async () => {
-            const rows = await queryRoom({
-                region: 'SL',
-                roomType: 'Room',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: 'bed',
-            });
-            expect(rows.length).toBe(6);
-            expect(rows).toStrictEqual(facilities);
+            const rowsWithRentalQuery =
+                await generalRoom.selectWithoutCapacities(
+                    {
+                        region: 'KP',
+                        roomType: 'Room',
+                        minRental: 500,
+                        maxRental: Number.MAX_SAFE_INTEGER,
+                        search: undefined,
+                        userId,
+                    },
+                    postgreSQL.instance.pool
+                );
+            expect(rowsWithRentalQuery.length).toBe(5);
+            expect(rowsWithRentalQuery).toStrictEqual(rental);
         });
         it('should return 1 room that matches the room type query', async () => {
-            const fingerPrintOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
-            const fingerPrintTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
-            const timeCreated = new Date();
-            const room = 20;
-
-            // insert finger print
-            await createFingerPrint({
-                id: fingerPrintOne,
-                timeCreated,
-            });
-            await createFingerPrint({
-                id: fingerPrintTwo,
-                timeCreated,
-            });
-
-            // insert rating
-            await createRoomRating({
-                room,
-                fingerPrint: fingerPrintOne,
-                rating: 4,
-                timeCreated,
-            });
-            await createRoomRating({
-                room,
-                fingerPrint: fingerPrintTwo,
-                rating: 3,
-                timeCreated,
-            });
-
-            // insert visit
-            await createRoomVisitCount({
-                room,
-                fingerPrint: fingerPrintOne,
-                timeCreated,
-            });
-            await createRoomVisitCount({
-                room,
-                fingerPrint: fingerPrintTwo,
-                timeCreated,
-            });
-
-            const rows = await queryRoom({
-                region: 'BTHO',
-                roomType: 'Roommate',
-                minRental: undefined,
-                maxRental: undefined,
-                minCapacity: undefined,
-                maxCapacity: undefined,
-                address: undefined,
-                remark: undefined,
-                facilities: undefined,
-            });
+            const rows = await generalRoom.selectWithoutCapacities(
+                {
+                    region: 'BTHO',
+                    roomType: 'Roommate',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                },
+                postgreSQL.instance.pool
+            );
             expect(rows.length).toBe(1);
             expect(rows).toStrictEqual(roomType);
         });
+        it('should return detailed room that match the roomId', async () => {
+            const timeCreated = new Date();
+            const dummyUser = 'dummyUser';
+            const room = 20;
+            await utariUser.insert(
+                {
+                    id: userId,
+                    timeCreated,
+                },
+                postgreSQL.instance.pool
+            );
+            await utariUser.insert(
+                {
+                    id: dummyUser,
+                    timeCreated,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomBookmarked.insert(
+                {
+                    room,
+                    user: userId,
+                    timeCreated,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomRating.insert(
+                {
+                    room,
+                    user: userId,
+                    timeCreated,
+                    rating: 1,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomRating.insert(
+                {
+                    room,
+                    user: userId,
+                    timeCreated,
+                    rating: 5,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomBookmarked.insert(
+                {
+                    room,
+                    user: dummyUser,
+                    timeCreated,
+                },
+                postgreSQL.instance.pool
+            );
+            // user did bookmarked this room
+            expect(
+                await detailRoomQuery.selectWithUser(
+                    {
+                        id: room,
+                        userId,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual({
+                ...detailedRoom,
+                bookmarked: true,
+                rating: 5,
+            });
+            expect(
+                await detailRoomQuery.selectWithUser(
+                    {
+                        id: room,
+                        userId: dummyUser,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual({
+                ...detailedRoom,
+                bookmarked: true,
+                rating: undefined,
+            });
+            // fake user Id to simulate fake user that did not bookmark this room
+            expect(
+                await detailRoomQuery.selectWithUser(
+                    {
+                        id: 20,
+                        userId: '123',
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual({
+                ...detailedRoom,
+                rating: undefined,
+            });
+            // user not logged in
+            expect(
+                await detailRoomQuery.select(
+                    {
+                        id: 20,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual({
+                ...detailedRoom,
+                rating: undefined,
+            });
+            expect(
+                await bookmarkRoomQuery.download(
+                    {
+                        userId,
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        capacities: [3],
+                        roomTypes: ['Room', 'Roommate'],
+                        regions: ['SL', 'BTHO'],
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual(
+                downloadBookmarkedTwo.map((room: any) => ({
+                    ...room,
+                    timeCreated,
+                }))
+            );
+        });
+        it('should return the distinct range of capacities', async () => {
+            expect(
+                await generalRoom.range(
+                    { roomType: 'Room', region: 'SL' },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([1, 2, 3, 4]);
+            expect(
+                await generalRoom.range(
+                    { roomType: 'Room', region: 'KP' },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([1, 2]);
+            expect(
+                await generalRoom.range(
+                    { roomType: 'Room', region: 'BTHO' },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([1]);
+        });
+        it('should return rental frequencies', async () => {
+            expect(
+                await generalRoom.rentalFrequency(
+                    {
+                        roomType: 'Room',
+                        region: 'SL',
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([
+                [350, 3],
+                [400, 2],
+                [450, 1],
+                [550, 1],
+                [1000, 1],
+            ]);
+            expect(
+                await generalRoom.rentalFrequency(
+                    {
+                        roomType: 'Room',
+                        region: 'KP',
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([
+                [300, 1],
+                [500, 2],
+                [550, 2],
+                [600, 1],
+            ]);
+            expect(
+                await generalRoom.rentalFrequency(
+                    {
+                        roomType: 'Room',
+                        region: 'BTHO',
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([
+                [380, 1],
+                [400, 1],
+                [475, 1],
+                [500, 2],
+            ]);
+        });
+        it('should return bookmarked room that match the bookmarked Id', async () => {
+            const user = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
+            const timeCreatedOne = new Date();
+            await utariUser.insert(
+                {
+                    id: user,
+                    timeCreated: timeCreatedOne,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomRating.insert(
+                {
+                    room: 20,
+                    user,
+                    timeCreated: timeCreatedOne,
+                    rating: 1,
+                },
+                postgreSQL.instance.pool
+            );
+            await roomBookmarked.insert(
+                {
+                    room: 20,
+                    user,
+                    timeCreated: timeCreatedOne,
+                },
+                postgreSQL.instance.pool
+            );
+            const timeCreatedTwo = new Date();
+            await roomBookmarked.insert(
+                {
+                    room: 19,
+                    user,
+                    timeCreated: timeCreatedTwo,
+                },
+                postgreSQL.instance.pool
+            );
+            expect(
+                await bookmarkRoomQuery.selectRentalFrequency(
+                    {
+                        userId: user,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([[350, 2]]);
+            expect(
+                await bookmarkRoomQuery.selectCapacitiesRange(
+                    {
+                        userId: user,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual([3]);
+            expect(
+                await bookmarkRoomQuery.select(
+                    {
+                        userId: user,
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        capacities: [3],
+                        roomTypes: ['Room', 'Roommate'],
+                        regions: ['SL', 'BTHO'],
+                        maxItemsPerPage: 15,
+                        currentPage: 1,
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual(bookmarkedRoom);
+            expect(
+                await bookmarkRoomQuery.download(
+                    {
+                        userId: user,
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        capacities: [3],
+                        roomTypes: ['Room', 'Roommate'],
+                        regions: ['SL', 'BTHO'],
+                    },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual(
+                downloadBookmarkedOne.map((room: any) => ({
+                    ...room,
+                    rating: room.rating,
+                    timeCreated:
+                        room.id === 20 ? timeCreatedOne : timeCreatedTwo,
+                }))
+            );
+        });
     });
     afterAll(async () => {
-        await PostgreSQL.getPoolInstance().exec(drop);
-        await PostgreSQL.getPoolInstance().close();
-        await (await Puppeteer.getInstance()).close();
+        await postgreSQL.instance.close();
+        await (await geocode).close();
     });
 });

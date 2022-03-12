@@ -1,4 +1,4 @@
-import { computeContactScore } from '../../../../src/api/madm/madm';
+import { computeContactScore } from '../../../../src/api/madm';
 
 describe('Contact Computation for Multi-Attribute Decision Model', () => {
     describe('Non-Empty Contact', () => {

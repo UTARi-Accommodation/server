@@ -1,6 +1,6 @@
-import { multiAttributeDecisionModelUnit } from '../../../../src/api/madm/madm';
+import { QueriedUnit } from 'utari-common';
+import { multiAttributeDecisionModelUnit } from '../../../../src/api/madm';
 import { unitOne, unitTwo } from '../../../dummy/api/madm/unit.json';
-import { QueriedUnit } from '../../../../src/scrapper/scrapper/fetchParser';
 
 describe('Multi-Attribute Decision Model', () => {
     it('should sort according to MADM', () =>

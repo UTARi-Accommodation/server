@@ -3,6 +3,7 @@
         "before": [
             {
                 "id": 26729,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0183899550"],
                     "email": ["chewyao@hotmail.com"]
@@ -10,7 +11,7 @@
                 "properties": {
                     "size": "Small",
                     "rental": 380,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
@@ -25,11 +26,12 @@
                     "month": "August",
                     "year": 2020
                 },
-                "rating": [4.5, 4.2, 5, 3.0],
+                "ratings": [4.5, 4.2, 5, 3.0],
                 "visitCount": 100
             },
             {
                 "id": 26883,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["01169671189"],
                     "email": []
@@ -37,7 +39,7 @@
                 "properties": {
                     "size": "Small",
                     "rental": 500,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "13A-13, The I Residence Comdominium, Bandar Mahkota Cheras, 43200, Cheras, Selangor",
@@ -52,11 +54,12 @@
                     "month": "September",
                     "year": 2020
                 },
-                "rating": [4.2, 2.2, 3, 3.6],
+                "ratings": [4.2, 2.2, 3, 3.6],
                 "visitCount": 50
             },
             {
                 "id": 26600,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0173991348"],
                     "email": ["svenleong@gmail.com"]
@@ -64,7 +67,7 @@
                 "properties": {
                     "size": "Master",
                     "rental": 500,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
@@ -79,11 +82,12 @@
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [],
+                "ratings": [],
                 "visitCount": 0
             },
             {
                 "id": 26490,
+                "bookmarked": false,
                 "contact": {
                     "email": ["swathijayanthi.1997@gmail.com"],
                     "mobileNumber": []
@@ -91,7 +95,7 @@
                 "properties": {
                     "size": "Middle",
                     "rental": 475,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
@@ -106,11 +110,12 @@
                     "month": "January",
                     "year": 2002
                 },
-                "rating": [1, 1, 1, 1],
+                "ratings": [1, 1, 1, 1],
                 "visitCount": 25
             },
             {
                 "id": 26387,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0163232540"],
                     "email": ["waistacy@icloud.com"]
@@ -118,7 +123,7 @@
                 "properties": {
                     "size": "Middle",
                     "rental": 550,
-                    "capacity": [2]
+                    "capacities": [2]
                 },
                 "location": {
                     "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
@@ -133,11 +138,12 @@
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [1, 3, 5, 4],
+                "ratings": [1, 3, 5, 4],
                 "visitCount": 35
             },
             {
                 "id": 26375,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0169809010"],
                     "email": ["lylong90@gmail.com"]
@@ -145,7 +151,7 @@
                 "properties": {
                     "size": "Middle",
                     "rental": 500,
-                    "capacity": [1, 2]
+                    "capacities": [1, 2]
                 },
                 "location": {
                     "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
@@ -160,21 +166,18 @@
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [1],
+                "ratings": [1],
                 "visitCount": 1
             }
         ],
         "after": [
             {
                 "id": 26729,
-                "contact": {
-                    "mobileNumber": ["0183899550"],
-                    "email": ["chewyao@hotmail.com"]
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Small",
                     "rental": 380,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
@@ -185,23 +188,18 @@
                 },
                 "facilities": "Table/Chair, Cupboard, Fan, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "Small room attached with toilet can fit 1 person.RM380 for whole room",
                     "month": "August",
                     "year": 2020
                 },
-                "rating": [4.5, 4.2, 5, 3.0],
-                "visitCount": 100
+                "ratings": [4.5, 4.2, 5, 3.0]
             },
             {
                 "id": 26375,
-                "contact": {
-                    "mobileNumber": ["0169809010"],
-                    "email": ["lylong90@gmail.com"]
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Middle",
                     "rental": 500,
-                    "capacity": [1, 2]
+                    "capacities": [1, 2]
                 },
                 "location": {
                     "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
@@ -212,23 +210,18 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [1],
-                "visitCount": 1
+                "ratings": [1]
             },
             {
                 "id": 26883,
-                "contact": {
-                    "mobileNumber": ["01169671189"],
-                    "email": []
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Small",
                     "rental": 500,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "13A-13, The I Residence Comdominium, Bandar Mahkota Cheras, 43200, Cheras, Selangor",
@@ -239,23 +232,18 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "",
                     "month": "September",
                     "year": 2020
                 },
-                "rating": [4.2, 2.2, 3, 3.6],
-                "visitCount": 50
+                "ratings": [4.2, 2.2, 3, 3.6]
             },
             {
                 "id": 26490,
-                "contact": {
-                    "email": ["swathijayanthi.1997@gmail.com"],
-                    "mobileNumber": []
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Middle",
                     "rental": 475,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
 
                 "location": {
@@ -267,23 +255,18 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "The rental is negotiable, however not inclusive of utility bills; A shared bathroom; Prefer female (any nationality",
                     "month": "January",
                     "year": 2002
                 },
-                "rating": [1, 1, 1, 1],
-                "visitCount": 25
+                "ratings": [1, 1, 1, 1]
             },
             {
                 "id": 26387,
-                "contact": {
-                    "mobileNumber": ["0163232540"],
-                    "email": ["waistacy@icloud.com"]
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Middle",
                     "rental": 550,
-                    "capacity": [2]
+                    "capacities": [2]
                 },
                 "location": {
                     "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
@@ -294,23 +277,18 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater, Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
                 "remarks": {
-                    "remark": "",
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [1, 3, 5, 4],
-                "visitCount": 35
+                "ratings": [1, 3, 5, 4]
             },
             {
                 "id": 26600,
-                "contact": {
-                    "mobileNumber": ["0173991348"],
-                    "email": ["svenleong@gmail.com"]
-                },
+                "bookmarked": false,
                 "properties": {
                     "size": "Master",
                     "rental": 500,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
                 "location": {
                     "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
@@ -321,12 +299,10 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "Rental not including RM100 utilities.Medium room without aircon is also available",
                     "month": "January",
                     "year": 2020
                 },
-                "rating": [],
-                "visitCount": 0
+                "ratings": []
             }
         ]
     },
@@ -334,6 +310,7 @@
         "before": [
             {
                 "id": 22244,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0165476010"],
                     "email": []
@@ -354,13 +331,14 @@
                 "properties": {
                     "size": "Middle",
                     "rental": 150,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
-                "rating": [5, 4, 3, 2, 3],
+                "ratings": [5, 4, 3, 2, 3],
                 "visitCount": 90
             },
             {
                 "id": 18188,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0165316447"],
                     "email": []
@@ -381,13 +359,14 @@
                 "properties": {
                     "size": "Small",
                     "rental": 180,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
-                "rating": [5, 4, 5, 2, 3],
+                "ratings": [5, 4, 5, 2, 3],
                 "visitCount": 45
             },
             {
                 "id": 16654,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0127366093"],
                     "email": ["tanfah8@gmail.com"]
@@ -408,13 +387,14 @@
                 "properties": {
                     "size": "Master",
                     "rental": 300,
-                    "capacity": [0]
+                    "capacities": [0]
                 },
-                "rating": [5, 4, 5, 4, 1, 2, 3],
+                "ratings": [5, 4, 5, 4, 1, 2, 3],
                 "visitCount": 65
             },
             {
                 "id": 26573,
+                "bookmarked": false,
                 "contact": {
                     "mobileNumber": ["0127366093"],
                     "email": ["tanfah8@gmail.com"]
@@ -435,19 +415,16 @@
                 "properties": {
                     "size": "Small",
                     "rental": 280,
-                    "capacity": [0]
+                    "capacities": [0]
                 },
-                "rating": [5, 4, 4, 1, 2, 3],
+                "ratings": [5, 4, 4, 1, 2, 3],
                 "visitCount": 15
             }
         ],
         "after": [
             {
                 "id": 16654,
-                "contact": {
-                    "mobileNumber": ["0127366093"],
-                    "email": ["tanfah8@gmail.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "2382, Jln Seksyen 2/11, Bandar Barat (Imperial), 31900, Kampar, Perak",
                     "coordinate": {
@@ -457,24 +434,19 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "Semi D house with airy rooms. Close proximity to UTAR. Weekly ckeaning on common areas. Corner Lot ample parking by side of the house",
                     "month": "January",
                     "year": 2022
                 },
                 "properties": {
                     "size": "Master",
                     "rental": 300,
-                    "capacity": [0]
+                    "capacities": [0]
                 },
-                "rating": [5, 4, 5, 4, 1, 2, 3],
-                "visitCount": 65
+                "ratings": [5, 4, 5, 4, 1, 2, 3]
             },
             {
                 "id": 18188,
-                "contact": {
-                    "mobileNumber": ["0165316447"],
-                    "email": []
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "137, Jln Perdana 4, Tmn Kampar Perdana, 31900, Kampar, Perak",
                     "coordinate": {
@@ -485,24 +457,19 @@
 
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Parking Bay, Internet, Washing Machine, Water Heater, Fridge",
                 "remarks": {
-                    "remark": "Neighbors are families, Unifi 30mbps (Please call, don't whatsapp",
                     "month": "January",
                     "year": 2022
                 },
                 "properties": {
                     "size": "Small",
                     "rental": 180,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
-                "rating": [5, 4, 5, 2, 3],
-                "visitCount": 45
+                "ratings": [5, 4, 5, 2, 3]
             },
             {
                 "id": 22244,
-                "contact": {
-                    "mobileNumber": ["0165476010"],
-                    "email": []
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "1728, Jln Emas, Tmn Bandar Baru, 31900, Kampar, Perak",
                     "coordinate": {
@@ -512,24 +479,19 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Air-Conditioner, Parking Bay, Washing Machine",
                 "remarks": {
-                    "remark": "",
                     "month": "January",
                     "year": 2022
                 },
                 "properties": {
                     "size": "Middle",
                     "rental": 150,
-                    "capacity": [1]
+                    "capacities": [1]
                 },
-                "rating": [5, 4, 3, 2, 3],
-                "visitCount": 90
+                "ratings": [5, 4, 3, 2, 3]
             },
             {
                 "id": 26573,
-                "contact": {
-                    "mobileNumber": ["0127366093"],
-                    "email": ["tanfah8@gmail.com"]
-                },
+                "bookmarked": false,
                 "location": {
                     "address": "2383, Jln Seksyen 2/11, Bandar Barat (Imperial), 31900, Kampar, Perak",
                     "coordinate": {
@@ -539,17 +501,15 @@
                 },
                 "facilities": "Bed, Table/Chair, Cupboard, Fan, Air-Conditioner, Internet, Washing Machine, Water Heater",
                 "remarks": {
-                    "remark": "Semi D house with airy rooms. Close proximity to UTAR. Weekly ckeaning on common areas",
                     "month": "January",
                     "year": 2022
                 },
                 "properties": {
                     "size": "Small",
                     "rental": 280,
-                    "capacity": [0]
+                    "capacities": [0]
                 },
-                "rating": [5, 4, 4, 1, 2, 3],
-                "visitCount": 15
+                "ratings": [5, 4, 4, 1, 2, 3]
             }
         ]
     }
