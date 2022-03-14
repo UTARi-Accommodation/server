@@ -183,11 +183,16 @@ const computeContactScore = ({
         ? 0.5
         : 0;
 
-const multiAttributeDecisionModelUnit = (units: ReadonlyArray<QueriedUnit>) => {
-    if (units.length < 2) {
-        return units;
-    }
-
+const computeUnitScore = (
+    unit: QueriedUnit,
+    {
+        minRentalPerPax,
+        maxRentalPerPax,
+    }: Readonly<{
+        minRentalPerPax: number;
+        maxRentalPerPax: number;
+    }>
+) => {
     const weightageOfAttributes = {
         address: 20,
         rental: 15,
@@ -201,6 +206,104 @@ const multiAttributeDecisionModelUnit = (units: ReadonlyArray<QueriedUnit>) => {
         contact: 1,
     } as const;
 
+    const {
+        id,
+        location: { address },
+        properties: { rental, bedRooms, bathRooms },
+        ratings,
+        visitCount,
+        facilities,
+        contact,
+        remarks: { year, month, remark },
+    } = unit;
+
+    const rentalScore =
+        normalizeNonBeneficialQuantifiableAttribute({
+            current: rental / (bedRooms ?? 1),
+            min: minRentalPerPax,
+            max: maxRentalPerPax,
+        }) * weightageOfAttributes.rental;
+
+    const bedRoomsScore =
+        normalizeBeneficialQuantifiableAttribute({
+            current: bedRooms,
+            min: 1,
+            max: 4,
+        }) * weightageOfAttributes.bedRooms;
+
+    const bathRoomsScore =
+        normalizeBeneficialQuantifiableAttribute({
+            current: bathRooms,
+            min: 1,
+            max: 3,
+        }) * weightageOfAttributes.bathRooms;
+
+    const addressScore =
+        computeAddressScore(address) * weightageOfAttributes.address;
+
+    const ratingScore =
+        computeRatingScore(ratings) * weightageOfAttributes.rating;
+
+    const visitCountScore =
+        computeVisitCountScore(visitCount) * weightageOfAttributes.visitCount;
+
+    const facilitiesScore =
+        computeFacilitiesScore(facilities) * weightageOfAttributes.facilities;
+
+    const timeScore =
+        computeTimeScore({
+            year,
+            month,
+        }) * weightageOfAttributes.time;
+
+    const remarkScore =
+        computeRemarkScore(remark) * weightageOfAttributes.remark;
+
+    const contactScore =
+        computeContactScore(contact) * weightageOfAttributes.contact;
+
+    const score =
+        addressScore +
+        rentalScore +
+        ratingScore +
+        visitCountScore +
+        facilitiesScore +
+        timeScore +
+        bedRoomsScore +
+        bathRoomsScore +
+        remarkScore +
+        contactScore;
+
+    if (Number.isNaN(score)) {
+        console.log('min and max rental:', {
+            minRentalPerPax,
+            maxRentalPerPax,
+        });
+        console.log('finalscore:', {
+            addressScore,
+            rentalScore,
+            ratingScore,
+            visitCountScore,
+            facilitiesScore,
+            timeScore,
+            bedRoomsScore,
+            bathRoomsScore,
+            remarkScore,
+            contactScore,
+        });
+        console.log('unitInfo as below');
+        console.dir(unit, { depth: null });
+        throw new Error(`final score is NaN for ID of ${id}`);
+    }
+
+    return score;
+};
+
+const multiAttributeDecisionModelUnit = (units: ReadonlyArray<QueriedUnit>) => {
+    if (units.length < 2) {
+        return units;
+    }
+
     const { min: minRentalPerPax, max: maxRentalPerPax } = getMinMax(
         units.map(
             ({ properties: { rental, bedRooms } }) => rental / (bedRooms ?? 1)
@@ -208,111 +311,26 @@ const multiAttributeDecisionModelUnit = (units: ReadonlyArray<QueriedUnit>) => {
     );
 
     return copyUnitsSort(
-        units.map((unit) => {
-            const {
-                id,
-                location: { address },
-                properties: { rental, bedRooms, bathRooms },
-                ratings,
-                visitCount,
-                facilities,
-                contact,
-                remarks: { year, month, remark },
-            } = unit;
-
-            const rentalScore =
-                normalizeNonBeneficialQuantifiableAttribute({
-                    current: rental / (bedRooms ?? 1),
-                    min: minRentalPerPax,
-                    max: maxRentalPerPax,
-                }) * weightageOfAttributes.rental;
-
-            const bedRoomsScore =
-                normalizeBeneficialQuantifiableAttribute({
-                    current: bedRooms,
-                    min: 1,
-                    max: 4,
-                }) * weightageOfAttributes.bedRooms;
-
-            const bathRoomsScore =
-                normalizeBeneficialQuantifiableAttribute({
-                    current: bathRooms,
-                    min: 1,
-                    max: 3,
-                }) * weightageOfAttributes.bathRooms;
-
-            const addressScore =
-                computeAddressScore(address) * weightageOfAttributes.address;
-
-            const ratingScore =
-                computeRatingScore(ratings) * weightageOfAttributes.rating;
-
-            const visitCountScore =
-                computeVisitCountScore(visitCount) *
-                weightageOfAttributes.visitCount;
-
-            const facilitiesScore =
-                computeFacilitiesScore(facilities) *
-                weightageOfAttributes.facilities;
-
-            const timeScore =
-                computeTimeScore({
-                    year,
-                    month,
-                }) * weightageOfAttributes.time;
-
-            const remarkScore =
-                computeRemarkScore(remark) * weightageOfAttributes.remark;
-
-            const contactScore =
-                computeContactScore(contact) * weightageOfAttributes.contact;
-
-            const finalScore =
-                addressScore +
-                rentalScore +
-                ratingScore +
-                visitCountScore +
-                facilitiesScore +
-                timeScore +
-                bedRoomsScore +
-                bathRoomsScore +
-                remarkScore +
-                contactScore;
-
-            if (Number.isNaN(finalScore)) {
-                console.log('min and max rental:', {
-                    minRentalPerPax,
-                    maxRentalPerPax,
-                });
-                console.log('finalscore:', {
-                    addressScore,
-                    rentalScore,
-                    ratingScore,
-                    visitCountScore,
-                    facilitiesScore,
-                    timeScore,
-                    bedRoomsScore,
-                    bathRoomsScore,
-                    remarkScore,
-                    contactScore,
-                });
-                console.log('unitInfo as below');
-                console.dir(unit, { depth: null });
-                throw new Error(`final score is NaN for ID of ${id}`);
-            }
-
-            return {
-                unit,
-                finalScore,
-            };
-        })
+        units.map((unit) => ({
+            unit,
+            finalScore: computeUnitScore(unit, {
+                minRentalPerPax,
+                maxRentalPerPax,
+            }),
+        }))
     );
 };
 
-const multiAttributeDecisionModelRoom = (rooms: ReadonlyArray<QueriedRoom>) => {
-    if (rooms.length < 2) {
-        return rooms;
-    }
+const computeRoomScore = (
+    room: QueriedRoom,
+    {
+        minRentalPerPax,
+        maxRentalPerPax,
+    }: Readonly<{
+        minRentalPerPax: number;
+        maxRentalPerPax: number;
+    }>
+) => {
     const weightageOfAttributes = {
         address: 20,
         rental: 15,
@@ -324,6 +342,107 @@ const multiAttributeDecisionModelRoom = (rooms: ReadonlyArray<QueriedRoom>) => {
         remark: 4,
         contact: 1,
     } as const;
+    const {
+        id,
+        location: { address },
+        properties: { rental, capacities, size },
+        ratings,
+        visitCount,
+        facilities,
+        contact,
+        remarks: { year, month, remark },
+    } = room;
+
+    const rentalScore =
+        (normalizeNonBeneficialQuantifiableAttribute({
+            current:
+                capacities.length === 1 && capacities[0] === 0
+                    ? rental
+                    : rental /
+                      (capacities.reduce((prev, curr) => prev + curr) /
+                          capacities.length),
+            min: minRentalPerPax,
+            max: maxRentalPerPax,
+        }) +
+            punishmentForBadRoomRental(rental, size)) *
+        weightageOfAttributes.rental;
+
+    const capacitiesScore =
+        capacities.reduce(
+            (prev, capacity) =>
+                prev +
+                normalizeBeneficialQuantifiableAttribute({
+                    current: capacity,
+                    min: 0,
+                    max: size === 'Small' ? 1 : 4,
+                }) *
+                    weightageOfAttributes.capacities,
+            0
+        ) / (capacities.length || 1);
+
+    const addressScore =
+        computeAddressScore(address) * weightageOfAttributes.address;
+
+    const ratingScore =
+        computeRatingScore(ratings) * weightageOfAttributes.rating;
+
+    const visitCountScore =
+        computeVisitCountScore(visitCount) * weightageOfAttributes.visitCount;
+
+    const facilitiesScore =
+        computeFacilitiesScore(facilities) * weightageOfAttributes.facilities;
+
+    const timeScore =
+        computeTimeScore({
+            year,
+            month,
+        }) * weightageOfAttributes.time;
+
+    const remarkScore =
+        computeRemarkScore(remark) * weightageOfAttributes.remark;
+
+    const contactScore =
+        computeContactScore(contact) * weightageOfAttributes.contact;
+
+    const score =
+        addressScore +
+        rentalScore +
+        ratingScore +
+        visitCountScore +
+        facilitiesScore +
+        capacitiesScore +
+        timeScore +
+        remarkScore +
+        contactScore;
+
+    if (Number.isNaN(score)) {
+        console.log('min and max rental:', {
+            minRentalPerPax,
+            maxRentalPerPax,
+        });
+        console.log('finalScore:', {
+            addressScore,
+            rentalScore,
+            ratingScore,
+            visitCountScore,
+            facilitiesScore,
+            capacitiesScore,
+            timeScore,
+            remarkScore,
+            contactScore,
+        });
+        console.log('roomInfo as below');
+        console.dir(room, { depth: null });
+        throw new Error(`final score is NaN for ID of ${id}`);
+    }
+
+    return score;
+};
+
+const multiAttributeDecisionModelRoom = (rooms: ReadonlyArray<QueriedRoom>) => {
+    if (rooms.length < 2) {
+        return rooms;
+    }
 
     const { min: minRentalPerPax, max: maxRentalPerPax } = getMinMax(
         rooms.map(({ properties: { rental, capacities } }) => {
@@ -341,108 +460,13 @@ const multiAttributeDecisionModelRoom = (rooms: ReadonlyArray<QueriedRoom>) => {
     );
 
     return copyRoomSort(
-        rooms.map((room) => {
-            const {
-                id,
-                location: { address },
-                properties: { rental, capacities, size },
-                ratings,
-                visitCount,
-                facilities,
-                contact,
-                remarks: { year, month, remark },
-            } = room;
-
-            const rentalScore =
-                (normalizeNonBeneficialQuantifiableAttribute({
-                    current:
-                        capacities.length === 1 && capacities[0] === 0
-                            ? rental
-                            : rental /
-                              (capacities.reduce((prev, curr) => prev + curr) /
-                                  capacities.length),
-                    min: minRentalPerPax,
-                    max: maxRentalPerPax,
-                }) +
-                    punishmentForBadRoomRental(rental, size)) *
-                weightageOfAttributes.rental;
-
-            const capacitiesScore =
-                capacities.reduce(
-                    (prev, capacity) =>
-                        prev +
-                        normalizeBeneficialQuantifiableAttribute({
-                            current: capacity,
-                            min: 0,
-                            max: size === 'Small' ? 1 : 4,
-                        }) *
-                            weightageOfAttributes.capacities,
-                    0
-                ) / (capacities.length || 1);
-
-            const addressScore =
-                computeAddressScore(address) * weightageOfAttributes.address;
-
-            const ratingScore =
-                computeRatingScore(ratings) * weightageOfAttributes.rating;
-
-            const visitCountScore =
-                computeVisitCountScore(visitCount) *
-                weightageOfAttributes.visitCount;
-
-            const facilitiesScore =
-                computeFacilitiesScore(facilities) *
-                weightageOfAttributes.facilities;
-
-            const timeScore =
-                computeTimeScore({
-                    year,
-                    month,
-                }) * weightageOfAttributes.time;
-
-            const remarkScore =
-                computeRemarkScore(remark) * weightageOfAttributes.remark;
-
-            const contactScore =
-                computeContactScore(contact) * weightageOfAttributes.contact;
-
-            const finalScore =
-                addressScore +
-                rentalScore +
-                ratingScore +
-                visitCountScore +
-                facilitiesScore +
-                capacitiesScore +
-                timeScore +
-                remarkScore +
-                contactScore;
-
-            if (Number.isNaN(finalScore)) {
-                console.log('min and max rental:', {
-                    minRentalPerPax,
-                    maxRentalPerPax,
-                });
-                console.log('finalScore:', {
-                    addressScore,
-                    rentalScore,
-                    ratingScore,
-                    visitCountScore,
-                    facilitiesScore,
-                    capacitiesScore,
-                    timeScore,
-                    remarkScore,
-                    contactScore,
-                });
-                console.log('roomInfo as below');
-                console.dir(room, { depth: null });
-                throw new Error(`final score is NaN for ID of ${id}`);
-            }
-
-            return {
-                room,
-                finalScore,
-            };
-        })
+        rooms.map((room) => ({
+            room,
+            finalScore: computeRoomScore(room, {
+                minRentalPerPax,
+                maxRentalPerPax,
+            }),
+        }))
     );
 };
 
@@ -497,4 +521,7 @@ export {
     multiAttributeDecisionModelUnit,
     SortedRoom,
     SortedUnit,
+    computeRoomScore,
+    computeUnitScore,
+    getMinMax,
 };

@@ -1,5 +1,9 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({
+    path: `${process.cwd()}/.env${
+        process.env.NODE_ENV === 'test' ? '.test' : ''
+    }`,
+});
 
 const contactConfig = {
     EMAIL: process.env.EMAIL,
@@ -22,7 +26,10 @@ const firebaseConfig = {
 const postgresConfig = {
     user: process.env.PGUSER,
     host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
+    database:
+        process.env.NODE_ENV === 'test'
+            ? process.env.PGTESTDATABASE
+            : process.env.PGDATABASE,
     password: process.env.PGPASSWORD,
     port: parseInt(process.env.PGPORT ?? `${5432}`),
 };

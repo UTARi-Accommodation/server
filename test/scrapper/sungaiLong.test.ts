@@ -8,7 +8,7 @@ describe('Sungai Long', () => {
         expect(scrapRoom.length >= 0);
         expect(
             scrapRoom.every(
-                ({ accommodationType: { type } }) => type === 'Room'
+                ({ accommodation: { type } }) => type === 'Room'
             )
         ).toBe(true);
         expect(
@@ -23,7 +23,7 @@ describe('Sungai Long', () => {
         expect(scrapRoommate.length >= 0);
         expect(
             scrapRoommate.every(
-                ({ accommodationType: { type } }) => type === 'Room'
+                ({ accommodation: { type } }) => type === 'Room'
             )
         ).toBe(true);
         expect(
@@ -38,7 +38,7 @@ describe('Sungai Long', () => {
         expect(scrapHouse.length >= 0);
         expect(
             scrapHouse.every(
-                ({ accommodationType: { type } }) => type === 'Unit'
+                ({ accommodation: { type } }) => type === 'Unit'
             )
         ).toBe(true);
         expect(
@@ -53,7 +53,7 @@ describe('Sungai Long', () => {
         expect(scrapCondominium.length >= 0);
         expect(
             scrapCondominium.every(
-                ({ accommodationType: { type } }) => type === 'Unit'
+                ({ accommodation: { type } }) => type === 'Unit'
             )
         ).toBe(true);
         expect(

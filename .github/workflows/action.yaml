@@ -1,0 +1,53 @@
+name: server-ci-cd
+
+on: [push, pull_request]
+
+jobs:
+    all:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                threads:
+                    - '4'
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v2
+
+            - name: Install and Setup PostgreSQL
+              run: |
+                  make install
+                  make setup
+
+            - name: Install Depedencies
+              run: yarn
+
+            - name: Run PgTyped
+              env:
+                  PGUSER: postgres
+                  PGHOST: localhost
+                  PGDATABASE: utari
+                  PGPASSWORD: postgres
+                  PGPORT: 5432
+              run: make pg-gen
+
+            - name: Run Linter
+              run: make lint-src
+
+            - name: Run Typecheck
+              run: make typecheck
+
+            - name: Run Format Check
+              run: make format-check
+
+            - name: Run Tests
+              env:
+                  PGUSER: postgres
+                  PGHOST: localhost
+                  PGDATABASE: test
+                  PGPASSWORD: postgres
+                  PGPORT: 5432
+              run: make test
+
+            - name: Run Build
+              run: make build

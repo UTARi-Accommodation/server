@@ -3,10 +3,10 @@ import { MultiSelectNumber, QueriedRoom } from 'utari-common';
 import { multiAttributeDecisionModelRoom } from '../../../../api/madm/index';
 import {
     ConvertCurrencyToNumber,
-    convertRentalToCurrency,
+    convertRentalToNumeric,
     parseContact,
     parseRating,
-    parseRentalFromCurrency,
+    parseRentalFromNumeric,
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/room';
@@ -95,7 +95,7 @@ const generalRoom = {
             await generalRoomQueryWithCapacities.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -111,7 +111,7 @@ const generalRoom = {
             await generalRoomQueryWithoutCapacities.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -141,7 +141,7 @@ const generalRoom = {
         pool: Pool
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
-            parseRentalFromCurrency(obj.rental),
+            parseRentalFromNumeric(obj.rental),
             parseAsNumber(parseInt(obj.frequency ?? '')).orElseThrowDefault(
                 'frequency'
             ),

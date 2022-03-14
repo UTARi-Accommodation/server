@@ -206,7 +206,7 @@ const upsertToDatabase = async (
                 address,
                 facilities,
                 remarks: { remark, month, year },
-                accommodationType,
+                accommodation,
             } = accom;
 
             const handlerId = mobileNumbers
@@ -217,9 +217,21 @@ const upsertToDatabase = async (
                       .sort((a, b) => a.localeCompare(b))
                       .join('');
 
-            if (!handlerId) {
-                // skip due to lack of contact information
-                return Promise.resolve(num + 1);
+            if (
+                !(mobileNumbers
+                    ? Array.from(mobileNumbers)
+                          .sort((a, b) => a.localeCompare(b))
+                          .join('')
+                    : Array.from(emails ?? [])
+                          .sort((a, b) => a.localeCompare(b))
+                          .join(''))
+            ) {
+                if (process.env.NODE_ENV === 'test') {
+                    return await Promise.resolve(num + 1);
+                }
+                throw new Error(
+                    'Scrapper should already resolve empty contact'
+                );
             }
 
             await upsertHandler({
@@ -241,20 +253,20 @@ const upsertToDatabase = async (
                 year,
                 region,
                 facilities,
-                accommodationType: accommodationType.type,
+                accommodationType: accommodation.type,
             });
 
-            if (accommodationType.type === 'Unit') {
+            if (accommodation.type === 'Unit') {
                 await upsertUnit({
-                    ...accommodationType.unit,
+                    ...accommodation.unit,
                     accommodation: accommodationId,
-                    unitType: accommodationType.unitType,
+                    unitType: accommodation.unitType,
                 });
             } else {
                 await upsertRooms({
-                    ...accommodationType.rooms,
+                    ...accommodation.rooms,
                     accommodation: accommodationId,
-                    roomType: accommodationType.roomType,
+                    roomType: accommodation.roomType,
                 });
             }
             return await Promise.resolve(num + 1);

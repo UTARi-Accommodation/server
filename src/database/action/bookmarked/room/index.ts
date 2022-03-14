@@ -7,10 +7,10 @@ import {
 } from 'utari-common';
 import {
     ConvertCurrencyToNumber,
-    convertRentalToCurrency,
+    convertRentalToNumeric,
     parseContact,
     parseRating,
-    parseRentalFromCurrency,
+    parseRentalFromNumeric,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/room';
 import { Pool } from '../../../postgres';
@@ -40,7 +40,7 @@ const bookmarkedRoom = {
             await bookmarkedRoomQuery.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -93,7 +93,7 @@ const bookmarkedRoom = {
             await downloadBookmarkedRoomQuery.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -150,7 +150,7 @@ const bookmarkedRoom = {
         pool: Pool
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
-            parseRentalFromCurrency(obj.rental),
+            parseRentalFromNumeric(obj.rental),
             parseAsNumber(parseInt(obj.frequency ?? '')).orElseThrowDefault(
                 'frequency'
             ),

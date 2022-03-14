@@ -21,10 +21,10 @@ import {
 } from './withoutBathRoomsAndWithBedRooms.queries';
 import {
     ConvertCurrencyToNumber,
-    convertRentalToCurrency,
+    convertRentalToNumeric,
     parseContact,
     parseRating,
-    parseRentalFromCurrency,
+    parseRentalFromNumeric,
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/unit';
@@ -107,7 +107,7 @@ const generalUnit = {
             await generalUnitQueryWithBathRoomsAndBedRooms.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -123,7 +123,7 @@ const generalUnit = {
             await generalUnitQueryWithoutBathRoomsAndBedRooms.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -139,7 +139,7 @@ const generalUnit = {
             await generalUnitQueryWithBathRoomsAndWithoutBedRooms.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -155,7 +155,7 @@ const generalUnit = {
             await generalUnitQueryWithoutBathRoomsAndWithBedRooms.run(
                 {
                     ...params,
-                    ...convertRentalToCurrency({
+                    ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
@@ -193,7 +193,7 @@ const generalUnit = {
         pool: Pool
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
-            parseRentalFromCurrency(obj.rental),
+            parseRentalFromNumeric(obj.rental),
             parseAsNumber(parseInt(obj.frequency ?? '')).orElseThrowDefault(
                 'frequency'
             ),

@@ -1,7 +1,7 @@
 import generalUnit from '../../database/action/general/unit/index';
 import detailedUnit from '../../database/action/detailed/unit/index';
 import bookmarkedUnit from '../../database/action/bookmarked/unit/index';
-import { parseRentalFromCurrency } from './common';
+import { parseRentalFromNumeric } from './common';
 
 const parseProperties = ({
     rental,
@@ -14,7 +14,7 @@ const parseProperties = ({
 }>) =>
     ({
         bedRooms: bed_rooms,
-        rental: parseRentalFromCurrency(rental),
+        rental: parseRentalFromNumeric(rental),
         bathRooms: bath_rooms,
     } as const);
 

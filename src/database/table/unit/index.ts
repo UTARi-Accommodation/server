@@ -2,7 +2,7 @@ import { parseAsNumber } from 'parse-dont-validate';
 import { upsert, IUpsertParams, IUpsertResult } from './upsert.queries';
 import { setAvailabilityFalse } from './setAvailabilityFalse.queries';
 import { Pool } from '../../postgres';
-import { parseCurrencyFromRental } from '../../../api/query/common';
+import { parseNumericFromRental } from '../../../api/query/common';
 
 const unit = {
     upsert: async (
@@ -18,10 +18,10 @@ const unit = {
             {
                 params: {
                     ...params,
-                    rental: parseCurrencyFromRental(params.rental),
+                    rental: parseNumericFromRental(params.rental),
                     available: true,
                 },
-                rental: parseCurrencyFromRental(params.rental),
+                rental: parseNumericFromRental(params.rental),
                 bathRooms: params.bathRooms,
                 bedRooms: params.bedRooms,
                 unitType: params.unitType,

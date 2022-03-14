@@ -66,12 +66,12 @@ FROM
                 WHERE
                   available = true
                   AND (
-                    :minRental :: MONEY IS NULL
-                    OR rental >= :minRental :: MONEY
+                    :minRental :: NUMERIC(10, 2) IS NULL
+                    OR rental >= :minRental :: NUMERIC(10, 2)
                   )
                   AND (
-                    :maxRental :: MONEY IS NULL
-                    OR rental <= :maxRental :: MONEY
+                    :maxRental :: NUMERIC(10, 2) IS NULL
+                    OR rental <= :maxRental :: NUMERIC(10, 2)
                   )
                   AND (bed_rooms IN :bedRooms)
                   AND unit_type = :unitType !

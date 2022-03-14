@@ -11,7 +11,7 @@
             "month": "August",
             "year": 2020
         },
-        "accommodationType": {
+        "accommodation": {
             "type": "Room",
             "roomType": "Room",
             "rooms": {
@@ -45,7 +45,7 @@
             "month": "August",
             "year": 2020
         },
-        "accommodationType": {
+        "accommodation": {
             "type": "Room",
             "roomType": "Room",
             "rooms": {
@@ -79,7 +79,7 @@
             "month": "August",
             "year": 2020
         },
-        "accommodationType": {
+        "accommodation": {
             "type": "Room",
             "roomType": "Room",
             "rooms": {

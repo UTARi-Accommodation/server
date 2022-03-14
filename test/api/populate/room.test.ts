@@ -150,7 +150,7 @@ describe('Room', () => {
 
             expect(small.id).toBe(1);
             expect(small.accommodation).toBe(accommodationId);
-            expect(small.rental).toBe('RM380.00');
+            expect(small.rental).toBe('380.00');
             expect(small.room_type).toBe('Room');
             expect(small.room_size).toBe('Small');
             expect(small.available).toBe(true);
@@ -161,7 +161,7 @@ describe('Room', () => {
 
             expect(middle.id).toBe(2);
             expect(middle.accommodation).toBe(accommodationId);
-            expect(middle.rental).toBe('RM3,800.00');
+            expect(middle.rental).toBe('3800.00');
             expect(middle.room_type).toBe('Room');
             expect(middle.room_size).toBe('Middle');
             expect(middle.available).toBe(true);
@@ -172,7 +172,7 @@ describe('Room', () => {
 
             expect(master.id).toBe(3);
             expect(master.accommodation).toBe(accommodationId);
-            expect(master.rental).toBe('RM38,000.00');
+            expect(master.rental).toBe('38000.00');
             expect(master.room_type).toBe('Room');
             expect(master.room_size).toBe('Master');
             expect(master.available).toBe(true);
@@ -344,7 +344,7 @@ describe('Room', () => {
 
             expect(small.id).toBe(1);
             expect(small.accommodation).toBe(accommodationId);
-            expect(small.rental).toBe('RM380.00');
+            expect(small.rental).toBe('380.00');
             expect(small.room_type).toBe('Room');
             expect(small.room_size).toBe('Small');
             expect(small.available).toBe(true);
@@ -355,7 +355,7 @@ describe('Room', () => {
 
             expect(middle.id).toBe(2);
             expect(middle.accommodation).toBe(accommodationId);
-            expect(middle.rental).toBe('RM385.00');
+            expect(middle.rental).toBe('385.00');
             expect(middle.room_type).toBe('Room');
             expect(middle.room_size).toBe('Middle');
             expect(middle.available).toBe(true);
@@ -366,7 +366,7 @@ describe('Room', () => {
 
             expect(master.id).toBe(3);
             expect(master.accommodation).toBe(accommodationId);
-            expect(master.rental).toBe('RM900.00');
+            expect(master.rental).toBe('900.00');
             expect(master.room_type).toBe('Room');
             expect(master.room_size).toBe('Master');
             expect(master.available).toBe(true);

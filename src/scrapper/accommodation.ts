@@ -4,6 +4,7 @@ import {
     Contact,
     HandlerType,
     Month,
+    months,
     Region,
     Remarks,
     Room,
@@ -227,22 +228,7 @@ const splitReduceRemarks = (remarks: string) =>
 
 const processMonth = (month: string): Month => {
     const changedMonth = month.charAt(0) + month.substring(1).toLowerCase();
-    const foundMonth = (
-        [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ] as const
-    ).find((m) => m.includes(changedMonth));
+    const foundMonth = months.find((m) => m.includes(changedMonth));
     if (!foundMonth) {
         throw new Error(`There is no match for month of "${month}"`);
     }
@@ -336,7 +322,7 @@ const getRooms = (element: HTMLElement) =>
                     parseAsString(rental).orElseThrowDefault('rental')
                 )
             )
-                .inRangeOf(0, Number.MAX_SAFE_INTEGER)
+                .inRangeOf(0, 100000)
                 .orElseThrowDefault('default');
             const parsedCapacities = parseAsString(capacities)
                 .orElseThrowDefault('capacities')
@@ -425,13 +411,26 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                 const parsed = parse(await (await fetch(url)).text())
                     .removeWhitespace()
                     .getElementsByTagName('tr');
+                const contact = getContact(parseAsHTMLElement(parsed[5], 5));
+                const { mobileNumber, email } = contact;
+                if (
+                    !(mobileNumber
+                        ? Array.from(mobileNumber)
+                              .sort((a, b) => a.localeCompare(b))
+                              .join('')
+                        : Array.from(email ?? [])
+                              .sort((a, b) => a.localeCompare(b))
+                              .join(''))
+                ) {
+                    return [];
+                }
                 const obj = {
                     id,
+                    contact,
                     handlerType: getHandlerType(
                         parseAsHTMLElement(parsed[3], 3)
                     ),
                     name: getName(parseAsHTMLElement(parsed[4], 4)),
-                    contact: getContact(parseAsHTMLElement(parsed[5], 5)),
                     address: getAddress(parseAsHTMLElement(parsed[9], 9)),
                     facilities: getFacilities(
                         parseAsHTMLElement(parsed[10], 10)
@@ -449,7 +448,7 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                             : [
                                   {
                                       ...obj,
-                                      accommodationType: {
+                                      accommodation: {
                                           type,
                                           roomType: category.roomType,
                                           rooms: { small, middle, master },
@@ -464,7 +463,7 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                             : [
                                   {
                                       ...obj,
-                                      accommodationType: {
+                                      accommodation: {
                                           type,
                                           unitType: category.unitType,
                                           unit,

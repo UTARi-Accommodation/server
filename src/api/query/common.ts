@@ -2,24 +2,19 @@ import { isPositiveInt } from 'granula-string';
 import { parseAsString } from 'parse-dont-validate';
 import { RentalRange } from 'utari-common';
 
-const parseRentalFromCurrency = (rental: string | null | undefined) =>
-    parseFloat(
-        parseAsString(rental)
-            .orElseThrowDefault('rental')
-            .replace('RM', '')
-            .replace(/,/g, '')
-    );
+const parseRentalFromNumeric = (rental: string | null | undefined) =>
+    parseFloat(parseAsString(rental).orElseThrowDefault('rental'));
 
-const parseCurrencyFromRental = (rental: number) => `RM ${rental}`;
+const parseNumericFromRental = (rental: number) => `${rental}`;
 
-const parseNullableCurrencyFromRental = (rental: number | undefined) =>
-    rental === undefined ? undefined : `RM ${rental}`;
+const parseNullableNumericFromRental = (rental: number | undefined) =>
+    rental === undefined ? undefined : parseNumericFromRental(rental);
 
 type Undefinable<T> = { [K in keyof T]: T[K] | undefined };
 
-const convertRentalToCurrency = ({ min, max }: Undefinable<RentalRange>) => ({
-    minRental: parseNullableCurrencyFromRental(min),
-    maxRental: parseNullableCurrencyFromRental(max),
+const convertRentalToNumeric = ({ min, max }: Undefinable<RentalRange>) => ({
+    minRental: parseNullableNumericFromRental(min),
+    maxRental: parseNullableNumericFromRental(max),
 });
 
 const parseVisitCount = (visitCount: string | null) =>
@@ -50,12 +45,12 @@ type ConvertCurrencyToNumber<T> = Omit<T, 'minRental' | 'maxRental'> &
     }>;
 
 export {
-    convertRentalToCurrency,
+    convertRentalToNumeric,
     parseVisitCount,
     parseContact,
-    parseRentalFromCurrency,
+    parseRentalFromNumeric,
     parseRating,
-    parseNullableCurrencyFromRental,
-    parseCurrencyFromRental,
+    parseNullableNumericFromRental,
+    parseNumericFromRental,
     ConvertCurrencyToNumber,
 };

@@ -15,7 +15,7 @@
                 "month": "November",
                 "year": 2021
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Room",
                 "roomType": "Roommate",
                 "rooms": {

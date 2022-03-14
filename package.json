@@ -45,6 +45,6 @@
         "parse-dont-validate": "^1.0.3",
         "pg": "^8.7.1",
         "puppeteer": "^13.1.2",
-        "utari-common": "git+ssh://git@github.com:Utari-Room/common.git#main"
+        "utari-common": "git+https://github.com/Utari-Room/common.git"
     }
 }

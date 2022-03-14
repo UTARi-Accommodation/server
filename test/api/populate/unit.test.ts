@@ -161,7 +161,7 @@ describe('Unit', () => {
             expect(unitAccommodationID).toBe(26767);
             expect(bathRooms).toBe(3);
             expect(bedRooms).toBe(4);
-            expect(rental).toBe('RM1,500.00');
+            expect(rental).toBe('1500.00');
             expect(unitType).toBe('House');
             expect(unitAvailable).toBe(true);
         });
@@ -317,7 +317,7 @@ describe('Unit', () => {
             expect(unitAccommodationID).toBe(26767);
             expect(bathRooms).toBe(9);
             expect(bedRooms).toBe(4);
-            expect(rental).toBe('RM1,500,000.00');
+            expect(rental).toBe('1500000.00');
             expect(unitType).toBe('House');
             expect(unitAvailable).toBe(true);
         });

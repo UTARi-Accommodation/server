@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS unit (
   UNIQUE (accommodation),
   bath_rooms INTEGER NOT NULL,
   bed_rooms INTEGER NOT NULL,
-  rental MONEY NOT NULL,
+  rental NUMERIC(10, 2) NOT NULL,
   unit_type UnitType NOT NULL,
   available BOOLEAN NOT NULL
 );
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS room (
   room_type RoomType NOT NULL,
   UNIQUE (accommodation, room_size),
   room_size RoomSize NOT NULL,
-  rental MONEY NOT NULL,
+  rental NUMERIC(10, 2) NOT NULL,
   available BOOLEAN NOT NULL
 );
 
@@ -138,3 +138,6 @@ CREATE TABLE IF NOT EXISTS room_visit (
   room INTEGER NOT NULL REFERENCES room (id),
   time_created TIMESTAMPTZ NOT NULL
 );
+
+-- CREATE EXTENSION
+CREATE EXTENSION IF NOT EXISTS pg_trgm; 

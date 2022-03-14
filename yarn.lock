@@ -6393,9 +6393,9 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
-"utari-common@git+ssh://git@github.com:Utari-Room/common.git#main":
+"utari-common@git+https://github.com/Utari-Room/common.git":
   version "0.0.0"
-  resolved "git+ssh://git@github.com:Utari-Room/common.git#b20510c0af489b9101dac9177b91f514415112d6"
+  resolved "git+https://github.com/Utari-Room/common.git#043394ecc46df585eb6325ac75e46fc24c3fabe5"
   dependencies:
     granula-string "^1.0.5"
     parse-dont-validate "^1.0.3"

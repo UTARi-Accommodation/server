@@ -15,7 +15,7 @@
                 "month": "May",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -40,7 +40,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -65,7 +65,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -90,7 +90,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -115,7 +115,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -140,7 +140,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -165,7 +165,7 @@
                 "month": "January",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {

@@ -15,7 +15,7 @@
                 "month": "May",
                 "year": 2020
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {
@@ -42,7 +42,7 @@
                 "month": "June",
                 "year": 9999
             },
-            "accommodationType": {
+            "accommodation": {
                 "type": "Unit",
                 "unitType": "House",
                 "unit": {

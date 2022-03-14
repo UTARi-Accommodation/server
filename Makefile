@@ -97,15 +97,21 @@ $(cov):
 
 ## pg typed generator
 pgtyped=node_modules/.bin/pgtyped
-pg-gen:
+pg-gen-watch:
 	$(pgtyped) -w -c pgTyped.json
+pg-gen:
+	$(pgtyped) -c pgTyped.json
 
 ## format
 format-sql:
 	node script/sqlFormatter.js
 
+prettier=node_modules/.bin/prettier
 format-ts:
-	node script/prettier.js
+	${prettier} --write src/
+
+format-check:
+	${prettier} --check src/
 
 format:
 	make format-sql
@@ -115,3 +121,23 @@ format:
 eslint=node_modules/.bin/eslint
 lint-src:
 	${eslint} src/** -f='stylish' --color
+
+## postgres setup and installation
+install:
+	# refer https://www.postgresql.org/download/linux/ubuntu/
+	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(shell lsb_release -cs)-pgdg main"> /etc/apt/sources.list.d/pgdg.list'
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	sudo apt-get update
+	sudo apt-get -y install postgresql
+
+setup:
+	# start postgresql
+	sudo service postgresql start
+	# create runner
+	sudo -u postgres createuser -s -i -d -r -l -w runner
+	# create program db
+	sudo -u postgres createdb utari
+	# create program test
+	sudo -u postgres createdb test
+	psql template1 -c "ALTER USER postgres WITH PASSWORD 'postgres'"
+	psql utari -c "\i sql/create.sql"

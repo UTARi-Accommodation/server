@@ -1,6 +1,6 @@
 import { parseAsNumber, parseAsReadonlyArray } from 'parse-dont-validate';
 import { MultiSelectNumber, RoomSize } from 'utari-common';
-import { parseRentalFromCurrency } from './common';
+import { parseRentalFromNumeric } from './common';
 import generalRoom from '../../database/action/general/room/index';
 import detailedRoom from '../../database/action/detailed/room/index';
 import bookmarkedRoom from '../../database/action/bookmarked/room/index';
@@ -19,7 +19,7 @@ const parseProperties = ({
         capacities: parseAsReadonlyArray(capacities, (capacity) =>
             parseAsNumber(capacity).orElseThrowDefault('capacity')
         ).orElseThrowDefault('capacity'),
-        rental: parseRentalFromCurrency(rental),
+        rental: parseRentalFromNumeric(rental),
     } as const);
 
 export { parseProperties, generalRoom, detailedRoom, bookmarkedRoom };
