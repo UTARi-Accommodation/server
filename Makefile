@@ -1,33 +1,25 @@
 ## declare PHONY
 .PHONY: build test
 
-## start
-start:
+## serve
+serve:
 	node build/index.js
 
-start-watch:
-	node_modules/.bin/nodemon
-
-start-dev:
-	make compile && make start
+## start
+start:
+	(trap 'kill 0' INT; make typecheck & make build)
 
 ## build
-tsc=node_modules/.bin/tsc
-add-js-extension:
-	node_modules/.bin/ts-add-js-extension add --dir=build
-
 build:
-	rm -rf build && $(tsc) -p tsconfig.prod.json && make add-js-extension
-
-compile:
-	rm -rf build && $(tsc) -p tsconfig.dev.json && make add-js-extension
+	rm -rf build && node script/esbuild.js
 
 ## type-check
+tsc=node_modules/.bin/tsc
 typecheck:
-	$(tsc) --pretty --skipLibCheck --noEmit
+	$(tsc) -p tsconfig.json
 
 typecheck-watch:
-	$(tsc) --pretty --skipLibCheck --noEmit --w
+	$(tsc) -p tsconfig.json --w
 
 ## test command
 query=test/api/query/* --run-in-band

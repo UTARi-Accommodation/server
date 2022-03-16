@@ -42,11 +42,13 @@ jobs:
 
             - name: Run Tests
               env:
+                  NODE_ENV: test
                   PGUSER: postgres
                   PGHOST: localhost
-                  PGDATABASE: test
+                  PGTESTDATABASE: test
                   PGPASSWORD: postgres
                   PGPORT: 5432
+                  MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
               run: make test
 
             - name: Run Build

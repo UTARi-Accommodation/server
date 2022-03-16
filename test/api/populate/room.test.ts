@@ -2,7 +2,6 @@ import schema from '../../script/schema';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/room.json';
-import geocode from '../../../src/scrapper/geocode';
 import { Accommodations } from 'utari-common';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
 
@@ -396,7 +395,6 @@ describe('Room', () => {
 
         afterAll(async () => {
             await postgreSQL.instance.close();
-            await (await geocode).close();
         });
     });
 });

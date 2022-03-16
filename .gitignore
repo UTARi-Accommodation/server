@@ -7,13 +7,14 @@
 
 # testing
 /coverage
+/__tests__
 
 # production
 /build
 /dist
 
 # pgtyped generated statement
-/src/database/**/**/*.queries.ts
+/src/database/**/*.queries.ts
 
 # misc
 .DS_Store

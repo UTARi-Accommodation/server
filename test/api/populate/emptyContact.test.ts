@@ -2,7 +2,6 @@ import schema from '../../script/schema';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import room from '../../dummy/api/populate/emptyContact.json';
-import geocode from '../../../src/scrapper/geocode';
 import { Accommodations } from 'utari-common';
 
 describe('Insert Empty Contact', () => {
@@ -35,6 +34,5 @@ describe('Insert Empty Contact', () => {
     });
     afterAll(async () => {
         await postgreSQL.instance.close();
-        (await geocode).close();
     });
 });

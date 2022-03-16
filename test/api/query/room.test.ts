@@ -17,7 +17,6 @@ import {
     downloadBookmarkedOne,
     downloadBookmarkedTwo,
 } from '../../dummy/api/query/room.json';
-import geocode from '../../../src/scrapper/geocode';
 import {
     generalRoom,
     bookmarkedRoom as bookmarkRoomQuery,
@@ -466,6 +465,5 @@ describe('Room', () => {
     });
     afterAll(async () => {
         await postgreSQL.instance.close();
-        await (await geocode).close();
     });
 });

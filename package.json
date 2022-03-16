@@ -4,7 +4,6 @@
     "private": true,
     "author": "PoolOfDeath20",
     "license": "MIT",
-    "type": "module",
     "devDependencies": {
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",
         "@babel/preset-env": "^7.16.8",
@@ -19,17 +18,17 @@
         "@types/pg": "^8.6.3",
         "@typescript-eslint/eslint-plugin": "^5.14.0",
         "@typescript-eslint/parser": "^5.14.0",
+        "esbuild": "^0.14.27",
         "eslint": "^8.10.0",
         "jest": "^27.4.7",
-        "nodemon": "^2.0.15",
         "prettier": "^2.5.1",
         "sql-formatter": "^4.0.2",
         "terser": "^5.10.0",
-        "ts-add-js-extension": "^1.0.0",
         "ts-jest": "^27.1.3",
         "typescript": "^4.5.4"
     },
     "dependencies": {
+        "@googlemaps/google-maps-services-js": "^3.3.11",
         "@pgtyped/cli": "^0.13.0",
         "@pgtyped/query": "^0.13.0",
         "cookie-parser": "^1.4.6",
@@ -44,7 +43,6 @@
         "nodemailer": "^6.7.2",
         "parse-dont-validate": "^1.0.3",
         "pg": "^8.7.1",
-        "puppeteer": "^13.1.2",
         "utari-common": "git+https://github.com/Utari-Room/common.git"
     }
 }

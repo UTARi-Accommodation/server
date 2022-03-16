@@ -1,6 +1,0 @@
-{
-    "watch": ["src"],
-    "ignore": ["node_modules"],
-    "ext": "ts",
-    "exec": "make start-dev"
-}

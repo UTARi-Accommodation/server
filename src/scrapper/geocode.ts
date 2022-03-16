@@ -1,60 +1,39 @@
-import puppeteer from 'puppeteer';
-import { parseAsLatitude, parseAsLongitude } from 'utari-common';
+import { Client } from '@googlemaps/google-maps-services-js';
+import dotenv from 'dotenv';
+import { parseAsString } from 'parse-dont-validate';
 
-const getGeoCode = async (page: puppeteer.Page, address: string) => {
-    await page.type('#query-input', address);
-    await page.click('#geocode-button');
-    await page.waitForSelector('#results-control-ui .visible');
-    const { lat, long } = await page.evaluate(() => {
-        const elements = document.getElementsByClassName('result-location');
-        const [_, element] = elements;
-        if (!element) {
-            throw new Error(`element is undefined`);
+const client = new Client({});
+
+dotenv.config({});
+
+const geocode = {
+    getGeoCode: async (address: string) => {
+        const {
+            data: { results },
+        } = await client.geocode({
+            params: {
+                address,
+                key: parseAsString(process.env.MAPS_API_KEY).orElseThrowDefault(
+                    'Maps Api Key'
+                ),
+            },
+        });
+        const [result] = results;
+        if (!result) {
+            throw new Error(
+                `Result from results is undefined for address ${address}`
+            );
         }
-        const [lat, long] = (element.textContent ?? '')
-            .replace(/\n/gm, '')
-            .split(' ')
-            .filter((char) => char)
-            .join('')
-            .replace('(type:GEOMETRIC_CENTER)', '')
-            .replace('Location:', '')
-            .split(',');
+        const {
+            geometry: {
+                location: { lat, lng },
+            },
+        } = result;
         return {
-            lat,
-            long,
+            latitude: parseFloat(lat.toFixed(6)),
+            longitude: parseFloat(lng.toFixed(6)),
         };
-    });
-    await page.close();
-    return {
-        latitude: parseAsLatitude(parseFloat(lat ?? '')),
-        longitude: parseAsLongitude(parseFloat(long ?? '')),
-    } as const;
+    },
 };
-
-const geocode = (async () => {
-    const browser = await puppeteer.launch({
-        args: ['--disable-setuid-sandbox'],
-        ignoreHTTPSErrors: true,
-    });
-    return {
-        getGeoCode: async (address: string) => {
-            const page = await browser.newPage();
-            while (true) {
-                try {
-                    await page.goto(
-                        'https://developers-dot-devsite-v2-prod.appspot.com/maps/documentation/utils/geocoder'
-                    );
-                    await page.waitForSelector('#map');
-                    await page.waitForSelector('#query-input');
-                    await page.waitForSelector('#geocode-button');
-                    return await getGeoCode(page, address);
-                } catch (error) {
-                    console.log(`Error in Geocode from address: ${address}`);
-                }
-            }
-        },
-        close: async () => await browser.close(),
-    };
-})();
 
 export default geocode;

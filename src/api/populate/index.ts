@@ -135,17 +135,22 @@ const upsertAccommodation = async (
         accommodationType: AccommodationType;
     }>
 ) => {
-    if (
-        params.id !==
-        (await accommodation.upsert(
+    const queriedId = await accommodation.select(
+        {
+            id: params.id,
+        },
+        postgreSQL.instance.pool
+    );
+    if (queriedId !== params.id) {
+        await accommodation.insert(
             {
                 ...params,
-                ...(await (await geocode).getGeoCode(params.address)),
+                ...(await geocode.getGeoCode(params.address)),
             },
             postgreSQL.instance.pool
-        ))
-    ) {
-        throw new Error(`accommodationId udpate does not match ${params.id}`);
+        );
+    } else {
+        await accommodation.update(params, postgreSQL.instance.pool);
     }
 };
 

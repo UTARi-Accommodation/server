@@ -3,7 +3,8 @@ import postgreSQL from '../database/postgres';
 import resetTablesAndColumns from '../database/action/resetTablesAndColumns/index';
 import upsertToDatabase from '../api/populate/index';
 import scrapper from './accommodation';
-import geocode from './geocode';
+import logger from '../logger';
+import timeScrap from '../database/table/timeScrap';
 
 const upsertAllToDatabase = async (region: Region) => {
     const { scrapRoom, scrapRoommate, scrapHouse, scrapCondominium } =
@@ -22,7 +23,13 @@ const upsertAllToDatabase = async (region: Region) => {
     }
 };
 
-const main = async () => {
+const accommodationScrapper = async () => {
+    const label = 'Scrapper time taken';
+    console.time(label);
+
+    const timeStarted = new Date();
+    logger.log(`Scrapper started at time: ${timeStarted}`);
+
     await resetTablesAndColumns(postgreSQL.instance.pool);
     await Promise.all(
         [
@@ -31,7 +38,20 @@ const main = async () => {
             upsertAllToDatabase('BTHO'),
         ].map(async (accommodations) => await accommodations)
     );
-    (await geocode).close();
+
+    const timeCompleted = new Date();
+    logger.log(`Scrapper completed at time: ${timeCompleted}`);
+
+    console.timeEnd(label);
+
+    const scrapped = await timeScrap.insert(
+        {
+            timeStarted,
+            timeCompleted,
+        },
+        postgreSQL.instance.pool
+    );
+    logger.log(scrapped);
 };
 
-export default main;
+export default accommodationScrapper;

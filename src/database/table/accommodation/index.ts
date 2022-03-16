@@ -1,5 +1,6 @@
 import { parseAsNumber } from 'parse-dont-validate';
-import { upsert, IUpsertParams, IUpsertResult } from './upsert.queries';
+import { update, IUpdateParams, IUpdateResult } from './update.queries';
+import { insert, IInsertParams, IInsertResult } from './insert.queries';
 import { select, ISelectParams, ISelectResult } from './select.queries';
 import { setAvailabilityFalse } from './setAvailabilityFalse.queries';
 import { Pool } from '../../postgres';
@@ -17,27 +18,28 @@ const accommodation = {
         }
         return accommodations[0]?.id;
     },
-    upsert: async (
-        params: Readonly<Omit<IUpsertParams['params'], 'available'>>,
+    insert: async (
+        params: Readonly<Omit<IInsertParams['params'], 'available'>>,
         pool: Pool
-    ): Promise<IUpsertResult['id']> => {
-        const accommodations = await upsert.run(
-            {
-                params: {
-                    ...params,
-                    available: true,
-                },
-                ...params,
-                handler: params.handler,
-                remark: params.remark,
-                month: params.month,
-                year: params.year,
-                region: params.region,
-                facilities: params.facilities,
-                accommodationType: params.accommodationType,
-            },
+    ): Promise<IInsertResult['id']> => {
+        const accommodations = await insert.run(
+            { params: { ...params, available: true } },
             pool
         );
+        if (accommodations.length !== 1) {
+            throw new Error(
+                `Expect accommodation to have 1 element, got ${accommodations.length} instead`
+            );
+        }
+        return parseAsNumber(accommodations[0]?.id).orElseThrowDefault(
+            'accommodation Id'
+        );
+    },
+    update: async (
+        params: Readonly<IUpdateParams>,
+        pool: Pool
+    ): Promise<IUpdateResult['id']> => {
+        const accommodations = await update.run(params, pool);
         if (accommodations.length !== 1) {
             throw new Error(
                 `Expect accommodation to have 1 element, got ${accommodations.length} instead`

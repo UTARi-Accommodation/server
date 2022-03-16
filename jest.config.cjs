@@ -1,4 +1,4 @@
-const config = {
+module.exports = {
     verbose: true,
     transform: {
         '^.+\\.(ts)$': 'ts-jest',
@@ -9,5 +9,3 @@ const config = {
     moduleFileExtensions: ['json', 'ts', 'js', 'node'],
     coveragePathIgnorePatterns: ['node_modules', 'src/scrapper/geocode.ts'],
 };
-
-export default config;

@@ -19,7 +19,6 @@ import {
     downloadBookmarkedOne,
     downloadBookmarkedTwo,
 } from '../../dummy/api/query/unit.json';
-import geocode from '../../../src/scrapper/geocode';
 import {
     generalUnit,
     bookmarkedUnit as bookmarkUnitQuery,
@@ -529,6 +528,5 @@ describe('Unit', () => {
     });
     afterAll(async () => {
         await postgreSQL.instance.close();
-        await (await geocode).close();
     });
 });
