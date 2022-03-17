@@ -22,4 +22,4 @@ UPDATE
 SET
   rental = :rental !,
   room_type = :roomType !,
-  available = true RETURNING id;
+  available = TRUE RETURNING id;

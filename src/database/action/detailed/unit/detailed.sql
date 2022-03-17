@@ -36,7 +36,7 @@ FROM
                   unit
                 WHERE
                   id = :id !
-                  AND available = true
+                  AND available = TRUE
               ) unit
               JOIN (
                 SELECT
@@ -54,7 +54,7 @@ FROM
                 FROM
                   accommodation
                 WHERE
-                  available = true
+                  available = TRUE
               ) accommodation ON unit.accommodation = accommodation.accommodation_id
             )
             JOIN (

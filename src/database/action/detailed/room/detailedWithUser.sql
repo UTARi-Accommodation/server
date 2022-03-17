@@ -39,7 +39,7 @@ FROM
                         room
                       WHERE
                         id = :id !
-                        AND available = true
+                        AND available = TRUE
                     ) room
                     JOIN (
                       SELECT
@@ -57,7 +57,7 @@ FROM
                       FROM
                         accommodation
                       WHERE
-                        available = true
+                        available = TRUE
                     ) accommodation ON room.accommodation = accommodation.accommodation_id
                   )
                   LEFT OUTER JOIN (

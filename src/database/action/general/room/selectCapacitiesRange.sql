@@ -19,7 +19,7 @@ FROM
         FROM
           room
         WHERE
-          available = true
+          available = TRUE
           AND room_type = :roomType !
       ) room ON accommodation.id = room.accommodation
     )

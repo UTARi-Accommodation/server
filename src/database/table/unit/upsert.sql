@@ -24,4 +24,4 @@ SET
   bed_rooms = :bedRooms !,
   bath_rooms = :bathRooms !,
   unit_type = :unitType !,
-  available = true RETURNING id;
+  available = TRUE RETURNING id;

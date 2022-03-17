@@ -43,7 +43,7 @@ FROM
                   FROM
                     accommodation
                   WHERE
-                    available = true
+                    available = TRUE
                     AND region = :region !
                     AND (
                       :search :: TEXT IS NULL
@@ -64,7 +64,7 @@ FROM
                   FROM
                     room
                   WHERE
-                    available = true
+                    available = TRUE
                     AND (
                       :minRental :: NUMERIC(10, 2) IS NULL
                       OR rental >= :minRental :: NUMERIC(10, 2)

@@ -9,10 +9,10 @@ const config = {
     linesBetweenQueries: 1,
 };
 
-(async (dir) => {
+const formatter = async (dir) => {
     const files = getAllFiles(dir, (extension) => extension === 'sql');
     if (files.length === 0) {
-        console.log('No SQL file in src folder');
+        console.log(`No SQL file in ${dir} folder`);
         process.exit(0);
     }
     await Promise.all(
@@ -30,4 +30,7 @@ const config = {
         )
     );
     console.log('SQL Formatter done its job!');
-})('src');
+};
+
+formatter('src');
+formatter('sql');

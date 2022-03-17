@@ -7,5 +7,5 @@ module.exports = {
     transformIgnorePatterns: [],
     testTimeout: 43200,
     moduleFileExtensions: ['json', 'ts', 'js', 'node'],
-    coveragePathIgnorePatterns: ['node_modules', 'src/scrapper/geocode.ts'],
+    coveragePathIgnorePatterns: ['node_modules'],
 };

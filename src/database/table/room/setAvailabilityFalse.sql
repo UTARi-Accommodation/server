@@ -2,4 +2,4 @@
 UPDATE
   room
 SET
-  available = false;
+  available = FALSE;

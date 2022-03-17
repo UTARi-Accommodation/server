@@ -19,7 +19,7 @@ FROM
         FROM
           room
         WHERE
-          available = true
+          available = TRUE
       ) room ON room_bookmarked.room = room.id
     )
     JOIN (

@@ -22,7 +22,7 @@ FROM
       FROM
         unit
       WHERE
-        available = true
+        available = TRUE
         AND unit_type = :unitType !
     ) unit ON accommodation.id = unit.accommodation
   );

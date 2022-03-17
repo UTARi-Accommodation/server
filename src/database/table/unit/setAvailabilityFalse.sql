@@ -2,4 +2,4 @@
 UPDATE
   unit
 SET
-  available = false;
+  available = FALSE;

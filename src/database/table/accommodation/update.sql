@@ -1,7 +1,8 @@
 /*
  @name Update
  */
-UPDATE accommodation
+UPDATE
+  accommodation
 SET
   handler = :handler !,
   remark = :remark !,
@@ -10,6 +11,6 @@ SET
   region = :region !,
   facilities = :facilities !,
   accommodation_type = :accommodationType !,
-  available = true
-WHERE id = :id!
-RETURNING id;
+  available = TRUE
+WHERE
+  id = :id ! RETURNING id;

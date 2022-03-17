@@ -4,4 +4,4 @@
 UPDATE
   accommodation
 SET
-  available = false;
+  available = FALSE;

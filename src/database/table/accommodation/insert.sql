@@ -31,5 +31,4 @@ INSERT INTO
     available
   )
 VALUES
-  :params
-RETURNING id;
+  :params RETURNING id;

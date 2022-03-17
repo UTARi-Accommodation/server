@@ -22,6 +22,6 @@ FROM
       FROM
         unit
       WHERE
-        available = true
+        available = TRUE
     ) unit ON unit_bookmarked.unit = unit.id
   );
