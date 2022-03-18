@@ -2,8 +2,8 @@ import express from 'express';
 import { parseAsReadonlyObject, parseAsString } from 'parse-dont-validate';
 import { auth } from '../../auth/firebase';
 import postgreSQL from '../../database/postgres';
-import utariUser from '../../database/table/utariUser/index';
-import logger from '../../logger/index';
+import utariUser from '../../database/table/utariUser';
+import logger from '../../logger';
 
 const userRouter = (app: express.Application) => ({
     add: () =>

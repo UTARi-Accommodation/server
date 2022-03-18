@@ -3,7 +3,7 @@
 
 ## serve
 serve:
-	node build/index.js
+	node build
 
 ## start
 start:

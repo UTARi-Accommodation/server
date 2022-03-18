@@ -1,6 +1,6 @@
 import { parseAsNumber } from 'parse-dont-validate';
 import { MultiSelectNumber, QueriedRoom } from 'utari-common';
-import { multiAttributeDecisionModelRoom } from '../../../../api/madm/index';
+import { multiAttributeDecisionModelRoom } from '../../../../api/madm';
 import {
     ConvertCurrencyToNumber,
     convertRentalToNumeric,

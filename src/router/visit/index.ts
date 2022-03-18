@@ -7,9 +7,9 @@ import {
 } from 'parse-dont-validate';
 import { AccommodationType } from 'utari-common';
 import postgreSQL from '../../database/postgres';
-import roomVisit from '../../database/table/roomVisit/index';
-import unitVisit from '../../database/table/unitVisit/index';
-import logger from '../../logger/index';
+import roomVisit from '../../database/table/roomVisit';
+import unitVisit from '../../database/table/unitVisit';
+import logger from '../../logger';
 
 const visitRouter = (app: express.Application) => ({
     add: () =>

@@ -1,5 +1,5 @@
 const logger = (() => {
-    let messageId = 1;
+    let messageId = 0;
     return {
         log: (message: any) => {
             console.log(

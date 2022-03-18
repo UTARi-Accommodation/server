@@ -22,8 +22,8 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-import getCentralGeocode from '../../api/geocode/index';
-import logger from '../../logger/index';
+import getCentralGeocode from '../../api/geocode';
+import logger from '../../logger';
 import { auth } from '../../auth/firebase';
 
 type ConvertTokenToId<T> = Omit<T, 'token'> &

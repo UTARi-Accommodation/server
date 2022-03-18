@@ -19,10 +19,10 @@ import {
     parseAsReadonlyObject,
     parseAsString,
 } from 'parse-dont-validate';
-import getCentralGeocode from '../../api/geocode/index';
-import roomBookmarked from '../../database/table/roomBookmarked/index';
-import unitBookmarked from '../../database/table/unitBookmarked/index';
-import logger from '../../logger/index';
+import getCentralGeocode from '../../api/geocode';
+import roomBookmarked from '../../database/table/roomBookmarked';
+import unitBookmarked from '../../database/table/unitBookmarked';
+import logger from '../../logger';
 import { auth } from '../../auth/firebase';
 
 const parseAsBookmarkMutationField = (obj: unknown) =>

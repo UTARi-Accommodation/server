@@ -13,13 +13,13 @@ import {
     Unit,
     UnitType,
 } from 'utari-common';
-import room from '../../database/table/room/index';
-import roomCapacities from '../../database/table/roomCapacity/index';
-import handler from '../../database/table/handler/index';
-import email from '../../database/table/email/index';
-import mobileNumber from '../../database/table/mobileNumber/index';
-import accommodation from '../../database/table/accommodation/index';
-import unit from '../../database/table/unit/index';
+import room from '../../database/table/room';
+import roomCapacities from '../../database/table/roomCapacity';
+import handler from '../../database/table/handler';
+import email from '../../database/table/email';
+import mobileNumber from '../../database/table/mobileNumber';
+import accommodation from '../../database/table/accommodation';
+import unit from '../../database/table/unit';
 
 const upsertRoom = async ({
     capacities,

@@ -1,6 +1,6 @@
-import generalUnit from '../../database/action/general/unit/index';
-import detailedUnit from '../../database/action/detailed/unit/index';
-import bookmarkedUnit from '../../database/action/bookmarked/unit/index';
+import generalUnit from '../../database/action/general/unit';
+import detailedUnit from '../../database/action/detailed/unit';
+import bookmarkedUnit from '../../database/action/bookmarked/unit';
 import { parseRentalFromNumeric } from './common';
 
 const parseProperties = ({

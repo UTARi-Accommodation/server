@@ -1,5 +1,9 @@
 import express from 'express';
-import { resolve } from 'path';
+import cors from 'cors';
+import { CronJob } from 'cron';
+import cookieParser from 'cookie-parser';
+import csurf from 'csurf';
+
 import accommodationScrapper from './scrapper/index';
 import generalRouter from './router/general/index';
 import visitorRouter from './router/visitor/index';
@@ -9,17 +13,13 @@ import detailedRouter from './router/detailed/index';
 import visitRouter from './router/visit/index';
 import ratingRouter from './router/rating/index';
 import contactRouter from './router/contact/index';
+import invalidRouter from './router/invalid';
+import logger from './logger';
+import antiCsrfRouter from './router/csrf';
 
-import cookieParser from 'cookie-parser';
-import csrf from 'csurf';
-import { CronJob } from 'cron';
-
-const { static: expressStatic, json, urlencoded } = express;
+const { json, urlencoded } = express;
 
 (async () => {
-    const build = '../client/build';
-    const isDev = process.env.NODE_ENV === 'DEVELOPMENT';
-
     try {
         new CronJob(
             '00 00 00 * * *',
@@ -27,31 +27,40 @@ const { static: expressStatic, json, urlencoded } = express;
         ).start();
 
         const app = (() => {
-            const csrfMiddleware = csrf({ cookie: true });
+            const secure = process.env.NODE_ENV === 'production';
+            const middleWares = [
+                json({ limit: '10mb' }),
+                urlencoded({ extended: true }),
+                cors({
+                    origin: process.env.ORIGIN,
+                    credentials: true,
+                }),
+                cookieParser(),
+                csurf({
+                    cookie: {
+                        httpOnly: true,
+                        secure,
+                        maxAge: 60 * 60 * 1000,
+                        sameSite: 'lax',
+                    },
+                }),
+            ];
 
             const app = express();
-            app.use(json({ limit: '10mb' }));
-            app.use(urlencoded({ extended: true }));
-            if (isDev) {
-                app.use(expressStatic(resolve(build)));
-            }
-            app.use(cookieParser());
-            app.use(csrfMiddleware);
-
-            const port = process.env.PORT || 5000;
-            app.listen(port, () =>
-                console.log(
-                    `🚀 Express listening at port ${port} 🚀 at time: ${new Date()}`
-                )
-            );
-
-            app.all('*', (req, res, next) => {
-                res.cookie('XSRF-TOKEN', req.csrfToken());
+            app.use(middleWares);
+            app.use((req, res, next) => {
+                res.cookie('XSRF-TOKEN', req.csrfToken(), { secure });
                 next();
             });
-
+            const port = process.env.PORT || 5000;
+            app.listen(port, () =>
+                logger.log(`🚀 Express listening at port ${port} 🚀`)
+            );
             return app;
         })();
+
+        const antiCsrf = antiCsrfRouter(app);
+        antiCsrf.generate();
 
         const visitor = visitorRouter(app);
         visitor.addNewVisitor();
@@ -82,12 +91,10 @@ const { static: expressStatic, json, urlencoded } = express;
         const user = userRouter(app);
         user.add();
         user.delete();
-        if (isDev) {
-            app.get('*', (_, res) =>
-                res.sendFile(resolve(build, 'index.html'))
-            );
-        }
+
+        const invalid = invalidRouter(app);
+        invalid.fact();
     } catch (error) {
-        console.dir(error, { depth: null });
+        logger.log(error);
     }
 })();

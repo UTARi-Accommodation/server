@@ -2,7 +2,7 @@ import { detailedRoom } from '../../api/query/room';
 import { detailedUnit } from '../../api/query/unit';
 import postgreSQL from '../../database/postgres';
 import express from 'express';
-import logger from '../../logger/index';
+import logger from '../../logger';
 import { auth } from '../../auth/firebase';
 import { parseAsString } from 'parse-dont-validate';
 

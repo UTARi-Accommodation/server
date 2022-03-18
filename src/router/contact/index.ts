@@ -9,7 +9,7 @@ import {
     getMessage,
     getName,
 } from 'utari-common';
-import logger from '../../logger/index';
+import logger from '../../logger';
 import { contactConfig } from '../../config/parsed';
 
 const contactRouter = (app: express.Application) => ({

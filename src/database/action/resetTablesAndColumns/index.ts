@@ -1,9 +1,9 @@
-import room from '../../table/room/index';
-import roomCapacities from '../../table/roomCapacity/index';
-import email from '../../table/email/index';
-import mobileNumber from '../../table/mobileNumber/index';
-import accommodation from '../../table/accommodation/index';
-import unit from '../../table/unit/index';
+import room from '../../table/room';
+import roomCapacities from '../../table/roomCapacity';
+import email from '../../table/email';
+import mobileNumber from '../../table/mobileNumber';
+import accommodation from '../../table/accommodation';
+import unit from '../../table/unit';
 import { Pool } from 'pg';
 
 const resetTablesAndColumns = async (pool: Pool) => {

@@ -1,7 +1,7 @@
 import { Region } from 'utari-common';
 import postgreSQL from '../database/postgres';
-import resetTablesAndColumns from '../database/action/resetTablesAndColumns/index';
-import upsertToDatabase from '../api/populate/index';
+import resetTablesAndColumns from '../database/action/resetTablesAndColumns';
+import upsertToDatabase from '../api/populate';
 import scrapper from './accommodation';
 import logger from '../logger';
 import timeScrap from '../database/table/timeScrap';

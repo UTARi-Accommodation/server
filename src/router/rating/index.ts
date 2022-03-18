@@ -8,9 +8,9 @@ import {
 import { AccommodationType } from 'utari-common';
 import { auth } from '../../auth/firebase';
 import postgreSQL from '../../database/postgres';
-import roomRating from '../../database/table/roomRating/index';
-import unitRating from '../../database/table/unitRating/index';
-import logger from '../../logger/index';
+import roomRating from '../../database/table/roomRating';
+import unitRating from '../../database/table/unitRating';
+import logger from '../../logger';
 
 const ratingRouter = (app: express.Application) => ({
     insert: () =>

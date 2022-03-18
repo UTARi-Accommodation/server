@@ -17,7 +17,7 @@ import { parseAsNumber, parseAsString } from 'parse-dont-validate';
 
 const fetchCampusHTMLText = async (region: Region) =>
     await (
-        await fetch(`https://www2.utar.edu.my/accomList.jsp?fcode=${region}`)
+        await fetch(`http://www2.utar.edu.my/accomList.jsp?fcode=${region}`)
     ).text();
 
 type URLLists = ReadonlyArray<
@@ -31,7 +31,7 @@ const urlLists = (html: string, regex: RegExp): URLLists =>
     (html.match(regex) ?? []).map((match) => {
         const url = match
             .replace("'", '')
-            .replace('a href="', 'https://www2.utar.edu.my/')
+            .replace('a href="', 'http://www2.utar.edu.my/')
             .replace('"', '');
 
         const [_, id] = url.match(/\d+/g) ?? [];

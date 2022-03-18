@@ -1,8 +1,8 @@
 import express from 'express';
 import { parseAsString } from 'parse-dont-validate';
 import postgreSQL from '../../database/postgres';
-import visitor from '../../database/table/visitor/index';
-import logger from '../../logger/index';
+import visitor from '../../database/table/visitor';
+import logger from '../../logger';
 
 const visitorRouter = (app: express.Application) => ({
     addNewVisitor: () =>

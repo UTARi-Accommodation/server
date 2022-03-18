@@ -28,7 +28,7 @@ import {
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/unit';
-import { multiAttributeDecisionModelUnit } from '../../../../api/madm/index';
+import { multiAttributeDecisionModelUnit } from '../../../../api/madm';
 import { Pool } from '../../../postgres';
 import {
     ISelectBedRoomsAndBathRoomsRangeParams,
