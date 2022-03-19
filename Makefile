@@ -19,7 +19,7 @@ build:
 
 ## clean-up:
 clean-up:
-	find . -maxdepth 1 ! -name "build" ! -name "Makefile" ! -name . -exec rm -r {} \;
+	find . -maxdepth 1 ! -name "build" ! -name "Makefile" ! -name "Procfile" ! -name . -exec rm -r {} \;
 
 ## type-check
 typecheck:
