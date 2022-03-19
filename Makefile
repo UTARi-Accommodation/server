@@ -19,7 +19,7 @@ build:
 
 ## clean-up:
 clean-up:
-	find . -maxdepth 1 ! -name "build" ! name "npm" ! name "yarn" ! -name "Makefile" ! -name "Procfile" ! -name "node" ! -name . -exec rm -r {} \;
+	find . -maxdepth 1 ! -name "build" ! -name "npm" ! -name "yarn" ! -name "node" ! -name "Makefile" ! -name "Procfile" ! -name . -exec rm -r {} \;
 
 ## type-check
 typecheck:
