@@ -1,13 +1,16 @@
 import dotenv from 'dotenv';
+
 dotenv.config({
     path: `${process.cwd()}/.env${
         process.env.NODE_ENV === 'test' ? '.test' : ''
     }`,
 });
 
+const env = process.env.NODE_ENV;
+
 const contactConfig = {
-    EMAIL: process.env.EMAIL,
-    PASS: process.env.PASS,
+    email: process.env.EMAIL,
+    pass: process.env.PASS,
 };
 
 const firebaseConfig = {
@@ -23,15 +26,23 @@ const firebaseConfig = {
     clientX509CertUrl: process.env.FIREBASE_CLIENT_X509_CERT_URL,
 };
 
-const postgresConfig = {
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database:
-        process.env.NODE_ENV === 'test'
-            ? process.env.PGTESTDATABASE
-            : process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    port: parseInt(process.env.PGPORT ?? `${5432}`),
-};
+const postgresConfig =
+    env === 'staging' || env === 'production'
+        ? {
+              connectionString: process.env.DATABASE_URL,
+              ssl: {
+                  rejectUnauthorized: false,
+              },
+          }
+        : {
+              user: process.env.PGUSER,
+              host: process.env.PGHOST,
+              database:
+                  env === 'test'
+                      ? process.env.PGTESTDATABASE
+                      : process.env.PGDATABASE,
+              password: process.env.PGPASSWORD,
+              port: parseInt(process.env.PGPORT ?? `${5432}`),
+          };
 
 export { firebaseConfig, contactConfig, postgresConfig };
