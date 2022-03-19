@@ -19,7 +19,7 @@ build:
 
 ## clean-up:
 clean-up:
-	find . -maxdepth 1 ! -name "build" ! -name "npm" ! -name "yarn" ! -name "node" ! -name "Makefile" ! -name "Procfile" ! -name . -exec rm -r {} \;
+	rm -rf src test node_modules script sql .github .git
 
 ## type-check
 typecheck:
