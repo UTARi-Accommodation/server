@@ -17,6 +17,10 @@ start:
 build:
 	rm -rf build && node script/esbuild/server.js
 
+## clean-up:
+clean-up:
+	find . -maxdepth 1 ! -name "build" ! -name "Makefile" ! -name . -exec rm -r {} \;
+
 ## type-check
 typecheck:
 	node_modules/.bin/tsc -p tsconfig.json $(arguments)
