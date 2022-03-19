@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
 import child from 'child_process';
+import config from './config.js';
 
 dotenv.config({});
 
@@ -8,16 +9,13 @@ const isDev = process.env.NODE_ENV === 'development';
 
 (() =>
     build({
-        entryPoints: ['src/index.ts'],
-        outfile: 'build/index.js',
-        bundle: true,
-        minify: true,
-        minifyWhitespace: true,
-        platform: 'node',
+        ...config({
+            entryPoint: 'src/index.ts',
+            outfile: 'build/index.js',
+        }),
         define: {
             'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
         },
-        logLevel: 'silent',
         watch: !isDev
             ? undefined
             : {
@@ -25,8 +23,6 @@ const isDev = process.env.NODE_ENV === 'development';
                       console.log(error ?? result);
                   },
               },
-        target: 'node16.13.1',
-        external: ['pg-native'],
         plugins: !isDev
             ? undefined
             : [

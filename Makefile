@@ -1,6 +1,10 @@
 ## declare PHONY
 .PHONY: build test
 
+## scrap
+scrap:
+	rm -rf build && node script/esbuild/scrapper.js && node build/scrap.js
+
 ## serve
 serve:
 	node build
@@ -11,7 +15,7 @@ start:
 
 ## build
 build:
-	rm -rf build && node script/esbuild.js
+	rm -rf build && node script/esbuild/server.js
 
 ## type-check
 typecheck:
