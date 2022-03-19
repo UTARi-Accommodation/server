@@ -44,9 +44,6 @@ const { json, urlencoded } = express;
                         maxAge: 60 * 60 * 1000,
                         // ref: https://developers.google.com/search/blog/2020/01/get-ready-for-new-samesitenone-secure
                         sameSite: isNotDev ? 'none' : 'lax',
-                        // ref: https://softwareengineering.stackexchange.com/questions/425184/how-do-you-set-cookies-on-frontend-from-the-backend
-                        // ref: https://stackoverflow.com/questions/32354962/is-it-possible-to-share-cookies-between-subdomains
-                        domain: process.env.DOMAIN,
                     },
                 }),
             ];
