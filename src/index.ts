@@ -27,7 +27,8 @@ const { json, urlencoded } = express;
         ).start();
 
         const app = (() => {
-            const secure = process.env.NODE_ENV === 'production';
+            const env = process.env.NODE_ENV;
+            const isNotDev = env === 'production' || env === 'staging';
             const middleWares = [
                 json({ limit: '10mb' }),
                 urlencoded({ extended: true }),
@@ -39,17 +40,21 @@ const { json, urlencoded } = express;
                 csurf({
                     cookie: {
                         httpOnly: true,
-                        secure,
+                        secure: isNotDev,
                         maxAge: 60 * 60 * 1000,
                         sameSite: 'lax',
+                        // ref: https://softwareengineering.stackexchange.com/questions/425184/how-do-you-set-cookies-on-frontend-from-the-backend
+                        // ref: https://stackoverflow.com/questions/32354962/is-it-possible-to-share-cookies-between-subdomains
+                        domain: process.env.DOMAIN,
                     },
                 }),
             ];
 
             const app = express();
             app.use(middleWares);
+            app.set('trust proxy', 1);
             app.use((req, res, next) => {
-                res.cookie('XSRF-TOKEN', req.csrfToken(), { secure });
+                res.cookie('XSRF-TOKEN', req.csrfToken(), { secure: isNotDev });
                 next();
             });
             const port = process.env.PORT || 5000;
