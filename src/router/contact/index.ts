@@ -1,6 +1,5 @@
 import express from 'express';
 import nodemailer from 'nodemailer';
-import { GranulaString } from 'granula-string';
 import { parseAsString } from 'parse-dont-validate';
 import {
     allValueValid,
@@ -21,19 +20,13 @@ const contactRouter = (app: express.Application) => ({
                 const { body } = req;
                 const { name, email, message } = body;
                 const parsedName = getName(
-                    GranulaString.createFromString(
-                        parseAsString(name).orElseGetEmptyString()
-                    )
+                    parseAsString(name).orElseGetEmptyString()
                 );
                 const parsedEmail = getEmail(
-                    GranulaString.createFromString(
-                        parseAsString(email).orElseGetEmptyString()
-                    )
+                    parseAsString(email).orElseGetEmptyString()
                 );
                 const parsedMessage = getMessage(
-                    GranulaString.createFromString(
-                        parseAsString(message).orElseGetEmptyString()
-                    )
+                    parseAsString(message).orElseGetEmptyString()
                 );
                 if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
                     const { email, pass } = contactConfig;

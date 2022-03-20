@@ -58,6 +58,7 @@ code-cov:
 ## pg typed generator
 pg-gen:
 	node script/pgTyped.js && node_modules/.bin/pgtyped $(arguments) -c pgTyped.json
+
 pg-gen-watch:
 	make pg-gen arguments=-w
 
