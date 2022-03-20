@@ -4,6 +4,9 @@
     "private": true,
     "author": "PoolOfDeath20",
     "license": "MIT",
+    "scripts": {
+        "build": "make pg-gen && make scrap && make build && make clean-up"
+    },
     "devDependencies": {
         "@babel/plugin-transform-modules-commonjs": "^7.16.8",
         "@babel/preset-env": "^7.16.8",

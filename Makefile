@@ -17,6 +17,10 @@ start:
 build:
 	rm -rf build && node script/esbuild/server.js
 
+## clean-up:
+clean-up:
+	rm -rf src test node_modules script sql .github .git
+
 ## type-check
 typecheck:
 	node_modules/.bin/tsc -p tsconfig.json $(arguments)
@@ -53,7 +57,8 @@ code-cov:
 
 ## pg typed generator
 pg-gen:
-	node_modules/.bin/pgtyped $(arguments) -c pgTyped.json
+	node script/pgTyped.js && node_modules/.bin/pgtyped $(arguments) -c pgTyped.json
+
 pg-gen-watch:
 	make pg-gen arguments=-w
 
