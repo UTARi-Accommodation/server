@@ -147,7 +147,7 @@ const generalRouter = (app: express.Application) => ({
                         bathRooms: [],
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], region ?? 'KP'),
                     } as UnitsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -189,7 +189,7 @@ const generalRouter = (app: express.Application) => ({
                         bathRooms: [],
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], region ?? 'KP'),
                     } as UnitsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -230,7 +230,8 @@ const generalRouter = (app: express.Application) => ({
                     page: parsedPage,
                     totalPage: empty ? 0 : totalPage,
                     center: getCentralGeocode(
-                        units.map(({ location: { coordinate } }) => coordinate)
+                        units.map(({ location: { coordinate } }) => coordinate),
+                        region
                     ),
                 } as UnitsQueried;
                 logger.log(result);
@@ -255,7 +256,7 @@ const generalRouter = (app: express.Application) => ({
                         capacities: [],
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], region ?? 'KP'),
                     } as RoomsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -295,7 +296,7 @@ const generalRouter = (app: express.Application) => ({
                         capacities: [],
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], region ?? 'KP'),
                     } as RoomsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -335,7 +336,8 @@ const generalRouter = (app: express.Application) => ({
                     page: parsedPage,
                     totalPage: empty ? 0 : totalPage,
                     center: getCentralGeocode(
-                        rooms.map(({ location: { coordinate } }) => coordinate)
+                        rooms.map(({ location: { coordinate } }) => coordinate),
+                        region
                     ),
                 } as RoomsQueried;
                 logger.log(result);

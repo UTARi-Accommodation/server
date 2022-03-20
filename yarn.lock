@@ -6128,7 +6128,7 @@ uri-js@^4.2.2:
 
 "utari-common@git+https://github.com/Utari-Room/common.git":
   version "0.0.0"
-  resolved "git+https://github.com/Utari-Room/common.git#043394ecc46df585eb6325ac75e46fc24c3fabe5"
+  resolved "git+https://github.com/Utari-Room/common.git#dd9706e0798b318fd43d1490450dc0f6e07ec77f"
   dependencies:
     granula-string "^1.0.5"
     parse-dont-validate "^1.0.3"

@@ -1,12 +1,25 @@
-import { Location, Center } from 'utari-common';
+import { Location, Center, Region } from 'utari-common';
 
 const getCentralGeocode = (
-    geocodes: ReadonlyArray<Location['coordinate']>
+    geocodes: ReadonlyArray<Location['coordinate']>,
+    region: Region
 ): Center => {
     const total = geocodes.length;
 
     if (!total) {
-        return undefined;
+        switch (region) {
+            case 'KP':
+                return {
+                    lat: 4.340067,
+                    lng: 101.14298,
+                };
+            case 'BTHO':
+            case 'SL':
+                return {
+                    lat: 3.040439,
+                    lng: 101.794537,
+                };
+        }
     }
 
     if (total === 1) {

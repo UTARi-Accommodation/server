@@ -89,7 +89,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                         bathRooms,
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], 'KP'),
                     } as UnitsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -162,7 +162,8 @@ const bookmarkedRouter = (app: express.Application) => ({
                         numberOfResultsQueried / maxItemsPerPage
                     ),
                     center: getCentralGeocode(
-                        units.map(({ location: { coordinate } }) => coordinate)
+                        units.map(({ location: { coordinate } }) => coordinate),
+                        'KP'
                     ),
                 } as UnitsQueried;
                 logger.log(result);
@@ -218,7 +219,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                         capacities,
                         page: 1,
                         totalPage: 0,
-                        center: undefined,
+                        center: getCentralGeocode([], 'KP'),
                     } as RoomsQueried;
                     logger.log(result);
                     res.status(200).json(result);
@@ -286,7 +287,8 @@ const bookmarkedRouter = (app: express.Application) => ({
                         numberOfResultsQueried / maxItemsPerPage
                     ),
                     center: getCentralGeocode(
-                        rooms.map(({ location: { coordinate } }) => coordinate)
+                        rooms.map(({ location: { coordinate } }) => coordinate),
+                        'KP'
                     ),
                 } as RoomsQueried;
                 logger.log(result);
