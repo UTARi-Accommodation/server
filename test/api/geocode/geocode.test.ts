@@ -31,17 +31,17 @@ describe('Compute center point for an array of geocode', () => {
         });
     });
     it('should return undefined', () => {
-        expect(getCentralGeocode([], 'KP')).toBe({
-            lat: 4.308504,
-            lng: 101.153653,
+        expect(getCentralGeocode([], 'KP')).toStrictEqual({
+            lat: 4.340067,
+            lng: 101.14298,
         });
-        expect(getCentralGeocode([], 'BTHO')).toBe({
-            lat: 3.041803,
-            lng: 101.793075,
+        expect(getCentralGeocode([], 'BTHO')).toStrictEqual({
+            lat: 3.040439,
+            lng: 101.794537,
         });
-        expect(getCentralGeocode([], 'SL')).toBe({
-            lat: 3.041803,
-            lng: 101.793075,
+        expect(getCentralGeocode([], 'SL')).toStrictEqual({
+            lat: 3.040439,
+            lng: 101.794537,
         });
     });
 });
