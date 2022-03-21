@@ -398,18 +398,6 @@ const testRoomPopulate = () =>
 
                 expect(capacities.length).toBe(3);
 
-                expect(capacities[0]?.id).toBe(1);
-                expect(capacities[0]?.room).toBe(1);
-                expect(capacities[0]?.capacities).toBe(1);
-
-                expect(capacities[1]?.id).toBe(2);
-                expect(capacities[1]?.room).toBe(2);
-                expect(capacities[1]?.capacities).toBe(2);
-
-                expect(capacities[2]?.id).toBe(3);
-                expect(capacities[2]?.room).toBe(3);
-                expect(capacities[2]?.capacities).toBe(4);
-
                 expect(
                     capacities
                         .filter((capacity) => capacity.room === 1)

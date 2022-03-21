@@ -89,7 +89,11 @@ FROM
     LEFT OUTER JOIN (
       SELECT
         unit,
-        ARRAY_AGG(rating ORDER BY rating ASC) ratings
+        ARRAY_AGG(
+          rating
+          ORDER BY
+            rating ASC
+        ) ratings
       FROM
         (
           SELECT

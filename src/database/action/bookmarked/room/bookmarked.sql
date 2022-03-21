@@ -85,7 +85,11 @@ FROM
       LEFT OUTER JOIN (
         SELECT
           room,
-          ARRAY_AGG(rating ORDER BY rating ASC) ratings
+          ARRAY_AGG(
+            rating
+            ORDER BY
+              rating ASC
+          ) ratings
         FROM
           (
             SELECT
@@ -109,7 +113,11 @@ FROM
     JOIN (
       SELECT
         room,
-        ARRAY_AGG(capacities ORDER BY capacities ASC) capacities
+        ARRAY_AGG(
+          capacities
+          ORDER BY
+            capacities ASC
+        ) capacities
       FROM
         room_capacity
       WHERE
