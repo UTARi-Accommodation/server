@@ -1,6 +1,10 @@
 /* @name SelectCapacitiesRange */
 SELECT
-  ARRAY_AGG(DISTINCT capacities) AS capacities
+  ARRAY_AGG(
+    DISTINCT capacities
+    ORDER BY
+      capacities ASC
+  ) AS capacities
 FROM
   (
     (
