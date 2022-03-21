@@ -49,7 +49,9 @@ jobs:
                   PGPASSWORD: postgres
                   PGPORT: 5432
                   MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
-              run: make test
+              run: |
+                  make test
+                  rm -rf __tests__
 
             - name: Run Build
               run: make build
