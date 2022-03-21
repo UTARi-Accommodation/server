@@ -181,11 +181,13 @@ const testRoomPopulate = () =>
             it('should be the same room capacities', async () => {
                 const capacities = (
                     await postgreSQL.instance.exec(
-                        `SELECT id, room, capacities FROM room_capacity ORDER BY id`
+                        `SELECT id, room, capacities FROM room_capacity ORDER BY id ASC`
                     )
                 ).rows;
 
                 expect(capacities.length).toBe(5);
+
+                console.dir(capacities, { depth: null });
 
                 expect(capacities[0]?.id).toBe(1);
                 expect(capacities[0]?.room).toBe(1);
