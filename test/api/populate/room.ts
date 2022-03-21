@@ -187,25 +187,40 @@ const testRoomPopulate = () =>
 
                 expect(capacities.length).toBe(5);
 
-                console.dir(capacities, { depth: null });
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 1)
+                        .every((capacity) => {
+                            const idRange =
+                                capacity.id >= 1 && capacity.id <= 2;
+                            const roomCapacitiesRange =
+                                capacity.capacities >= 1 &&
+                                capacity.capacities <= 2;
+                            return idRange && roomCapacitiesRange;
+                        })
+                ).toBe(true);
 
-                expect(capacities[0]?.id).toBe(1);
-                expect(capacities[0]?.room).toBe(1);
-                expect(capacities[0]?.capacities).toBe(1);
-                expect(capacities[1]?.id).toBe(2);
-                expect(capacities[1]?.room).toBe(1);
-                expect(capacities[1]?.capacities).toBe(2);
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 2)
+                        .every((capacity) => {
+                            const idRange =
+                                capacity.id >= 3 && capacity.id <= 4;
+                            const roomCapacitiesRange =
+                                capacity.capacities >= 1 &&
+                                capacity.capacities <= 3;
+                            return idRange && roomCapacitiesRange;
+                        })
+                ).toBe(true);
 
-                expect(capacities[2]?.id).toBe(3);
-                expect(capacities[2]?.room).toBe(2);
-                expect(capacities[2]?.capacities).toBe(1);
-                expect(capacities[3]?.id).toBe(4);
-                expect(capacities[3]?.room).toBe(2);
-                expect(capacities[3]?.capacities).toBe(3);
-
-                expect(capacities[4]?.id).toBe(5);
-                expect(capacities[4]?.room).toBe(3);
-                expect(capacities[4]?.capacities).toBe(5);
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 3)
+                        .every(
+                            (capacity) =>
+                                capacity.id === 5 && capacity.capacities === 5
+                        )
+                ).toBe(true);
             });
         });
 
@@ -394,6 +409,33 @@ const testRoomPopulate = () =>
                 expect(capacities[2]?.id).toBe(3);
                 expect(capacities[2]?.room).toBe(3);
                 expect(capacities[2]?.capacities).toBe(4);
+
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 1)
+                        .every(
+                            (capacity) =>
+                                capacity.id === 1 && capacity.capacities === 1
+                        )
+                ).toBe(true);
+
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 2)
+                        .every(
+                            (capacity) =>
+                                capacity.id === 2 && capacity.capacities === 2
+                        )
+                ).toBe(true);
+
+                expect(
+                    capacities
+                        .filter((capacity) => capacity.room === 3)
+                        .every(
+                            (capacity) =>
+                                capacity.id === 3 && capacity.capacities === 4
+                        )
+                ).toBe(true);
             });
         });
     });
