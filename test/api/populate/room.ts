@@ -185,6 +185,8 @@ const testRoomPopulate = () =>
                     )
                 ).rows;
 
+                console.dir(capacities, { depth: null });
+
                 expect(capacities.length).toBe(5);
 
                 expect(capacities[0]?.id).toBe(1);
