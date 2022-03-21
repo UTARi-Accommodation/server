@@ -14,8 +14,10 @@ start:
 	(trap 'kill 0' INT; make typecheck & make build)
 
 ## build
-build:
-	rm -rf build && node script/esbuild/server.js
+pre-build:
+	rm -rf build
+build: pre-build
+	node script/esbuild/server.js
 
 ## clean-up:
 clean-up:
@@ -31,7 +33,8 @@ typecheck-watch:
 ## test
 api=test-api
 test:
-	node_modules/.bin/jest $(arguments) --runInBand
+	node_modules/.bin/esbuild test/index.ts --bundle --minify --target=node16.3.1 --platform=node --external:pg-native --outfile=__tests__/index.test.js &&\
+		node_modules/.bin/jest __tests__ $(arguments)
 
 $(api)-query:
 	make test arguments=test/api/query/*
