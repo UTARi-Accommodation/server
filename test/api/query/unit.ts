@@ -435,7 +435,7 @@ const testUnitQuery = () =>
                     [1400, 1],
                 ]);
             });
-            it('should return bookmarked room that match the bookmarked Id', async () => {
+            it('should return bookmarked unit that match the bookmarked Id', async () => {
                 const user = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                 const timeCreatedOne = new Date();
                 await utariUser.insert(

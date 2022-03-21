@@ -136,7 +136,7 @@ const testRoomPopulate = () =>
             it('should be the same room', async () => {
                 const rooms = (
                     await postgreSQL.instance.exec(
-                        `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER by id`
+                        `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER BY id`
                     )
                 ).rows;
 
@@ -330,7 +330,7 @@ const testRoomPopulate = () =>
             it('should be the same room', async () => {
                 const rooms = (
                     await postgreSQL.instance.exec(
-                        `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER by id`
+                        `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER BY id`
                     )
                 ).rows;
 
@@ -375,7 +375,7 @@ const testRoomPopulate = () =>
             it('should be the same room capacities', async () => {
                 const capacities = (
                     await postgreSQL.instance.exec(
-                        `SELECT id, room, capacities FROM room_capacity ORDER by id`
+                        `SELECT id, room, capacities FROM room_capacity ORDER BY id`
                     )
                 ).rows;
 

@@ -181,7 +181,7 @@
             "id": 1,
             "bookmarked": false,
             "contact": {
-                "mobileNumber": ["0133358899", "0124270766"],
+                "mobileNumber": ["0124270766", "0133358899"],
                 "email": ["kelvin_lam@live.com"]
             },
             "location": {
@@ -413,7 +413,7 @@
             "id": 1,
             "bookmarked": false,
             "contact": {
-                "mobileNumber": ["0133358899", "0124270766"],
+                "mobileNumber": ["0124270766", "0133358899"],
                 "email": ["kelvin_lam@live.com"]
             },
             "location": {
@@ -749,7 +749,7 @@
                 "bathRooms": 2,
                 "rental": 1100
             },
-            "ratings": [5, 3]
+            "ratings": [3, 5]
         }
     ],
     "downloadBookmarkedOne": [
@@ -800,7 +800,7 @@
                 "rental": 1100
             },
             "rating": 5,
-            "ratings": [5, 3]
+            "ratings": [3, 5]
         }
     ],
     "downloadBookmarkedTwo": [

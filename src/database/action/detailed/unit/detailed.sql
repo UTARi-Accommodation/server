@@ -69,7 +69,7 @@ FROM
           LEFT OUTER JOIN (
             SELECT
               handler,
-              ARRAY_AGG(email) email
+              ARRAY_AGG(email ORDER BY email ASC) email
             FROM
               email
             GROUP BY
@@ -79,7 +79,7 @@ FROM
         LEFT OUTER JOIN (
           SELECT
             handler,
-            ARRAY_AGG(mobile_number) mobile_number
+            ARRAY_AGG(mobile_number ORDER BY mobile_number ASC) mobile_number
           FROM
             mobile_number
           GROUP BY
@@ -89,7 +89,7 @@ FROM
       LEFT OUTER JOIN (
         SELECT
           unit,
-          ARRAY_AGG(rating) ratings
+          ARRAY_AGG(rating ORDER BY rating ASC) ratings
         FROM
           (
             SELECT
