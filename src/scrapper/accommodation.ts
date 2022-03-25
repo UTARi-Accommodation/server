@@ -155,29 +155,16 @@ const getAddress = (element: HTMLElement) =>
                     : removeSpaceFromString(text)
                           .replace(/\./g, '')
                           .split(',')
-                          .reduce(
-                              (prev, curr) =>
-                                  prev
-                                      ? `${prev}, ${curr
-                                            .split(' ')
-                                            .map((value) =>
-                                                capitalize(
-                                                    value.trim().toLowerCase()
-                                                )
-                                            )
-                                            .join(' ')
-                                            .trim()}`
-                                      : `${curr
-                                            .split(' ')
-                                            .map((value) =>
-                                                capitalize(
-                                                    value.trim().toLowerCase()
-                                                )
-                                            )
-                                            .join(' ')
-                                            .trim()}`,
-                              ''
-                          ),
+                          .reduce((prev, curr) => {
+                              const address = curr
+                                  .split(' ')
+                                  .map((value) =>
+                                      capitalize(value.trim().toLowerCase())
+                                  )
+                                  .join(' ')
+                                  .trim();
+                              return prev ? `${prev}, ${address}` : address;
+                          }, ''),
             ''
         )
         .replace(/\W*$/gim, '')
@@ -186,42 +173,27 @@ const getAddress = (element: HTMLElement) =>
 const getFacilities = (element: HTMLElement) =>
     element
         .getElementsByTagName('font')
-        .reduce(
-            (prev, { text }) =>
-                text === 'Facilities:' || text === 'Others:'
-                    ? prev
-                    : prev
-                    ? `${prev} · ${Array.from(
-                          new Set(
-                              removeSpaceFromString(text)
-                                  .replace(';', '')
-                                  .split('/')
-                          )
-                      )
-                          .join(' · ')
-                          .trim()}`
-                    : `${Array.from(
-                          new Set(
-                              removeSpaceFromString(text)
-                                  .replace(';', '')
-                                  .split('/')
-                          )
-                      )
-                          .join(' · ')
-                          .trim()}`,
-            ''
-        )
+        .reduce((prev, { text }) => {
+            if (text === 'Facilities:' || text === 'Others:') {
+                return prev;
+            }
+            const facility = Array.from(
+                new Set(removeSpaceFromString(text).replace(';', '').split('/'))
+            )
+                .join(' · ')
+                .trim();
+            return prev ? `${prev} · ${facility}` : facility;
+        }, '')
         .replace(/\W*$/gim, '')
         .trim();
 
 const splitReduceRemarks = (remarks: string) =>
     remarks
         .split(',')
-        .reduce(
-            (prev, curr) =>
-                prev ? `${prev}, ${curr.trim()}` : `${curr.trim()}`,
-            ''
-        )
+        .reduce((prev, curr) => {
+            const value = curr.trim();
+            return prev ? `${prev}, ${value}` : value;
+        }, '')
         .replace(/\W*$/gim, '')
         .replace(/^\W*/gim, '')
         .trim();
@@ -255,7 +227,7 @@ const getRemarks = (element: HTMLElement) => {
             );
             const regex = /Available From .* \d{4}/gm;
             const matches = regex.exec(remark);
-            if (matches === null) {
+            if (!matches) {
                 throw new Error(
                     `No available date match for remark of: "${remark}"`
                 );
