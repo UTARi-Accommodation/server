@@ -7,7 +7,6 @@ import dotenv from 'dotenv';
         'pgTyped.json',
         JSON.stringify(
             {
-                extends: './db.json',
                 transforms: [
                     {
                         mode: 'sql',

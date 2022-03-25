@@ -19,9 +19,7 @@ const isDev = process.env.NODE_ENV === 'development';
         watch: !isDev
             ? undefined
             : {
-                  onRebuild: (error, result) => {
-                      console.log(error ?? result);
-                  },
+                  onRebuild: (error, result) => console.log(error ?? result),
               },
         plugins: !isDev
             ? undefined

@@ -36,27 +36,9 @@ test:
 	node_modules/.bin/esbuild test/index.ts --bundle --minify --target=node16.3.1 --platform=node --external:pg-native --outfile=__tests__/index.test.js &&\
 		node_modules/.bin/jest __tests__ $(arguments)
 
-$(api)-query:
-	make test arguments=test/api/query/*
-
-$(api)-mutation:
-	make test arguments=test/api/mutation/*
-
-$(api)-madm:
-	make test arguments=test/api/madm/*
-
-$(api)-populate:
-	make test arguments=test/api/populate/*
-
-$(api)-geocode:
-	make test arguments=test/api/geocode/*
-
-test-scrapper:
-	make test arguments=test/scrapper/*
-
 ## code coverage
 code-cov:
-	make test arguments=--coverage --coverageDirectory='coverage'
+	make test arguments=--coverage
 
 ## pg typed generator
 pg-gen:
