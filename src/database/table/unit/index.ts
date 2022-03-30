@@ -3,6 +3,11 @@ import { upsert, IUpsertParams, IUpsertResult } from './upsert.queries';
 import { setAvailabilityFalse } from './setAvailabilityFalse.queries';
 import { Pool } from '../../postgres';
 import { parseNumericFromRental } from '../../../api/query/common';
+import {
+    IUpdateScoreParams,
+    IUpdateScoreResult,
+    updateScore,
+} from './updateScore.queries';
 
 const unit = {
     upsert: async (
@@ -25,6 +30,7 @@ const unit = {
                 bathRooms: params.bathRooms,
                 bedRooms: params.bedRooms,
                 unitType: params.unitType,
+                score: params.score,
             },
             pool
         );
@@ -37,6 +43,18 @@ const unit = {
     },
     setAvailabilityFalse: async (pool: Pool) => {
         await setAvailabilityFalse.run(undefined as void, pool);
+    },
+    updateScore: async (
+        params: Readonly<IUpdateScoreParams>,
+        pool: Pool
+    ): Promise<IUpdateScoreResult['id']> => {
+        const rooms = await updateScore.run(params, pool);
+        if (rooms.length !== 1) {
+            throw new Error(
+                `Expect room to have 1 id, got ${rooms.length} instead`
+            );
+        }
+        return parseAsNumber(rooms[0]?.id).orElseThrowDefault('room ID');
     },
 };
 

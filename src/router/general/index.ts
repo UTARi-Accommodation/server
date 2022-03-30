@@ -1,16 +1,11 @@
 import {
     maxItemsPerPage,
-    MultiSelectNumber,
     parseAsReadonlyIntArray,
     parseAsRegion,
     parseAsRoomType,
     parseAsSearch,
     parseAsUnitType,
-    QueryRoomWithoutCapacities,
-    QueryUnitWithoutBathRoomsAndBedRooms,
     RoomsQueried,
-    SortedRoom,
-    SortedUnit,
     UnitsQueried,
 } from 'utari-common';
 import { generalRoom } from '../../api/query/room';
@@ -25,107 +20,6 @@ import {
 import getCentralGeocode from '../../api/geocode';
 import logger from '../../logger';
 import { auth } from '../../auth/firebase';
-
-type ConvertTokenToId<T> = Omit<T, 'token'> &
-    Readonly<{
-        userId: string;
-    }>;
-
-const slice = (
-    queried: SortedRoom | SortedUnit,
-    {
-        page,
-        totalPage,
-    }: Readonly<{
-        page: number;
-        totalPage: number;
-    }>
-) =>
-    page > totalPage
-        ? []
-        : queried.length < maxItemsPerPage
-        ? queried
-        : queried.slice(
-              (page - 1) * maxItemsPerPage,
-              !page ? maxItemsPerPage : maxItemsPerPage * page
-          );
-
-const queryUnits = async ({
-    bedRooms,
-    bathRooms,
-    unitQuery,
-}: Readonly<{
-    bedRooms: MultiSelectNumber;
-    bathRooms: MultiSelectNumber;
-    unitQuery: ConvertTokenToId<QueryUnitWithoutBathRoomsAndBedRooms>;
-}>) => {
-    const hasBedRooms = Boolean(bedRooms.length);
-    const hasBathRooms = Boolean(bathRooms.length);
-    if (hasBedRooms && hasBathRooms) {
-        return generalUnit.sortQueryMadm(
-            await generalUnit.selectWithBathRoomsAndBedRooms(
-                {
-                    ...unitQuery,
-                    bedRooms,
-                    bathRooms,
-                },
-                postgreSQL.instance.pool
-            )
-        );
-    }
-    if (hasBathRooms) {
-        return generalUnit.sortQueryMadm(
-            await generalUnit.selectWithBathRoomsAndWithoutBedRooms(
-                {
-                    ...unitQuery,
-                    bathRooms,
-                },
-                postgreSQL.instance.pool
-            )
-        );
-    }
-    if (hasBedRooms) {
-        return generalUnit.sortQueryMadm(
-            await generalUnit.selectWithoutBathRoomsAndWithBedRooms(
-                {
-                    ...unitQuery,
-                    bedRooms,
-                },
-                postgreSQL.instance.pool
-            )
-        );
-    }
-    return generalUnit.sortQueryMadm(
-        await generalUnit.selectWithoutBathRoomsAndBedRooms(
-            unitQuery,
-            postgreSQL.instance.pool
-        )
-    );
-};
-
-const queryRooms = async ({
-    capacities,
-    roomQuery,
-}: Readonly<{
-    capacities: MultiSelectNumber;
-    roomQuery: ConvertTokenToId<QueryRoomWithoutCapacities>;
-}>) =>
-    capacities.length
-        ? generalRoom.sortQueryMadm(
-              await generalRoom.selectWithCapacities(
-                  {
-                      ...roomQuery,
-                      capacities,
-                  },
-                  postgreSQL.instance.pool
-              )
-          )
-        : generalRoom.sortQueryMadm(
-              await generalRoom.selectWithoutCapacities(
-                  roomQuery,
-                  postgreSQL.instance.pool
-              )
-          );
 
 const generalRouter = (app: express.Application) => ({
     queryUnit: () =>
@@ -159,6 +53,8 @@ const generalRouter = (app: express.Application) => ({
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };
 
+                const { page } = query;
+
                 const unitQuery = parseAsReadonlyObject(query, (query) => ({
                     unitType,
                     region,
@@ -170,15 +66,37 @@ const generalRouter = (app: express.Application) => ({
                         .inRangeOf(1, Number.MAX_VALUE)
                         .orElseGetUndefined(),
                     userId: verifiedId.uid,
+                    currentPage: parseAsNumber(
+                        parseInt(typeof page === 'string' ? page : '1')
+                    ).orElseLazyGet(() => 1),
+                    maxItemsPerPage,
                 })).orElseThrowDefault('query');
 
-                const units = await queryUnits({
-                    bedRooms: parseAsReadonlyIntArray(query.bedRooms),
-                    bathRooms: parseAsReadonlyIntArray(query.bathRooms),
-                    unitQuery,
-                });
+                const { bedRooms, bathRooms } = await generalUnit.range(
+                    { region, unitType },
+                    postgreSQL.instance.pool
+                );
 
-                const numberOfResultsQueried = units.length;
+                const queryBedRooms = parseAsReadonlyIntArray(query.bedRooms);
+                const queryBathRooms = parseAsReadonlyIntArray(query.bathRooms);
+
+                const finalizedUnitQuery = {
+                    bedRooms: queryBedRooms.length ? queryBedRooms : bedRooms,
+                    bathRooms: queryBathRooms.length
+                        ? queryBathRooms
+                        : bathRooms,
+                    ...unitQuery,
+                };
+
+                const units = await generalUnit.general(
+                    finalizedUnitQuery,
+                    postgreSQL.instance.pool
+                );
+
+                const numberOfResultsQueried = await generalUnit.count(
+                    finalizedUnitQuery,
+                    postgreSQL.instance.pool
+                );
 
                 if (!numberOfResultsQueried) {
                     const result = {
@@ -196,30 +114,14 @@ const generalRouter = (app: express.Application) => ({
                     return;
                 }
 
-                const { page } = query;
-
-                const parsedPage = parseAsNumber(
-                    parseInt(typeof page === 'string' ? page : '1')
-                ).orElseLazyGet(() => 1);
-
-                const { bedRooms, bathRooms } = await generalUnit.range(
-                    { region, unitType },
-                    postgreSQL.instance.pool
-                );
-
                 const totalPage = Math.ceil(
                     numberOfResultsQueried / maxItemsPerPage
                 );
 
-                const slicedUnits = slice(units, {
-                    page: parsedPage,
-                    totalPage,
-                });
-
-                const empty = !slicedUnits.length;
+                const empty = !units.length;
 
                 const result = {
-                    units: slicedUnits,
+                    units,
                     numberOfResultsQueried: empty ? 0 : numberOfResultsQueried,
                     rentalRangeFrequencies: await generalUnit.rentalFrequency(
                         { region, unitType },
@@ -227,7 +129,7 @@ const generalRouter = (app: express.Application) => ({
                     ),
                     bedRooms,
                     bathRooms,
-                    page: parsedPage,
+                    page: unitQuery.currentPage,
                     totalPage: empty ? 0 : totalPage,
                     center: getCentralGeocode(
                         units.map(({ location: { coordinate } }) => coordinate),
@@ -268,6 +170,12 @@ const generalRouter = (app: express.Application) => ({
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };
 
+                const { page } = query;
+
+                const parsedPage = parseAsNumber(
+                    parseInt(typeof page === 'string' ? page : '1')
+                ).orElseLazyGet(() => 1);
+
                 const roomQuery = parseAsReadonlyObject(query, (query) => ({
                     roomType,
                     region,
@@ -279,14 +187,37 @@ const generalRouter = (app: express.Application) => ({
                         .inRangeOf(1, Number.MAX_VALUE)
                         .orElseGetUndefined(),
                     userId: verifiedId.uid,
+                    currentPage: parseAsNumber(
+                        parseInt(typeof page === 'string' ? page : '1')
+                    ).orElseLazyGet(() => 1),
+                    maxItemsPerPage,
                 })).orElseThrowDefault('query');
 
-                const rooms = await queryRooms({
-                    capacities: parseAsReadonlyIntArray(query.capacities),
-                    roomQuery,
-                });
+                const capacities = await generalRoom.range(
+                    { roomType, region },
+                    postgreSQL.instance.pool
+                );
 
-                const numberOfResultsQueried = rooms.length;
+                const queryCapacities = parseAsReadonlyIntArray(
+                    query.capacities
+                );
+
+                const finalizedRoomQuery = {
+                    capacities: queryCapacities.length
+                        ? queryCapacities
+                        : capacities,
+                    ...roomQuery,
+                };
+
+                const rooms = await generalRoom.general(
+                    finalizedRoomQuery,
+                    postgreSQL.instance.pool
+                );
+
+                const numberOfResultsQueried = await generalRoom.count(
+                    finalizedRoomQuery,
+                    postgreSQL.instance.pool
+                );
 
                 if (!numberOfResultsQueried) {
                     const result = {
@@ -303,30 +234,14 @@ const generalRouter = (app: express.Application) => ({
                     return;
                 }
 
-                const { page } = query;
-
-                const parsedPage = parseAsNumber(
-                    parseInt(typeof page === 'string' ? page : '1')
-                ).orElseLazyGet(() => 1);
-
-                const capacities = await generalRoom.range(
-                    { roomType, region },
-                    postgreSQL.instance.pool
-                );
-
                 const totalPage = Math.ceil(
                     numberOfResultsQueried / maxItemsPerPage
                 );
 
-                const slicedRooms = slice(rooms, {
-                    page: parsedPage,
-                    totalPage,
-                });
-
-                const empty = !slicedRooms.length;
+                const empty = !rooms.length;
 
                 const result = {
-                    rooms: slicedRooms,
+                    rooms,
                     numberOfResultsQueried,
                     rentalRangeFrequencies: await generalRoom.rentalFrequency(
                         { region, roomType },

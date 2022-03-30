@@ -3,12 +3,12 @@ import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { unit, mutated } from '../../dummy/api/mutation/unit.json';
 import { generalUnit } from '../../../src/api/query/unit';
-import { Accommodations } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import visitor from '../../../src/database/table/visitor';
 import unitVisit from '../../../src/database/table/unitVisit';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
+import { maxItemsPerPage } from 'utari-common';
 
 const testUnitMutation = () =>
     describe('Unit', () => {
@@ -18,7 +18,7 @@ const testUnitMutation = () =>
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
             await postgreSQL.instance.exec((await schema).create);
-            await insertToDatabase(unit as Accommodations, 'KP');
+            await insertToDatabase(unit, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
                 postgreSQL.instance.pool
@@ -176,18 +176,28 @@ const testUnitMutation = () =>
                         { id: userId, timeCreated: new Date() },
                         postgreSQL.instance.pool
                     );
-                    const rows =
-                        await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                                search: undefined,
-                                minRental: undefined,
-                                maxRental: undefined,
-                                userId,
-                            },
-                            postgreSQL.instance.pool
-                        );
+                    const { bathRooms, bedRooms } = await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    );
+                    const rows = await generalUnit.general(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                            search: undefined,
+                            minRental: undefined,
+                            maxRental: undefined,
+                            userId,
+                            bathRooms,
+                            bedRooms,
+                            maxItemsPerPage,
+                            currentPage: 1,
+                        },
+                        postgreSQL.instance.pool
+                    );
                     expect(rows.length).toBe(2);
                     expect(rows).toStrictEqual(mutated);
                 });

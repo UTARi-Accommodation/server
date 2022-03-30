@@ -24,7 +24,7 @@ import {
     bookmarkedUnit as bookmarkUnitQuery,
     detailedUnit as detailUnitQuery,
 } from '../../../src/api/query/unit';
-import { Accommodations } from 'utari-common';
+import { Accommodations, maxItemsPerPage } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
@@ -60,133 +60,197 @@ const testUnitQuery = () =>
         });
         describe('Query', () => {
             it('should return units that matches the general query', async () => {
-                const bthoQueriedWithoutRentalQuery =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'BTHO',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const bthoQueriedWithoutRentalQuery = await generalUnit.general(
+                    {
+                        region: 'BTHO',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'BTHO',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(bthoQueriedWithoutRentalQuery.length).toBe(2);
                 expect(bthoQueriedWithoutRentalQuery).toStrictEqual(btho);
 
-                const kpQueriedWithoutRentalQuery =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'KP',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const kpQueriedWithoutRentalQuery = await generalUnit.general(
+                    {
+                        region: 'KP',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(kpQueriedWithoutRentalQuery.length).toBe(2);
                 expect(kpQueriedWithoutRentalQuery).toStrictEqual(kp);
 
-                const slQueriedWithoutRentalQuery =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'SL',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const slQueriedWithoutRentalQuery = await generalUnit.general(
+                    {
+                        region: 'SL',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'SL',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(slQueriedWithoutRentalQuery.length).toBe(2);
                 expect(slQueriedWithoutRentalQuery).toStrictEqual(sl);
             });
             it('should return units that matches the search query', async () => {
-                const rowsOne =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'SL',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: 'sutera pines condo',
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rowsOne = await generalUnit.general(
+                    {
+                        region: 'SL',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: 'sutera pines condo',
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'SL',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rowsOne.length).toBe(2);
                 expect(rowsOne).toStrictEqual(searchOne);
 
-                const rowsTwo =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'BTHO',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: 'mrt feeder bus',
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rowsTwo = await generalUnit.general(
+                    {
+                        region: 'BTHO',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: 'mrt feeder bus',
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'BTHO',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rowsTwo.length).toBe(1);
                 expect(rowsTwo).toStrictEqual(searchTwo);
 
-                const rowsThree =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'KP',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: 'PARKING BAY',
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rowsThree = await generalUnit.general(
+                    {
+                        region: 'KP',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: 'PARKING BAY',
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rowsThree.length).toBe(2);
                 expect(rowsThree).toStrictEqual(searchThree);
             });
             it('should return units that matches the bed rooms query', async () => {
-                const rows =
-                    await generalUnit.selectWithoutBathRoomsAndWithBedRooms(
-                        {
-                            region: 'SL',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            bedRooms: [2, 3],
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rows = await generalUnit.general(
+                    {
+                        region: 'SL',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                        bedRooms: [2, 3],
+                        userId,
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(bedRooms);
             });
             it('should return units that matches the bath rooms query', async () => {
-                const rows =
-                    await generalUnit.selectWithBathRoomsAndWithoutBedRooms(
-                        {
-                            region: 'KP',
-                            unitType: 'House',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            bathRooms: [5, 6],
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rows = await generalUnit.general(
+                    {
+                        region: 'KP',
+                        unitType: 'House',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                        bathRooms: [5, 6],
+                        userId,
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(bathRooms);
             });
             it('should return units that matches the bath and bed rooms query', async () => {
-                const rows = await generalUnit.selectWithBathRoomsAndBedRooms(
+                const rows = await generalUnit.general(
                     {
                         region: 'KP',
                         unitType: 'House',
@@ -196,6 +260,8 @@ const testUnitQuery = () =>
                         bathRooms: [2, 5],
                         bedRooms: [3],
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
                     },
                     postgreSQL.instance.pool
                 );
@@ -203,34 +269,50 @@ const testUnitQuery = () =>
                 expect(rows).toStrictEqual(bathAndBedRooms);
             });
             it('should return units that matches the rental query', async () => {
-                const rows =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'KP',
-                            unitType: 'House',
-                            minRental: 900,
-                            maxRental: 1000,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rows = await generalUnit.general(
+                    {
+                        region: 'KP',
+                        unitType: 'House',
+                        minRental: 900,
+                        maxRental: 1000,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(rental);
             });
             it('should return 1 unit that matches the unit type query', async () => {
-                const rows =
-                    await generalUnit.selectWithoutBathRoomsAndBedRooms(
-                        {
-                            region: 'BTHO',
-                            unitType: 'Condominium',
-                            minRental: undefined,
-                            maxRental: undefined,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rows = await generalUnit.general(
+                    {
+                        region: 'BTHO',
+                        unitType: 'Condominium',
+                        minRental: undefined,
+                        maxRental: undefined,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(unitType);
             });

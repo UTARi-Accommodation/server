@@ -347,10 +347,6 @@
         {
             "id": 1,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0183899550"],
-                "email": []
-            },
             "location": {
                 "address": "32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
                 "coordinate": {
@@ -360,7 +356,6 @@
             },
             "facilities": "Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Small room attached with toilet can fit 1 person.RM380 for whole room",
                 "year": 2020,
                 "month": "August"
             },
@@ -369,16 +364,11 @@
                 "rental": 380,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 2,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": [],
-                "email": ["mayyee9118@gmail.com"]
-            },
             "location": {
                 "address": "13A-13, The I Residence Comdominium, Bandar Mahkota Cheras, 43200, Cheras, Selangor",
                 "coordinate": {
@@ -388,7 +378,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "",
                 "year": 2020,
                 "month": "September"
             },
@@ -397,16 +386,11 @@
                 "rental": 500,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 3,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173991348"],
-                "email": ["svenleong@gmail.com"]
-            },
             "location": {
                 "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
                 "coordinate": {
@@ -416,7 +400,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Rental not including RM100 utilities.Medium room without aircon is also available",
                 "year": 2020,
                 "month": "January"
             },
@@ -425,44 +408,11 @@
                 "rental": 400,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 4,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173991348"],
-                "email": ["svenleong@gmail.com"]
-            },
-            "location": {
-                "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.026723,
-                    "longitude": 101.814524
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Rental not including RM100 utilities.Medium room without aircon is also available",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 500,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 5,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["01164070045", "0167432134"],
-                "email": ["swathijayanthi.1997@gmail.com"]
-            },
             "location": {
                 "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
                 "coordinate": {
@@ -472,7 +422,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "The rental is negotiable, however not inclusive of utility bills; A shared bathroom; Prefer female (any nationality",
                 "year": 2020,
                 "month": "January"
             },
@@ -481,102 +430,35 @@
                 "rental": 475,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        }
-    ],
-    "kp": [
-        {
-            "id": 6,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
-            "location": {
-                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.049361,
-                    "longitude": 101.792054
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
-            "remarks": {
-                "remark": "",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Small",
-                "rental": 500,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
-            "id": 7,
+            "id": 4,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
             "location": {
-                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
+                "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
                 "coordinate": {
-                    "latitude": 3.049361,
-                    "longitude": 101.792054
+                    "latitude": 3.026723,
+                    "longitude": 101.814524
                 }
             },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Middle",
-                "rental": 550,
-                "capacities": [2]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 8,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
-            "location": {
-                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.049361,
-                    "longitude": 101.792054
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
-            "remarks": {
-                "remark": "",
                 "year": 2020,
                 "month": "January"
             },
             "properties": {
                 "size": "Master",
-                "rental": 600,
-                "capacities": [2]
+                "rental": 500,
+                "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
+            "ratings": []
+        }
+    ],
+    "kp": [
         {
-            "id": 9,
+            "id": 10,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0169809010"],
-                "email": ["lylong90@gmail.com"]
-            },
             "location": {
                 "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
                 "coordinate": {
@@ -586,7 +468,50 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Middle",
+                "rental": 500,
+                "capacities": [1, 2]
+            },
+            "ratings": []
+        },
+        {
+            "id": 6,
+            "bookmarked": false,
+            "location": {
+                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.049361,
+                    "longitude": 101.792054
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 500,
+                "capacities": [1]
+            },
+            "ratings": []
+        },
+        {
+            "id": 9,
+            "bookmarked": false,
+            "location": {
+                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
+                "coordinate": {
+                    "latitude": 3.049859,
+                    "longitude": 101.783509
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
+            "remarks": {
                 "year": 2020,
                 "month": "January"
             },
@@ -595,44 +520,11 @@
                 "rental": 300,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 10,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0169809010"],
-                "email": ["lylong90@gmail.com"]
-            },
-            "location": {
-                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
-                "coordinate": {
-                    "latitude": 3.049859,
-                    "longitude": 101.783509
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Middle",
-                "rental": 500,
-                "capacities": [1, 2]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 11,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0169809010"],
-                "email": ["lylong90@gmail.com"]
-            },
             "location": {
                 "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
                 "coordinate": {
@@ -642,7 +534,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
                 "year": 2020,
                 "month": "January"
             },
@@ -651,18 +542,167 @@
                 "rental": 550,
                 "capacities": [1, 2]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
+        },
+        {
+            "id": 7,
+            "bookmarked": false,
+            "location": {
+                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.049361,
+                    "longitude": 101.792054
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Middle",
+                "rental": 550,
+                "capacities": [2]
+            },
+            "ratings": []
+        },
+        {
+            "id": 8,
+            "bookmarked": false,
+            "location": {
+                "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.049361,
+                    "longitude": 101.792054
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 600,
+                "capacities": [2]
+            },
+            "ratings": []
         }
     ],
     "sl": [
         {
+            "id": 14,
+            "bookmarked": false,
+            "location": {
+                "address": "3, Jalan SL 4/3, Bandar Sungai Long, 43200 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039614,
+                    "longitude": 101.79925
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Parking Bay · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 400,
+                "capacities": [3, 4]
+            },
+            "ratings": []
+        },
+        {
+            "id": 17,
+            "bookmarked": false,
+            "location": {
+                "address": "C5-7-3 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 350,
+                "capacities": [1]
+            },
+            "ratings": []
+        },
+        {
+            "id": 15,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 350,
+                "capacities": [1]
+            },
+            "ratings": []
+        },
+        {
+            "id": 19,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
+            "remarks": {
+                "year": 2021,
+                "month": "November"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 350,
+                "capacities": [3]
+            },
+            "ratings": []
+        },
+        {
+            "id": 18,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
+            "remarks": {
+                "year": 2021,
+                "month": "November"
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 400,
+                "capacities": [1]
+            },
+            "ratings": []
+        },
+        {
             "id": 12,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163023788"],
-                "email": ["chbhperfect@gmail.com"]
-            },
             "location": {
                 "address": "B5-7-3 Evergreen Park Condo, Bandar Sungai Long, 43000 Kajang, Selangor",
                 "coordinate": {
@@ -672,7 +712,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Parking Bay · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "FULLY FURNISHED, PLEASE WHATSAPP FOR MORE PHOTO",
                 "year": 2022,
                 "month": "January"
             },
@@ -681,16 +720,33 @@
                 "rental": 450,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
+        },
+        {
+            "id": 16,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 1000,
+                "capacities": [2]
+            },
+            "ratings": []
         },
         {
             "id": 13,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173678647"],
-                "email": ["kimyoonhoh@gmail.com"]
-            },
             "location": {
                 "address": "3, Jalan SL 4/3, Bandar Sungai Long, 43200 Kajang, Selangor",
                 "coordinate": {
@@ -700,7 +756,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Parking Bay · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "WHOLE UNIT RM2500 PER MONTH, MASTER BEDROOM RM400 PER SLOT, MEDIUM BEDROOM RM550 (1 PAX), RM650 (2 PAX), AMBER PARKING, NEAR GUARD HOUSE 24HRS, INDUCTION/GAS COOKER",
                 "year": 2022,
                 "month": "January"
             },
@@ -709,186 +764,13 @@
                 "rental": 550,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 14,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173678647"],
-                "email": ["kimyoonhoh@gmail.com"]
-            },
-            "location": {
-                "address": "3, Jalan SL 4/3, Bandar Sungai Long, 43200 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039614,
-                    "longitude": 101.79925
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Parking Bay · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "WHOLE UNIT RM2500 PER MONTH, MASTER BEDROOM RM400 PER SLOT, MEDIUM BEDROOM RM550 (1 PAX), RM650 (2 PAX), AMBER PARKING, NEAR GUARD HOUSE 24HRS, INDUCTION/GAS COOKER",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 400,
-                "capacities": [3, 4]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 15,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Small",
-                "rental": 350,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 16,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 1000,
-                "capacities": [2]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 17,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C5-7-3 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Small",
-                "rental": 350,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 18,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0126869529"],
-                "email": ["tinhuatlee@yahoo.com"]
-            },
-            "location": {
-                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
-            "remarks": {
-                "remark": "",
-                "year": 2021,
-                "month": "November"
-            },
-            "properties": {
-                "size": "Small",
-                "rental": 400,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 19,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0126869529"],
-                "email": ["tinhuatlee@yahoo.com"]
-            },
-            "location": {
-                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
-            "remarks": {
-                "remark": "",
-                "year": 2021,
-                "month": "November"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 350,
-                "capacities": [3]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         }
     ],
     "searchOne": [
         {
             "id": 15,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
             "location": {
                 "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
                 "coordinate": {
@@ -898,7 +780,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
                 "year": 2022,
                 "month": "January"
             },
@@ -907,44 +788,11 @@
                 "rental": 350,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 16,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 1000,
-                "capacities": [2]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 17,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
             "location": {
                 "address": "C5-7-3 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
                 "coordinate": {
@@ -954,7 +802,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Single Bedroom RM350-450 (1 Pax) per month",
                 "year": 2022,
                 "month": "January"
             },
@@ -963,44 +810,11 @@
                 "rental": 350,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 18,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0126869529"],
-                "email": ["tinhuatlee@yahoo.com"]
-            },
-            "location": {
-                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
-            "remarks": {
-                "remark": "",
-                "year": 2021,
-                "month": "November"
-            },
-            "properties": {
-                "size": "Small",
-                "rental": 400,
-                "capacities": [1]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 19,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0126869529"],
-                "email": ["tinhuatlee@yahoo.com"]
-            },
             "location": {
                 "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
                 "coordinate": {
@@ -1010,7 +824,6 @@
             },
             "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
             "remarks": {
-                "remark": "",
                 "year": 2021,
                 "month": "November"
             },
@@ -1019,17 +832,57 @@
                 "rental": 350,
                 "capacities": [3]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
+        },
+        {
+            "id": 18,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
+            "remarks": {
+                "year": 2021,
+                "month": "November"
+            },
+            "properties": {
+                "size": "Small",
+                "rental": 400,
+                "capacities": [1]
+            },
+            "ratings": []
+        },
+        {
+            "id": 16,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 1000,
+                "capacities": [2]
+            },
+            "ratings": []
         }
     ],
     "searchTwo": [
         {
             "id": 3,
-            "contact": {
-                "mobileNumber": ["0173991348"],
-                "email": ["svenleong@gmail.com"]
-            },
+            "bookmarked": false,
             "location": {
                 "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
                 "coordinate": {
@@ -1039,7 +892,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "Rental not including RM100 utilities.Medium room without aircon is also available",
                 "year": 2020,
                 "month": "January"
             },
@@ -1048,44 +900,11 @@
                 "capacities": [1],
                 "rental": 400
             },
-            "ratings": [],
-            "visitCount": 0,
-            "bookmarked": false
-        },
-        {
-            "id": 4,
-            "contact": {
-                "mobileNumber": ["0173991348"],
-                "email": ["svenleong@gmail.com"]
-            },
-            "location": {
-                "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.026723,
-                    "longitude": 101.814524
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Rental not including RM100 utilities.Medium room without aircon is also available",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "capacities": [1],
-                "rental": 500
-            },
-            "ratings": [],
-            "visitCount": 0,
-            "bookmarked": false
+            "ratings": []
         },
         {
             "id": 5,
-            "contact": {
-                "mobileNumber": ["01164070045", "0167432134"],
-                "email": ["swathijayanthi.1997@gmail.com"]
-            },
+            "bookmarked": false,
             "location": {
                 "address": "Unit No 10, 1st Floor, The Residence Condominum, Bandar Mahkota Cheras 43200, Kajang, Selangor",
                 "coordinate": {
@@ -1095,7 +914,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "The rental is negotiable, however not inclusive of utility bills; A shared bathroom; Prefer female (any nationality",
                 "year": 2020,
                 "month": "January"
             },
@@ -1104,19 +922,57 @@
                 "capacities": [1],
                 "rental": 475
             },
-            "ratings": [],
-            "visitCount": 0,
-            "bookmarked": false
+            "ratings": []
+        },
+        {
+            "id": 4,
+            "bookmarked": false,
+            "location": {
+                "address": "A-18-08, Sutera Pines, Jalan Sutera Pines, 43000, Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.026723,
+                    "longitude": 101.814524
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "capacities": [1],
+                "rental": 500
+            },
+            "ratings": []
         }
     ],
     "searchThree": [
         {
+            "id": 16,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 1000,
+                "capacities": [2]
+            },
+            "ratings": []
+        },
+        {
             "id": 13,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173678647"],
-                "email": ["kimyoonhoh@gmail.com"]
-            },
             "location": {
                 "address": "3, Jalan SL 4/3, Bandar Sungai Long, 43200 Kajang, Selangor",
                 "coordinate": {
@@ -1126,7 +982,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Parking Bay · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "WHOLE UNIT RM2500 PER MONTH, MASTER BEDROOM RM400 PER SLOT, MEDIUM BEDROOM RM550 (1 PAX), RM650 (2 PAX), AMBER PARKING, NEAR GUARD HOUSE 24HRS, INDUCTION/GAS COOKER",
                 "year": 2022,
                 "month": "January"
             },
@@ -1135,47 +990,13 @@
                 "rental": 550,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 16,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 1000,
-                "capacities": [2]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         }
     ],
-
     "capacities": [
         {
             "id": 14,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0173678647"],
-                "email": ["kimyoonhoh@gmail.com"]
-            },
             "location": {
                 "address": "3, Jalan SL 4/3, Bandar Sungai Long, 43200 Kajang, Selangor",
                 "coordinate": {
@@ -1185,7 +1006,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Parking Bay · Washing Machine · Water Heater",
             "remarks": {
-                "remark": "WHOLE UNIT RM2500 PER MONTH, MASTER BEDROOM RM400 PER SLOT, MEDIUM BEDROOM RM550 (1 PAX), RM650 (2 PAX), AMBER PARKING, NEAR GUARD HOUSE 24HRS, INDUCTION/GAS COOKER",
                 "year": 2022,
                 "month": "January"
             },
@@ -1194,44 +1014,11 @@
                 "rental": 400,
                 "capacities": [3]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 16,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0103071515"],
-                "email": ["wwwmryap@gmail.com"]
-            },
-            "location": {
-                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
-                "coordinate": {
-                    "latitude": 3.039764,
-                    "longitude": 101.791973
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Master Bedroom RM1000 (1 Pax), Single Bedroom RM350-450 (1 Pax) per month",
-                "year": 2022,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 1000,
-                "capacities": [2]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 19,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0126869529"],
-                "email": ["tinhuatlee@yahoo.com"]
-            },
             "location": {
                 "address": "C4-G-3, Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000, Kajang, Selangor",
                 "coordinate": {
@@ -1241,7 +1028,6 @@
             },
             "facilities": "Table · Chair · Cupboard · Fan · Parking Bay · Internet · Washing Machine · Water Heater · Water dispenser",
             "remarks": {
-                "remark": "",
                 "year": 2021,
                 "month": "November"
             },
@@ -1250,18 +1036,57 @@
                 "rental": 350,
                 "capacities": [3]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
+        },
+        {
+            "id": 16,
+            "bookmarked": false,
+            "location": {
+                "address": "C4-1-1 Cypress Condo, Persiaran Sg Long 1, Bandar Sungai Long, 43000 Kajang, Selangor",
+                "coordinate": {
+                    "latitude": 3.039764,
+                    "longitude": 101.791973
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2022,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 1000,
+                "capacities": [2]
+            },
+            "ratings": []
         }
     ],
     "rental": [
         {
+            "id": 10,
+            "bookmarked": false,
+            "location": {
+                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
+                "coordinate": {
+                    "latitude": 3.049859,
+                    "longitude": 101.783509
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Middle",
+                "rental": 500,
+                "capacities": [1, 2]
+            },
+            "ratings": []
+        },
+        {
             "id": 6,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
             "location": {
                 "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
                 "coordinate": {
@@ -1271,7 +1096,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
             "remarks": {
-                "remark": "",
                 "year": 2020,
                 "month": "January"
             },
@@ -1280,16 +1104,33 @@
                 "rental": 500,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
+        },
+        {
+            "id": 11,
+            "bookmarked": false,
+            "location": {
+                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
+                "coordinate": {
+                    "latitude": 3.049859,
+                    "longitude": 101.783509
+                }
+            },
+            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
+            "remarks": {
+                "year": 2020,
+                "month": "January"
+            },
+            "properties": {
+                "size": "Master",
+                "rental": 550,
+                "capacities": [1, 2]
+            },
+            "ratings": []
         },
         {
             "id": 7,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
             "location": {
                 "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
                 "coordinate": {
@@ -1299,7 +1140,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
             "remarks": {
-                "remark": "",
                 "year": 2020,
                 "month": "January"
             },
@@ -1308,16 +1148,11 @@
                 "rental": 550,
                 "capacities": [2]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         },
         {
             "id": 8,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0163232540"],
-                "email": ["waistacy@icloud.com"]
-            },
             "location": {
                 "address": "B08-12, The I-Residence, Jalan Bendahara 38/7, Bandar Mahkota Cheras, 43200, Kajang, Selangor",
                 "coordinate": {
@@ -1327,7 +1162,6 @@
             },
             "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater · Sofa, coffee table, water dispenser, refrigerator, induction cooker, dining table, cleaning service",
             "remarks": {
-                "remark": "",
                 "year": 2020,
                 "month": "January"
             },
@@ -1336,74 +1170,13 @@
                 "rental": 600,
                 "capacities": [2]
             },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 10,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0169809010"],
-                "email": ["lylong90@gmail.com"]
-            },
-            "location": {
-                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
-                "coordinate": {
-                    "latitude": 3.049859,
-                    "longitude": 101.783509
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Middle",
-                "rental": 500,
-                "capacities": [1, 2]
-            },
-            "ratings": [],
-            "visitCount": 0
-        },
-        {
-            "id": 11,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0169809010"],
-                "email": ["lylong90@gmail.com"]
-            },
-            "location": {
-                "address": "A-5-12, Mahkota Garden Condo, Jln Mahkota Garden, Bandar Mahkota Cheras 43200, Cheras, Selangor",
-                "coordinate": {
-                    "latitude": 3.049859,
-                    "longitude": 101.783509
-                }
-            },
-            "facilities": "Bed · Table · Chair · Cupboard · Fan · Air-Conditioner · Parking Bay · Internet · Washing Machine · Water Heater",
-            "remarks": {
-                "remark": "Induction cooker; Rental includes (water and wifi); UTAR shuttle bus in front of the condominium",
-                "year": 2020,
-                "month": "January"
-            },
-            "properties": {
-                "size": "Master",
-                "rental": 550,
-                "capacities": [1, 2]
-            },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         }
     ],
     "roomType": [
         {
             "id": 20,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0123456789"],
-                "email": ["tonyStark@gmail.com"]
-            },
             "location": {
                 "address": "Malibu",
                 "coordinate": {
@@ -1413,7 +1186,6 @@
             },
             "facilities": "Mark Suit",
             "remarks": {
-                "remark": "",
                 "month": "November",
                 "year": 2021
             },
@@ -1422,8 +1194,7 @@
                 "rental": 350,
                 "capacities": [3]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         }
     ],
     "detailedRoom": {

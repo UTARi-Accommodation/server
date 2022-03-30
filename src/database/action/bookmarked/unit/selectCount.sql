@@ -1,24 +1,12 @@
 /*
- @name BookmarkedUnitQuery
+ @name SelectCountBookmarkedUnitQuery
  @param bedRooms -> (...)
  @param bathRooms -> (...)
  @param unitTypes -> (...)
  @param regions -> (...)
  */
 SELECT
-  unit_id,
-  address,
-  latitude,
-  longitude,
-  facilities,
-  year,
-  month,
-  bed_rooms,
-  bath_rooms,
-  rental,
-  ratings,
-  utari_user,
-  time_created
+  COUNT(unit_id)
 FROM
   (
     (
@@ -113,8 +101,4 @@ FROM
       GROUP BY
         unit
     ) unit_ratings ON unit.unit_id = unit_ratings.unit
-  )
-ORDER BY
-  unit_bookmarked.time_created DESC
-LIMIT
-  :maxItemsPerPage ! OFFSET (:currentPage ! - 1) * :maxItemsPerPage !;
+  );

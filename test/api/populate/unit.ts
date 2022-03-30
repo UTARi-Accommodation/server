@@ -2,7 +2,6 @@ import schema from '../../script/schema';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/unit.json';
-import { Accommodations } from 'utari-common';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
 
 const testUnitPopulation = () =>
@@ -11,7 +10,7 @@ const testUnitPopulation = () =>
             beforeAll(async () => {
                 await postgreSQL.instance.exec((await schema).drop);
                 await postgreSQL.instance.exec((await schema).create);
-                await insertToDatabase(insert as Accommodations, 'BTHO');
+                await insertToDatabase(insert, 'BTHO');
             });
             const handlerID = '054658721';
             const accommodationId = 26767;
@@ -170,7 +169,7 @@ const testUnitPopulation = () =>
         describe('Update', () => {
             beforeAll(async () => {
                 await resetTablesAndColumns(postgreSQL.instance.pool);
-                await insertToDatabase(update as Accommodations, 'BTHO');
+                await insertToDatabase(update, 'BTHO');
             });
             const handlerID = '0123038119';
             const accommodationId = 26767;

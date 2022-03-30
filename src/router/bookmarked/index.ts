@@ -144,7 +144,11 @@ const bookmarkedRouter = (app: express.Application) => ({
                     postgreSQL.instance.pool
                 );
 
-                const numberOfResultsQueried = units.length;
+                const numberOfResultsQueried = await bookmarkedUnit.count(
+                    finalizedUnitQuery,
+                    postgreSQL.instance.pool
+                );
+
                 const result = {
                     units,
                     numberOfResultsQueried,
@@ -271,7 +275,10 @@ const bookmarkedRouter = (app: express.Application) => ({
                     postgreSQL.instance.pool
                 );
 
-                const numberOfResultsQueried = rooms.length;
+                const numberOfResultsQueried = await bookmarkedRoom.count(
+                    finalizedRoomQuery,
+                    postgreSQL.instance.pool
+                );
 
                 const result = {
                     rooms,

@@ -1,13 +1,10 @@
-import { parseAsNumber } from 'parse-dont-validate';
-import { MultiSelectNumber, QueriedRoom } from 'utari-common';
-import { multiAttributeDecisionModelRoom } from '../../../../api/madm';
+import { parseAsNumber, parseAsString } from 'parse-dont-validate';
+import { MultiSelectNumber } from 'utari-common';
 import {
     ConvertCurrencyToNumber,
     convertRentalToNumeric,
-    parseContact,
     parseRating,
     parseRentalFromNumeric,
-    parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/room';
 import { Pool } from '../../../postgres';
@@ -20,46 +17,34 @@ import {
     selectRentalFrequency,
 } from './selectRentalFrequency.queries';
 import {
-    generalRoomQueryWithCapacities,
-    IGeneralRoomQueryWithCapacitiesParams,
-    IGeneralRoomQueryWithCapacitiesResult,
-} from './withCapacities.queries';
+    selectGeneralRoomQuery,
+    ISelectGeneralRoomQueryResult,
+    ISelectGeneralRoomQueryParams,
+} from './selectGeneral.queries';
 import {
-    generalRoomQueryWithoutCapacities,
-    IGeneralRoomQueryWithoutCapacitiesParams,
-    IGeneralRoomQueryWithoutCapacitiesResult,
-} from './withoutCapacities.queries';
+    ISelectCountGeneralRoomQueryParams,
+    selectCountGeneralRoomQuery,
+} from './selectCount.queries';
 
 const transformGeneralQuery = (
-    rooms: ReadonlyArray<
-        | IGeneralRoomQueryWithoutCapacitiesResult
-        | IGeneralRoomQueryWithCapacitiesResult
-    >
-): ReadonlyArray<QueriedRoom> =>
+    rooms: ReadonlyArray<ISelectGeneralRoomQueryResult>
+) =>
     rooms.map(
         ({
             address,
             capacities,
-            email,
             facilities,
             latitude,
             longitude,
-            mobile_number,
             month,
             ratings,
-            remark,
             rental,
             room_id,
             room_size,
-            visit_count,
             year,
             utari_user,
         }) => ({
             id: room_id,
-            contact: parseContact({
-                mobileNumber: mobile_number,
-                email,
-            }),
             location: {
                 address,
                 coordinate: {
@@ -69,7 +54,6 @@ const transformGeneralQuery = (
             },
             facilities,
             remarks: {
-                remark,
                 year,
                 month,
             },
@@ -79,36 +63,17 @@ const transformGeneralQuery = (
                 roomSize: room_size,
             }),
             ratings: parseRating(ratings),
-            visitCount: parseVisitCount(visit_count),
             bookmarked: Boolean(utari_user),
         })
     );
 
 const generalRoom = {
-    sortQueryMadm: (rooms: ReadonlyArray<QueriedRoom>) =>
-        multiAttributeDecisionModelRoom(rooms),
-    selectWithCapacities: async (
-        params: ConvertCurrencyToNumber<IGeneralRoomQueryWithCapacitiesParams>,
+    general: async (
+        params: ConvertCurrencyToNumber<ISelectGeneralRoomQueryParams>,
         pool: Pool
     ) =>
         transformGeneralQuery(
-            await generalRoomQueryWithCapacities.run(
-                {
-                    ...params,
-                    ...convertRentalToNumeric({
-                        min: params.minRental,
-                        max: params.maxRental,
-                    }),
-                },
-                pool
-            )
-        ),
-    selectWithoutCapacities: async (
-        params: ConvertCurrencyToNumber<IGeneralRoomQueryWithoutCapacitiesParams>,
-        pool: Pool
-    ) =>
-        transformGeneralQuery(
-            await generalRoomQueryWithoutCapacities.run(
+            await selectGeneralRoomQuery.run(
                 {
                     ...params,
                     ...convertRentalToNumeric({
@@ -146,6 +111,29 @@ const generalRoom = {
                 'frequency'
             ),
         ]),
+    count: async (
+        params: ConvertCurrencyToNumber<ISelectCountGeneralRoomQueryParams>,
+        pool: Pool
+    ) => {
+        const results = await selectCountGeneralRoomQuery.run(
+            {
+                ...params,
+                ...convertRentalToNumeric({
+                    min: params.minRental,
+                    max: params.maxRental,
+                }),
+            },
+            pool
+        );
+        if (results.length !== 1) {
+            throw new Error(
+                `Expect bookmarked units count to have 1 element, got ${results.length} instead`
+            );
+        }
+        return parseInt(
+            parseAsString(results[0]?.count).orElseThrowDefault('count')
+        );
+    },
 };
 
 export default generalRoom;

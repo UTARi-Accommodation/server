@@ -22,7 +22,7 @@ import {
     bookmarkedRoom as bookmarkRoomQuery,
     detailedRoom as detailRoomQuery,
 } from '../../../src/api/query/room';
-import { Accommodations } from 'utari-common';
+import { Accommodations, maxItemsPerPage } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
@@ -52,7 +52,7 @@ const testRoomQuery = () =>
         });
         describe('Query', () => {
             it('should return rooms that matches the general query', async () => {
-                const bthoQueried = await generalRoom.selectWithoutCapacities(
+                const bthoQueried = await generalRoom.general(
                     {
                         region: 'BTHO',
                         roomType: 'Room',
@@ -60,13 +60,22 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: undefined,
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'BTHO',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
                 expect(bthoQueried.length).toBe(5);
                 expect(bthoQueried).toStrictEqual(btho);
 
-                const kpQueried = await generalRoom.selectWithoutCapacities(
+                const kpQueried = await generalRoom.general(
                     {
                         region: 'KP',
                         roomType: 'Room',
@@ -74,13 +83,22 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: undefined,
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'KP',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
                 expect(kpQueried.length).toBe(6);
                 expect(kpQueried).toStrictEqual(kp);
 
-                const slQueried = await generalRoom.selectWithoutCapacities(
+                const slQueried = await generalRoom.general(
                     {
                         region: 'SL',
                         roomType: 'Room',
@@ -88,6 +106,15 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: undefined,
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'SL',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
@@ -95,7 +122,7 @@ const testRoomQuery = () =>
                 expect(slQueried).toStrictEqual(sl);
             });
             it('should return rooms that matches the search query', async () => {
-                const rowsOne = await generalRoom.selectWithoutCapacities(
+                const rowsOne = await generalRoom.general(
                     {
                         region: 'SL',
                         roomType: 'Room',
@@ -103,13 +130,22 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: 'Cypress',
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'SL',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
                 expect(rowsOne.length).toBe(5);
                 expect(rowsOne).toStrictEqual(searchOne);
 
-                const rowsTwo = await generalRoom.selectWithoutCapacities(
+                const rowsTwo = await generalRoom.general(
                     {
                         region: 'BTHO',
                         roomType: 'Room',
@@ -117,13 +153,22 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: 'Utilities',
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'BTHO',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
                 expect(rowsTwo.length).toBe(3);
                 expect(rowsTwo).toStrictEqual(searchTwo);
 
-                const rowsThree = await generalRoom.selectWithoutCapacities(
+                const rowsThree = await generalRoom.general(
                     {
                         region: 'SL',
                         roomType: 'Room',
@@ -131,6 +176,15 @@ const testRoomQuery = () =>
                         maxRental: 100000,
                         search: 'bed',
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'SL',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );
@@ -138,7 +192,7 @@ const testRoomQuery = () =>
                 expect(rowsThree).toStrictEqual(searchThree);
             });
             it('should return rooms that matches the capacities query', async () => {
-                const rows = await generalRoom.selectWithCapacities(
+                const rows = await generalRoom.general(
                     {
                         region: 'SL',
                         roomType: 'Room',
@@ -147,6 +201,8 @@ const testRoomQuery = () =>
                         search: undefined,
                         capacities: [2, 3],
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
                     },
                     postgreSQL.instance.pool
                 );
@@ -154,23 +210,31 @@ const testRoomQuery = () =>
                 expect(rows).toStrictEqual(capacities);
             });
             it('should return rooms that matches the rental query', async () => {
-                const rowsWithRentalQuery =
-                    await generalRoom.selectWithoutCapacities(
-                        {
-                            region: 'KP',
-                            roomType: 'Room',
-                            minRental: 500,
-                            maxRental: 100000,
-                            search: undefined,
-                            userId,
-                        },
-                        postgreSQL.instance.pool
-                    );
+                const rowsWithRentalQuery = await generalRoom.general(
+                    {
+                        region: 'KP',
+                        roomType: 'Room',
+                        minRental: 500,
+                        maxRental: 100000,
+                        search: undefined,
+                        userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'KP',
+                                roomType: 'Room',
+                            },
+                            postgreSQL.instance.pool
+                        ),
+                    },
+                    postgreSQL.instance.pool
+                );
                 expect(rowsWithRentalQuery.length).toBe(5);
                 expect(rowsWithRentalQuery).toStrictEqual(rental);
             });
             it('should return 1 room that matches the room type query', async () => {
-                const rows = await generalRoom.selectWithoutCapacities(
+                const rows = await generalRoom.general(
                     {
                         region: 'BTHO',
                         roomType: 'Roommate',
@@ -178,6 +242,15 @@ const testRoomQuery = () =>
                         maxRental: undefined,
                         search: undefined,
                         userId,
+                        maxItemsPerPage,
+                        currentPage: 1,
+                        capacities: await generalRoom.range(
+                            {
+                                region: 'BTHO',
+                                roomType: 'Roommate',
+                            },
+                            postgreSQL.instance.pool
+                        ),
                     },
                     postgreSQL.instance.pool
                 );

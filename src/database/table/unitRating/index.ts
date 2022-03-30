@@ -1,5 +1,6 @@
-import { Pool } from '../../postgres';
+import postgreSQL, { Pool } from '../../postgres';
 import { insert, IInsertParams } from './insert.queries';
+import updateScore from '../../action/updateScore/unit';
 
 const unitRating = {
     insert: async (
@@ -11,24 +12,30 @@ const unitRating = {
             user: string;
         }>
     > => {
-        const units = await insert.run(
+        const results = await insert.run(
             {
                 params,
             },
             pool
         );
-        if (units.length !== 1) {
+        if (results.length !== 1) {
             throw new Error(
-                `Expect unit to have 1 id, got ${units.length} instead`
+                `Expect result to have 1 id, got ${results.length} instead`
             );
         }
-        const [unit] = units;
-        if (!unit) {
-            throw new Error('unit from unitRating insert is undefined');
+        const [result] = results;
+        if (!result) {
+            throw new Error('result from unitRating insert is undefined');
         }
+        await updateScore.one(
+            {
+                id: result.unit,
+            },
+            postgreSQL.instance.pool
+        );
         return {
-            unit: unit.unit,
-            user: unit.utari_user,
+            unit: result.unit,
+            user: result.utari_user,
         };
     },
 };

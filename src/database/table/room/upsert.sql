@@ -5,7 +5,8 @@
  rental!,
  roomType!,
  roomSize!,
- available!
+ available!,
+ score!
  )
  */
 INSERT INTO
@@ -14,7 +15,8 @@ INSERT INTO
     rental,
     room_type,
     room_size,
-    available
+    available,
+    score
   )
 VALUES
   :params ON CONFLICT(accommodation, room_size) DO
@@ -22,4 +24,5 @@ UPDATE
 SET
   rental = :rental !,
   room_type = :roomType !,
-  available = TRUE RETURNING id;
+  available = TRUE,
+  score = :score ! RETURNING id;

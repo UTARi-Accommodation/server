@@ -45,11 +45,11 @@ import postgreSQL from '../src/database/postgres';
     testMultiAttributeDecisionModelUnit();
     testMultiAttributeDecisionModelRoom();
 
-    testRoomMutation();
-    testTimeScrapMutation();
     testUnitMutation();
+    testRoomMutation();
     testUserMutation();
     testVisitorMutation();
+    testTimeScrapMutation();
 
     testEmptyContactPopulation();
     testRoomPopulate();
