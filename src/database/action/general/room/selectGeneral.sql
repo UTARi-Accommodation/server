@@ -1,23 +1,20 @@
 /*
- @name GeneralRoomQueryWithCapacities
+ @name SelectGeneralRoomQuery
  @param capacities -> (...)
  */
 SELECT
   room_id,
-  mobile_number,
-  email,
+  score,
   address,
   latitude,
   longitude,
   facilities,
-  remark,
   year,
   month,
   room_size,
   rental,
   capacities,
   ratings,
-  visit_count,
   utari_user
 FROM
   (
@@ -34,7 +31,6 @@ FROM
                     address,
                     latitude,
                     longitude,
-                    remark,
                     month,
                     year,
                     region,
@@ -60,7 +56,8 @@ FROM
                     accommodation,
                     rental,
                     room_size,
-                    room_type
+                    room_type,
+                    score
                   FROM
                     room
                   WHERE
@@ -172,4 +169,6 @@ FROM
     ) room_capacity ON room.room_id = room_capacity.room
   )
 ORDER BY
-  room.room_id;
+  room.score DESC
+LIMIT
+  :maxItemsPerPage ! OFFSET (:currentPage ! - 1) * :maxItemsPerPage !;

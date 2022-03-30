@@ -77,7 +77,8 @@ CREATE TABLE IF NOT EXISTS unit (
   bed_rooms INTEGER NOT NULL,
   rental NUMERIC(10, 2) NOT NULL,
   unit_type UnitType NOT NULL,
-  available BOOLEAN NOT NULL
+  available BOOLEAN NOT NULL,
+  score DOUBLE PRECISION NOT NULL
 );
 CREATE TABLE IF NOT EXISTS unit_rating (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -107,7 +108,8 @@ CREATE TABLE IF NOT EXISTS room (
   UNIQUE (accommodation, room_size),
   room_size RoomSize NOT NULL,
   rental NUMERIC(10, 2) NOT NULL,
-  available BOOLEAN NOT NULL
+  available BOOLEAN NOT NULL,
+  score DOUBLE PRECISION NOT NULL
 );
 CREATE TABLE IF NOT EXISTS room_capacity (
   id SERIAL PRIMARY KEY NOT NULL,

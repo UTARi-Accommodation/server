@@ -39,10 +39,6 @@
         {
             "id": 1,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0123456789"],
-                "email": ["tonyStark@gmail.com"]
-            },
             "location": {
                 "address": "Malibu",
                 "coordinate": {
@@ -52,7 +48,6 @@
             },
             "facilities": "Mark Suit",
             "remarks": {
-                "remark": "",
                 "month": "November",
                 "year": 2021
             },
@@ -61,16 +56,11 @@
                 "rental": 350,
                 "capacities": [3]
             },
-            "ratings": [3, 4],
-            "visitCount": 2
+            "ratings": [3, 4]
         },
         {
             "id": 2,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0123456789"],
-                "email": ["tonyStark@gmail.com"]
-            },
             "location": {
                 "address": "Malibu",
                 "coordinate": {
@@ -80,7 +70,6 @@
             },
             "facilities": "Mark Suit",
             "remarks": {
-                "remark": "",
                 "month": "November",
                 "year": 2021
             },
@@ -89,16 +78,11 @@
                 "rental": 250,
                 "capacities": [2]
             },
-            "ratings": [5],
-            "visitCount": 1
+            "ratings": [5]
         },
         {
             "id": 3,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0123456789"],
-                "email": ["tonyStark@gmail.com"]
-            },
             "location": {
                 "address": "Malibu",
                 "coordinate": {
@@ -108,7 +92,6 @@
             },
             "facilities": "Mark Suit",
             "remarks": {
-                "remark": "",
                 "month": "November",
                 "year": 2021
             },
@@ -117,8 +100,7 @@
                 "rental": 150,
                 "capacities": [1]
             },
-            "ratings": [],
-            "visitCount": 0
+            "ratings": []
         }
     ]
 }

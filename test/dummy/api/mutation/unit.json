@@ -53,40 +53,8 @@
     ],
     "mutated": [
         {
-            "id": 1,
-            "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["0123453451"],
-                "email": ["lol@gmail.com"]
-            },
-            "location": {
-                "address": "Malibu",
-                "coordinate": {
-                    "latitude": 34.025922,
-                    "longitude": -118.779757
-                }
-            },
-            "facilities": "Nothing at all",
-            "remarks": {
-                "remark": "",
-                "month": "January",
-                "year": 2020
-            },
-            "properties": {
-                "bedRooms": 3,
-                "bathRooms": 2,
-                "rental": 1100
-            },
-            "ratings": [3, 4],
-            "visitCount": 2
-        },
-        {
             "id": 2,
             "bookmarked": false,
-            "contact": {
-                "mobileNumber": ["01177980123"],
-                "email": ["lo@gmail.com"]
-            },
             "location": {
                 "address": "Malibu",
                 "coordinate": {
@@ -96,7 +64,6 @@
             },
             "facilities": "Nothing at all",
             "remarks": {
-                "remark": "",
                 "month": "January",
                 "year": 2020
             },
@@ -105,8 +72,29 @@
                 "bathRooms": 2,
                 "rental": 1100
             },
-            "ratings": [5],
-            "visitCount": 1
+            "ratings": [5]
+        },
+        {
+            "id": 1,
+            "bookmarked": false,
+            "location": {
+                "address": "Malibu",
+                "coordinate": {
+                    "latitude": 34.025922,
+                    "longitude": -118.779757
+                }
+            },
+            "facilities": "Nothing at all",
+            "remarks": {
+                "month": "January",
+                "year": 2020
+            },
+            "properties": {
+                "bedRooms": 3,
+                "bathRooms": 2,
+                "rental": 1100
+            },
+            "ratings": [3, 4]
         }
     ]
 }

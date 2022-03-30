@@ -20,6 +20,8 @@ import email from '../../database/table/email';
 import mobileNumber from '../../database/table/mobileNumber';
 import accommodation from '../../database/table/accommodation';
 import unit from '../../database/table/unit';
+import updateUnitScore from '../../database/action/updateScore/unit';
+import updateRoomScore from '../../database/action/updateScore/room';
 
 const upsertRoom = async ({
     capacities,
@@ -39,6 +41,7 @@ const upsertRoom = async ({
             rental,
             roomType,
             roomSize,
+            score: -1,
         },
         postgreSQL.instance.pool
     );
@@ -160,7 +163,7 @@ const upsertUnit = async (
             accommodation: number;
             unitType: UnitType;
         }>
-) => await unit.upsert(params, postgreSQL.instance.pool);
+) => await unit.upsert({ ...params, score: -1 }, postgreSQL.instance.pool);
 
 const upsertRooms = async (
     params: Room &
@@ -196,10 +199,7 @@ const upsertRooms = async (
     }
 };
 
-const upsertToDatabase = async (
-    accommodations: Accommodations,
-    region: Region
-) => {
+const upsertInfo = async (accommodations: Accommodations, region: Region) => {
     const accommodationsResolved = await accommodations.reduce(
         async (p, accom) => {
             const num = await p;
@@ -279,8 +279,31 @@ const upsertToDatabase = async (
         Promise.resolve(0)
     );
     if (accommodationsResolved !== accommodations.length) {
-        throw new Error(`Some database insertion failed for region ${region}`);
+        throw new Error(`Some database upsertion failed for region ${region}`);
     }
+};
+
+const updateScores = async (accommodations: Accommodations) => {
+    if (
+        accommodations.filter(({ accommodation: { type } }) => type === 'Unit')
+            .length
+    ) {
+        await updateUnitScore.all(undefined as void, postgreSQL.instance.pool);
+    }
+    if (
+        accommodations.filter(({ accommodation: { type } }) => type === 'Room')
+            .length
+    ) {
+        await updateRoomScore.all(undefined as void, postgreSQL.instance.pool);
+    }
+};
+
+const upsertToDatabase = async (
+    accommodations: Accommodations,
+    region: Region
+) => {
+    await upsertInfo(accommodations, region);
+    await updateScores(accommodations);
 };
 
 export default upsertToDatabase;

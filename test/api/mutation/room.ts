@@ -3,12 +3,12 @@ import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { room, mutated } from '../../dummy/api/mutation/room.json';
 import { generalRoom } from '../../../src/api/query/room';
-import { Accommodations } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import visitor from '../../../src/database/table/visitor';
 import roomVisit from '../../../src/database/table/roomVisit';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
+import { maxItemsPerPage } from 'utari-common';
 
 const testRoomMutation = () =>
     describe('Room', () => {
@@ -18,7 +18,7 @@ const testRoomMutation = () =>
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
             await postgreSQL.instance.exec((await schema).create);
-            await insertToDatabase(room as Accommodations, 'KP');
+            await insertToDatabase(room, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
                 postgreSQL.instance.pool
@@ -177,7 +177,7 @@ const testRoomMutation = () =>
                         { id: userId, timeCreated: new Date() },
                         postgreSQL.instance.pool
                     );
-                    const rows = await generalRoom.selectWithoutCapacities(
+                    const rows = await generalRoom.general(
                         {
                             region: 'KP',
                             roomType: 'Roommate',
@@ -185,6 +185,15 @@ const testRoomMutation = () =>
                             minRental: undefined,
                             maxRental: undefined,
                             userId,
+                            capacities: await generalRoom.range(
+                                {
+                                    roomType: 'Roommate',
+                                    region: 'KP',
+                                },
+                                postgreSQL.instance.pool
+                            ),
+                            maxItemsPerPage,
+                            currentPage: 1,
                         },
                         postgreSQL.instance.pool
                     );

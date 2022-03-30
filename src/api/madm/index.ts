@@ -10,81 +10,12 @@ import {
 } from 'utari-common';
 import { isBlank, isEmpty, isWhiteSpace } from 'granula-string';
 
-const copyUnitsSort = (
-    units: ReadonlyArray<
-        Readonly<{
-            unit: QueriedUnit;
-            finalScore: number;
-        }>
-    >
-): SortedUnit =>
-    Array.from(units)
-        .sort(({ finalScore: currScore }, { finalScore: nextScore }) =>
-            currScore > nextScore ? -1 : currScore === nextScore ? 0 : 1
-        )
-        .map(
-            ({
-                unit: {
-                    id,
-                    location,
-                    properties,
-                    ratings,
-                    facilities,
-                    remarks: { year, month },
-                    bookmarked,
-                },
-            }) =>
-                ({
-                    id,
-                    location,
-                    properties,
-                    ratings,
-                    facilities,
-                    remarks: {
-                        year,
-                        month,
-                    },
-                    bookmarked,
-                } as const)
-        );
-
-const copyRoomSort = (
-    rooms: ReadonlyArray<
-        Readonly<{
-            room: QueriedRoom;
-            finalScore: number;
-        }>
-    >
-): SortedRoom =>
-    Array.from(rooms)
-        .sort(({ finalScore: currScore }, { finalScore: nextScore }) =>
-            currScore > nextScore ? -1 : currScore === nextScore ? 0 : 1
-        )
-        .map(
-            ({
-                room: {
-                    id,
-                    location,
-                    properties,
-                    ratings,
-                    facilities,
-                    remarks: { year, month },
-                    bookmarked,
-                },
-            }) =>
-                ({
-                    id,
-                    location,
-                    properties,
-                    ratings,
-                    facilities,
-                    remarks: {
-                        year,
-                        month,
-                    },
-                    bookmarked,
-                } as const)
-        );
+type MultiAttributeDecisionModelUnits = ReadonlyArray<
+    Omit<QueriedUnit, 'bookmarked'>
+>;
+type MultiAttributeDecisionModelRooms = ReadonlyArray<
+    Omit<QueriedRoom, 'bookmarked'>
+>;
 
 const convertMonthToNumeric = (month: Month) => {
     const index = months.indexOf(month) + 1;
@@ -184,7 +115,7 @@ const computeContactScore = ({
         : 0;
 
 const computeUnitScore = (
-    unit: QueriedUnit,
+    unit: Omit<QueriedUnit, 'bookmarked'>,
     {
         minRentalPerPax,
         maxRentalPerPax,
@@ -218,11 +149,13 @@ const computeUnitScore = (
     } = unit;
 
     const rentalScore =
-        normalizeNonBeneficialQuantifiableAttribute({
-            current: rental / (bedRooms ?? 1),
-            min: minRentalPerPax,
-            max: maxRentalPerPax,
-        }) * weightageOfAttributes.rental;
+        (minRentalPerPax === maxRentalPerPax
+            ? 1
+            : normalizeNonBeneficialQuantifiableAttribute({
+                  current: rental / (bedRooms ?? 1),
+                  min: minRentalPerPax,
+                  max: maxRentalPerPax,
+              })) * weightageOfAttributes.rental;
 
     const bedRoomsScore =
         normalizeBeneficialQuantifiableAttribute({
@@ -299,30 +232,26 @@ const computeUnitScore = (
     return score;
 };
 
-const multiAttributeDecisionModelUnit = (units: ReadonlyArray<QueriedUnit>) => {
-    if (units.length < 2) {
-        return units;
-    }
-
-    const { min: minRentalPerPax, max: maxRentalPerPax } = getMinMax(
-        units.map(
-            ({ properties: { rental, bedRooms } }) => rental / (bedRooms ?? 1)
-        )
-    );
-
-    return copyUnitsSort(
-        units.map((unit) => ({
-            unit,
-            finalScore: computeUnitScore(unit, {
-                minRentalPerPax,
-                maxRentalPerPax,
-            }),
-        }))
-    );
-};
+const multiAttributeDecisionModelUnit = (
+    units: MultiAttributeDecisionModelUnits,
+    {
+        minRentalPerPax,
+        maxRentalPerPax,
+    }: Readonly<{
+        minRentalPerPax: number;
+        maxRentalPerPax: number;
+    }>
+) =>
+    units.map((unit) => ({
+        id: unit.id,
+        score: computeUnitScore(unit, {
+            minRentalPerPax,
+            maxRentalPerPax,
+        }),
+    }));
 
 const computeRoomScore = (
-    room: QueriedRoom,
+    room: Omit<QueriedRoom, 'bookmarked'>,
     {
         minRentalPerPax,
         maxRentalPerPax,
@@ -354,17 +283,18 @@ const computeRoomScore = (
     } = room;
 
     const rentalScore =
-        (normalizeNonBeneficialQuantifiableAttribute({
-            current:
-                capacities.length === 1 && capacities[0] === 0
-                    ? rental
-                    : rental /
-                      (capacities.reduce((prev, curr) => prev + curr) /
-                          capacities.length),
-            min: minRentalPerPax,
-            max: maxRentalPerPax,
-        }) +
-            punishmentForBadRoomRental(rental, size)) *
+        (minRentalPerPax === maxRentalPerPax
+            ? 1
+            : normalizeNonBeneficialQuantifiableAttribute({
+                  current:
+                      capacities.length === 1 && capacities[0] === 0
+                          ? rental
+                          : rental /
+                            (capacities.reduce((prev, curr) => prev + curr) /
+                                capacities.length),
+                  min: minRentalPerPax,
+                  max: maxRentalPerPax,
+              }) + punishmentForBadRoomRental(rental, size)) *
         weightageOfAttributes.rental;
 
     const capacitiesScore =
@@ -439,36 +369,23 @@ const computeRoomScore = (
     return score;
 };
 
-const multiAttributeDecisionModelRoom = (rooms: ReadonlyArray<QueriedRoom>) => {
-    if (rooms.length < 2) {
-        return rooms;
-    }
-
-    const { min: minRentalPerPax, max: maxRentalPerPax } = getMinMax(
-        rooms.map(({ properties: { rental, capacities } }) => {
-            const x =
-                rental /
-                (!capacities.length
-                    ? 1
-                    : capacities.reduce((prev, curr) => prev + curr) /
-                      capacities.length);
-            if (Number.isNaN(x)) {
-                console.log({ rental, capacities });
-            }
-            return x;
-        })
-    );
-
-    return copyRoomSort(
-        rooms.map((room) => ({
-            room,
-            finalScore: computeRoomScore(room, {
-                minRentalPerPax,
-                maxRentalPerPax,
-            }),
-        }))
-    );
-};
+const multiAttributeDecisionModelRoom = (
+    rooms: MultiAttributeDecisionModelRooms,
+    {
+        minRentalPerPax,
+        maxRentalPerPax,
+    }: Readonly<{
+        minRentalPerPax: number;
+        maxRentalPerPax: number;
+    }>
+) =>
+    rooms.map((room) => ({
+        id: room.id,
+        score: computeRoomScore(room, {
+            minRentalPerPax,
+            maxRentalPerPax,
+        }),
+    }));
 
 const getMinMax = (numbers: ReadonlyArray<number>) => ({
     min: Math.min(...numbers),
@@ -524,4 +441,6 @@ export {
     computeRoomScore,
     computeUnitScore,
     getMinMax,
+    MultiAttributeDecisionModelRooms,
+    MultiAttributeDecisionModelUnits,
 };

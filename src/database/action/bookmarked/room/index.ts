@@ -1,4 +1,4 @@
-import { parseAsNumber } from 'parse-dont-validate';
+import { parseAsNumber, parseAsString } from 'parse-dont-validate';
 import {
     MultiSelectNumber,
     SortedRoom,
@@ -15,9 +15,9 @@ import {
 import { parseProperties } from '../../../../api/query/room';
 import { Pool } from '../../../postgres';
 import {
-    bookmarkedRoomQuery,
-    IBookmarkedRoomQueryParams,
-} from './bookmarked.queries';
+    selectBookmarkedRoomQuery,
+    ISelectBookmarkedRoomQueryParams,
+} from './selectBookmarked.queries';
 import {
     downloadBookmarkedRoomQuery,
     IDownloadBookmarkedRoomQueryParams,
@@ -27,17 +27,21 @@ import {
     selectCapacitiesRange,
 } from './selectCapacitiesRange.queries';
 import {
+    ISelectCountBookmarkedRoomQueryParams,
+    selectCountBookmarkedRoomQuery,
+} from './selectCount.queries';
+import {
     ISelectRentalFrequencyParams,
     selectRentalFrequency,
 } from './selectRentalFrequency.queries';
 
 const bookmarkedRoom = {
     select: async (
-        params: ConvertCurrencyToNumber<IBookmarkedRoomQueryParams>,
+        params: ConvertCurrencyToNumber<ISelectBookmarkedRoomQueryParams>,
         pool: Pool
     ): Promise<SortedRoom> =>
         (
-            await bookmarkedRoomQuery.run(
+            await selectBookmarkedRoomQuery.run(
                 {
                     ...params,
                     ...convertRentalToNumeric({
@@ -171,6 +175,29 @@ const bookmarkedRoom = {
         }
         const { capacities } = capacity;
         return capacities ?? [];
+    },
+    count: async (
+        params: ConvertCurrencyToNumber<ISelectCountBookmarkedRoomQueryParams>,
+        pool: Pool
+    ) => {
+        const results = await selectCountBookmarkedRoomQuery.run(
+            {
+                ...params,
+                ...convertRentalToNumeric({
+                    min: params.minRental,
+                    max: params.maxRental,
+                }),
+            },
+            pool
+        );
+        if (results.length !== 1) {
+            throw new Error(
+                `Expect bookmarked rooms count to have 1 element, got ${results.length} instead`
+            );
+        }
+        return parseInt(
+            parseAsString(results[0]?.count).orElseThrowDefault('count')
+        );
     },
 };
 

@@ -5,7 +5,8 @@
  unitType!,
  bathRooms!,
  bedRooms!,
- available!
+ available!,
+ score!
  ) */
 INSERT INTO
   unit (
@@ -14,7 +15,8 @@ INSERT INTO
     unit_type,
     bath_rooms,
     bed_rooms,
-    available
+    available,
+    score
   )
 VALUES
   :params ON CONFLICT (accommodation) DO
@@ -24,4 +26,5 @@ SET
   bed_rooms = :bedRooms !,
   bath_rooms = :bathRooms !,
   unit_type = :unitType !,
-  available = TRUE RETURNING id;
+  available = TRUE,
+  score = :score ! RETURNING id;

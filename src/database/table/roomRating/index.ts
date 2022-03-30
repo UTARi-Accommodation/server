@@ -1,26 +1,33 @@
-import { Pool } from '../../postgres';
+import postgreSQL, { Pool } from '../../postgres';
 import { insert, IInsertParams } from './insert.queries';
+import updateScore from '../../action/updateScore/room';
 
 const roomRating = {
     insert: async (params: Readonly<IInsertParams['params']>, pool: Pool) => {
-        const rooms = await insert.run(
+        const results = await insert.run(
             {
                 params,
             },
             pool
         );
-        if (rooms.length !== 1) {
+        if (results.length !== 1) {
             throw new Error(
-                `Expect room to have 1 id, got ${rooms.length} instead`
+                `Expect result to have 1 id, got ${results.length} instead`
             );
         }
-        const [room] = rooms;
-        if (!room) {
-            throw new Error('room from roomRating insert is undefined');
+        const [result] = results;
+        if (!result) {
+            throw new Error('result from roomRating insert is undefined');
         }
+        await updateScore.one(
+            {
+                id: result.room,
+            },
+            postgreSQL.instance.pool
+        );
         return {
-            room: room.room,
-            user: room.utari_user,
+            room: result.room,
+            user: result.utari_user,
         };
     },
 };

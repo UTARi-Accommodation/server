@@ -1,4 +1,4 @@
-import { parseAsNumber } from 'parse-dont-validate';
+import { parseAsNumber, parseAsString } from 'parse-dont-validate';
 import {
     MultiSelectNumber,
     parseNullableAsDefaultOrUndefined,
@@ -15,9 +15,9 @@ import {
 import { parseProperties } from '../../../../api/query/unit';
 import { Pool } from '../../../postgres';
 import {
-    bookmarkedUnitQuery,
-    IBookmarkedUnitQueryParams,
-} from './bookmarked.queries';
+    selectBookmarkedUnitQuery,
+    ISelectBookmarkedUnitQueryParams,
+} from './selectBookmarked.queries';
 import {
     downloadBookmarkedUnitQuery,
     IDownloadBookmarkedUnitQueryParams,
@@ -30,14 +30,18 @@ import {
     ISelectBedRoomsAndBathRoomsRangeParams,
     selectBedRoomsAndBathRoomsRange,
 } from './selectBedRoomsAndBathRoomsRange.queries';
+import {
+    ISelectCountBookmarkedUnitQueryParams,
+    selectCountBookmarkedUnitQuery,
+} from './selectCount.queries';
 
 const bookmarkedUnit = {
     select: async (
-        params: ConvertCurrencyToNumber<IBookmarkedUnitQueryParams>,
+        params: ConvertCurrencyToNumber<ISelectBookmarkedUnitQueryParams>,
         pool: Pool
     ): Promise<SortedUnit> =>
         (
-            await bookmarkedUnitQuery.run(
+            await selectBookmarkedUnitQuery.run(
                 {
                     ...params,
                     ...convertRentalToNumeric({
@@ -179,6 +183,29 @@ const bookmarkedUnit = {
             bathRooms: bath_rooms ?? [],
             bedRooms: bed_rooms ?? [],
         };
+    },
+    count: async (
+        params: ConvertCurrencyToNumber<ISelectCountBookmarkedUnitQueryParams>,
+        pool: Pool
+    ) => {
+        const results = await selectCountBookmarkedUnitQuery.run(
+            {
+                ...params,
+                ...convertRentalToNumeric({
+                    min: params.minRental,
+                    max: params.maxRental,
+                }),
+            },
+            pool
+        );
+        if (results.length !== 1) {
+            throw new Error(
+                `Expect bookmarked units count to have 1 element, got ${results.length} instead`
+            );
+        }
+        return parseInt(
+            parseAsString(results[0]?.count).orElseThrowDefault('count')
+        );
     },
 };
 

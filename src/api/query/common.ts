@@ -38,7 +38,18 @@ const parseContact = ({
 
 const parseRating = (rating: ReadonlyArray<number> | null) => rating ?? [];
 
-type ConvertCurrencyToNumber<T> = Omit<T, 'minRental' | 'maxRental'> &
+const parseAsMinMaxRental = ({
+    min,
+    max,
+}: Readonly<{
+    min: string | null;
+    max: string | null;
+}>) => ({
+    minRentalPerPax: parseFloat(parseAsString(min).orElseThrowDefault('min')),
+    maxRentalPerPax: parseFloat(parseAsString(max).orElseThrowDefault('max')),
+});
+
+type ConvertCurrencyToNumber<T> = Omit<Readonly<T>, 'minRental' | 'maxRental'> &
     Readonly<{
         minRental: number | undefined;
         maxRental: number | undefined;
@@ -52,5 +63,6 @@ export {
     parseRating,
     parseNullableNumericFromRental,
     parseNumericFromRental,
+    parseAsMinMaxRental,
     ConvertCurrencyToNumber,
 };

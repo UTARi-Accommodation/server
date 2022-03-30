@@ -1,5 +1,5 @@
 /*
- @name BookmarkedRoomQuery
+ @name SelectBookmarkedRoomQuery
  @param roomTypes -> (...)
  @param regions -> (...)
  @param capacities -> (...)
