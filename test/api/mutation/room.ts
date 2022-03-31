@@ -168,6 +168,25 @@ const testRoomMutation = () =>
                         room: roomOne,
                         user: userTwo,
                     });
+                    // delete all rating of roomOne from userOne
+                    expect(
+                        await roomRating.delete(
+                            {
+                                room: roomOne,
+                                user: userOne,
+                            },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual([
+                        {
+                            room: roomOne,
+                            user: userOne,
+                        },
+                        {
+                            room: roomOne,
+                            user: userOne,
+                        },
+                    ]);
                 });
             });
             describe('query room', () => {

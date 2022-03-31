@@ -1,6 +1,8 @@
 import postgreSQL, { Pool } from '../../postgres';
 import { insert, IInsertParams } from './insert.queries';
 import updateScore from '../../action/updateScore/room';
+import { IRemoveParams, remove } from './delete.queries';
+import { parseAsNumber } from 'parse-dont-validate';
 
 const roomRating = {
     insert: async (params: Readonly<IInsertParams['params']>, pool: Pool) => {
@@ -29,6 +31,26 @@ const roomRating = {
             room: result.room,
             user: result.utari_user,
         };
+    },
+    delete: async (params: Readonly<IRemoveParams>, pool: Pool) => {
+        const results = await remove.run(params, pool);
+        if (results.length === 0) {
+            throw new Error(
+                `Expect result to have at least 1 id, got 0 instead`
+            );
+        }
+        await updateScore.one(
+            {
+                id: parseAsNumber(results[0]?.room).orElseThrowDefault(
+                    'room rating room id'
+                ),
+            },
+            postgreSQL.instance.pool
+        );
+        return results.map(({ utari_user, room }) => ({
+            user: utari_user,
+            room,
+        }));
     },
 };
 
