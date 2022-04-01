@@ -302,7 +302,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 res.status(200).json(result);
             }
         }),
-    addBookmark: () =>
+    add: () =>
         app.post('/api/bookmarked', async (req, res) => {
             if (req.method !== 'POST') {
                 throw new Error('Only accept POST request');
@@ -388,7 +388,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 }
             }
         }),
-    deleteBookmark: () =>
+    delete: () =>
         app.delete('/api/bookmarked', async (req, res) => {
             if (req.method !== 'DELETE') {
                 throw new Error('Only accept DELETE request');

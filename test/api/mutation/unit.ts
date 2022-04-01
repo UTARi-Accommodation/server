@@ -167,6 +167,25 @@ const testUnitMutation = () =>
                         unit: unitOne,
                         user: userTwo,
                     });
+                    // delete all rating of unitOne from userOne
+                    expect(
+                        await unitRating.delete(
+                            {
+                                unit: unitOne,
+                                user: userOne,
+                            },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual([
+                        {
+                            unit: unitOne,
+                            user: userOne,
+                        },
+                        {
+                            unit: unitOne,
+                            user: userOne,
+                        },
+                    ]);
                 });
             });
             describe('query unit', () => {

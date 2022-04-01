@@ -83,13 +83,14 @@ const { json, urlencoded } = express;
         contact.sendEmail();
 
         const rating = ratingRouter(app);
-        rating.insert();
+        rating.add();
+        rating.delete();
 
         const bookmarked = bookmarkedRouter(app);
         bookmarked.queryUnit();
         bookmarked.queryRoom();
-        bookmarked.addBookmark();
-        bookmarked.deleteBookmark();
+        bookmarked.add();
+        bookmarked.delete();
 
         const user = userRouter(app);
         user.add();
