@@ -62,6 +62,7 @@ const computeRatingScore = (rating: ReadonlyArray<number>) =>
               max: rating.length <= 150 ? 25 : 5,
           });
 
+// ref https://www.desmos.com/calculator/8yjcuu7oan
 const computeVisitCountScore = (visitCount: number) =>
     !visitCount
         ? 0
@@ -71,8 +72,8 @@ const computeVisitCountScore = (visitCount: number) =>
                   : visitCount <= 160
                   ? 5 / (1 + Math.exp(-0.05 * (visitCount - 80)))
                   : Math.log(visitCount) + 2.71,
-              min: 0,
-              max: visitCount <= 160 ? 4.91 : Number.MAX_SAFE_INTEGER,
+              min: visitCount <= 160 ? 0 : 4.91,
+              max: visitCount <= 160 ? 4.91 : 7.82,
           });
 
 const computeFacilitiesScore = (facilities: string) =>

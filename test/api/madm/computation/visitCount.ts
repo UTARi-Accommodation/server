@@ -14,6 +14,21 @@ const testComputeVisitCountScore = () =>
             it('should give 0 when visit count', () =>
                 expect(computeVisitCountScore(0)).toBe(0));
         });
+        describe('Sigmoid function', () => {
+            it('should reduce the significance of visit count as visit count increases, especially when visit count >= 160', () => {
+                const oneHundredFifty = computeVisitCountScore(150);
+                const oneHundredSixty = computeVisitCountScore(160);
+                expect(oneHundredFifty - computeVisitCountScore(140)).toBe(
+                    0.018445664385142946
+                );
+                expect(oneHundredSixty - oneHundredFifty).toBe(
+                    0.011533626058314428
+                );
+                expect(computeVisitCountScore(170) - oneHundredSixty).toBe(
+                    0.00885139947685265
+                );
+            });
+        });
     });
 
 export default testComputeVisitCountScore;
