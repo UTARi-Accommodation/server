@@ -23,8 +23,31 @@ const testComputeRatingScore = () =>
                 expect(computeRatingScore([])).toBe(0));
         });
         describe('0 Rating', () => {
-            it('should give 0 when rating is 0', () =>
-                expect(computeRatingScore([0])).toBe(0));
+            it('should give 0 when rating is 0', () => {
+                expect(computeRatingScore([0])).toBe(0);
+                expect(computeRatingScore([0, 0, 0])).toBe(0);
+            });
+        });
+        describe('Sigmoid function', () => {
+            it('should reduce the significance of visit count as visit count increases, especially when visit count >= 160', () => {
+                const oneHundredFifty = computeRatingScore(
+                    Array.from({ length: 150 }, () => 1)
+                );
+                const oneHundredSixty = computeRatingScore(
+                    Array.from({ length: 160 }, () => 1)
+                );
+                expect(
+                    oneHundredFifty -
+                        computeRatingScore(Array.from({ length: 140 }, () => 1))
+                ).toBe(0.000015599341456729032);
+                expect(oneHundredSixty - oneHundredFifty).toBe(
+                    0.000009079573740522484
+                );
+                expect(
+                    computeRatingScore(Array.from({ length: 170 }, () => 1)) -
+                        oneHundredSixty
+                ).toBe(0);
+            });
         });
     });
 
