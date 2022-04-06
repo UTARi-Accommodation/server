@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS unit_rating (
   id SERIAL PRIMARY KEY NOT NULL,
   utari_user TEXT NOT NULL REFERENCES utari_user (id),
   unit INTEGER NOT NULL REFERENCES unit (id),
-  rating DOUBLE PRECISION NOT NULL,
+  rating INTEGER NOT NULL,
   time_created TIMESTAMPTZ NOT NULL
 );
 CREATE TABLE IF NOT EXISTS unit_bookmarked (
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS room_rating (
   id SERIAL PRIMARY KEY NOT NULL,
   utari_user TEXT NOT NULL REFERENCES utari_user (id),
   room INTEGER NOT NULL REFERENCES room (id),
-  rating DOUBLE PRECISION NOT NULL,
+  rating INTEGER NOT NULL,
   time_created TIMESTAMPTZ NOT NULL
 );
 CREATE TABLE IF NOT EXISTS room_bookmarked (
