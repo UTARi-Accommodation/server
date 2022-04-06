@@ -57,7 +57,15 @@ const computeRatingScore = (rating: ReadonlyArray<number>) =>
                   (rating.length <= 150
                       ? 5 / (1 + Math.exp(-0.1 * (rating.length - 50)))
                       : 1) *
-                  (rating.reduce((prev, curr) => prev + curr) / rating.length),
+                  (rating.reduce((prev, curr) => {
+                      if (curr < 1 || curr > 5) {
+                          throw new Error(
+                              `curr rating is ${curr}, which is < 1 OR > 5`
+                          );
+                      }
+                      return prev + curr;
+                  }, 0) /
+                      rating.length),
               min: 0,
               max: rating.length <= 150 ? 25 : 5,
           });

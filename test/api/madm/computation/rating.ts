@@ -22,10 +22,14 @@ const testComputeRatingScore = () =>
             it('should give 0 when there is no rating', () =>
                 expect(computeRatingScore([])).toBe(0));
         });
-        describe('0 Rating', () => {
-            it('should give 0 when rating is 0', () => {
-                expect(computeRatingScore([0])).toBe(0);
-                expect(computeRatingScore([0, 0, 0])).toBe(0);
+        describe('Out of range rating', () => {
+            it('should throw error when one of the ratings is larger than 5', () => {
+                expect(() => computeRatingScore([5.1])).toThrowError();
+                expect(() => computeRatingScore([4, 5.1])).toThrowError();
+            });
+            it('should throw error when one of the ratings is smaller than 1', () => {
+                expect(() => computeRatingScore([0.9])).toThrowError();
+                expect(() => computeRatingScore([5, 0.9])).toThrowError();
             });
         });
         describe('Sigmoid function', () => {
