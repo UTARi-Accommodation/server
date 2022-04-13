@@ -1,10 +1,7 @@
 import { Client } from '@googlemaps/google-maps-services-js';
-import dotenv from 'dotenv';
-import { parseAsString } from 'parse-dont-validate';
+import { parseAsEnv } from 'esbuild-env-parsing';
 
 const client = new Client({});
-
-dotenv.config({});
 
 const geocode = {
     getGeoCode: async (address: string) => {
@@ -13,9 +10,10 @@ const geocode = {
         } = await client.geocode({
             params: {
                 address,
-                key: parseAsString(process.env.MAPS_API_KEY).orElseThrowDefault(
-                    'Maps Api Key'
-                ),
+                key: parseAsEnv({
+                    env: process.env.MAPS_API_KEY,
+                    name: 'Maps Api Key',
+                }),
             },
         });
         const [result] = results;

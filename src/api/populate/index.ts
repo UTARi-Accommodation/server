@@ -22,6 +22,7 @@ import accommodation from '../../database/table/accommodation';
 import unit from '../../database/table/unit';
 import updateUnitScore from '../../database/action/updateScore/unit';
 import updateRoomScore from '../../database/action/updateScore/room';
+import { parseAsEnv } from 'esbuild-env-parsing';
 
 const upsertRoom = async ({
     capacities,
@@ -231,7 +232,12 @@ const upsertInfo = async (accommodations: Accommodations, region: Region) => {
                           .sort((a, b) => a.localeCompare(b))
                           .join(''))
             ) {
-                if (process.env.NODE_ENV === 'test') {
+                if (
+                    parseAsEnv({
+                        env: process.env.NODE_ENV,
+                        name: 'node env',
+                    }) === 'test'
+                ) {
                     return await Promise.resolve(num + 1);
                 }
                 throw new Error(

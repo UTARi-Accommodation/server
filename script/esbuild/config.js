@@ -1,4 +1,4 @@
-export default ({ entryPoint, outfile }) => ({
+const config = ({ entryPoint, outfile }) => ({
     entryPoints: [entryPoint],
     outfile,
     bundle: true,
@@ -9,3 +9,5 @@ export default ({ entryPoint, outfile }) => ({
     target: 'node16.13.1',
     external: ['pg-native'],
 });
+
+export default config;

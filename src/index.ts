@@ -16,6 +16,7 @@ import contactRouter from './router/contact/';
 import invalidRouter from './router/invalid';
 import logger from './logger';
 import antiCsrfRouter from './router/csrf';
+import { parseAsEnv } from 'esbuild-env-parsing';
 
 const { json, urlencoded } = express;
 
@@ -27,13 +28,19 @@ const { json, urlencoded } = express;
         ).start();
 
         const app = (() => {
-            const env = process.env.NODE_ENV;
+            const env = parseAsEnv({
+                env: process.env.NODE_ENV,
+                name: 'node env',
+            });
             const isNotDev = env === 'production' || env === 'staging';
             const middleWares = [
                 json({ limit: '10mb' }),
                 urlencoded({ extended: true }),
                 cors({
-                    origin: process.env.ORIGIN,
+                    origin: parseAsEnv({
+                        env: process.env.ORIGIN,
+                        name: 'origin',
+                    }),
                     credentials: true,
                 }),
                 cookieParser(),
