@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import dotenv from 'dotenv';
-import { parseAsEnv } from 'utari-common';
+import { parseAsEnv } from 'esbuild-env-parsing';
 
 (() => {
     dotenv.config({});
