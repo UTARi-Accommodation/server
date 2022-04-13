@@ -36,7 +36,7 @@ const postgresConfig = () => {
               }),
               database: parseAsEnv({
                   env: process.env.PGDATABASE,
-                  name: `pg${env === 'test' ? 'test' : ''}database`,
+                  name: 'pgdatabase',
               }),
               password: parseAsEnv({
                   env: process.env.PGPASSWORD,
