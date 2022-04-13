@@ -15,7 +15,7 @@ import { parseAsEnv } from 'esbuild-env-parsing';
                         emitTemplate: '{{dir}}/{{name}}.queries.ts',
                     },
                 ],
-                srcDir: './src/',
+                srcDir: 'src/',
                 failOnError: true,
                 camelCaseColumnNames: false,
                 db: {
@@ -27,7 +27,7 @@ import { parseAsEnv } from 'esbuild-env-parsing';
                         env: process.env.PGHOST,
                         name: 'pghost',
                     }),
-                    database: parseAsEnv({
+                    dbName: parseAsEnv({
                         env: process.env.PGDATABASE,
                         name: 'pgdatabase',
                     }),
