@@ -45,7 +45,7 @@ jobs:
                   NODE_ENV: test
                   PGUSER: postgres
                   PGHOST: localhost
-                  PGTESTDATABASE: test
+                  PGDATABASE: test
                   PGPASSWORD: postgres
                   PGPORT: 5432
                   MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
@@ -54,4 +54,28 @@ jobs:
                   rm -rf __tests__
 
             - name: Run Build
+              # just to ensure build dont fail due to absence of env variable
+              # the real env will be used somewhere else
+              env:
+                  NODE_ENV: production
+                  ORIGIN: origin
+                  PGUSER: postgres
+                  PGHOST: localhost
+                  PGDATABASE: test
+                  PGPASSWORD: postgres
+                  PGPORT: 5432
+                  MAPS_API_KEY: api
+                  EMAIL: email
+                  PASS: pass
+                  FIREBASE_TYPE: type
+                  FIREBASE_KEY: key
+                  FIREBASE_PROJECT_ID: id
+                  FIREBASE_KEY_ID: id
+                  FIREBASE_CLIENT_EMAIL: email
+                  FIREBASE_CLIENT_ID: id
+                  FIREBASE_AUTH_URI: uri
+                  FIREBASE_TOKEN_URI: uri
+                  FIREBASE_AUTH_PROVIDER_X509_CERT_URL: url
+                  FIREBASE_CLIENT_X509_CERT_URL: url
+                  DATABASE_URL: url
               run: make build

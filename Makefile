@@ -16,6 +16,7 @@ start:
 ## build
 pre-build:
 	rm -rf build
+
 build: pre-build
 	node script/esbuild/server.js
 
@@ -32,9 +33,11 @@ typecheck-watch:
 
 ## test
 api=test-api
-test:
-	node_modules/.bin/esbuild test/index.ts --bundle --minify --target=node16.3.1 --platform=node --external:pg-native --outfile=__tests__/index.test.js &&\
-		node_modules/.bin/jest __tests__ $(arguments)
+pre-test:
+	rm -rf __tests__
+
+test: pre-test
+	node script/esbuild/test.js && node_modules/.bin/jest __tests__ $(arguments)
 
 ## code coverage
 code-cov:

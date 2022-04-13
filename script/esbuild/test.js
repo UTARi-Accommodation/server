@@ -1,15 +1,17 @@
 import { build } from 'esbuild';
-import config from './config.js';
 import dotenv from 'dotenv';
 import { parseAsEnvs } from 'esbuild-env-parsing';
+import config from './config.js';
 
-dotenv.config({});
+dotenv.config({
+    path: `${process.cwd()}/.env.test`,
+});
 
 (() =>
     build({
         ...config({
-            entryPoint: 'src/scrapper/scrap.ts',
-            outfile: 'build/scrap.js',
+            entryPoint: 'test/index.ts',
+            outfile: '__tests__/index.test.js',
         }),
         define: parseAsEnvs([
             'NODE_ENV',

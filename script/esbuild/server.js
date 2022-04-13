@@ -2,10 +2,15 @@ import { build } from 'esbuild';
 import dotenv from 'dotenv';
 import child from 'child_process';
 import config from './config.js';
+import { parseAsEnvs, parseAsEnv } from 'esbuild-env-parsing';
 
 dotenv.config({});
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev =
+    parseAsEnv({
+        env: process.env.NODE_ENV,
+        name: 'node env',
+    }) === 'development';
 
 (() =>
     build({
@@ -13,9 +18,31 @@ const isDev = process.env.NODE_ENV === 'development';
             entryPoint: 'src/index.ts',
             outfile: 'build/index.js',
         }),
-        define: {
-            'process.env.NODE_ENV': `"${process.env.NODE_ENV}"`,
-        },
+        define: parseAsEnvs(
+            [
+                'NODE_ENV',
+                'ORIGIN',
+                'PGUSER',
+                'PGHOST',
+                'PGDATABASE',
+                'PGPASSWORD',
+                'PGPORT',
+                'MAPS_API_KEY',
+                'EMAIL',
+                'PASS',
+                'FIREBASE_TYPE',
+                'FIREBASE_KEY',
+                'FIREBASE_PROJECT_ID',
+                'FIREBASE_KEY_ID',
+                'FIREBASE_CLIENT_EMAIL',
+                'FIREBASE_CLIENT_ID',
+                'FIREBASE_AUTH_URI',
+                'FIREBASE_TOKEN_URI',
+                'FIREBASE_AUTH_PROVIDER_X509_CERT_URL',
+                'FIREBASE_CLIENT_X509_CERT_URL',
+                isDev ? '' : 'DATABASE_URL',
+            ].filter(Boolean)
+        ),
         watch: !isDev
             ? undefined
             : {
