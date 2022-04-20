@@ -88,6 +88,29 @@ const generalRouter = (app: express.Application) => ({
                     ...unitQuery,
                 };
 
+                const rentalRangeFrequencies =
+                    await generalUnit.rentalFrequency(
+                        { region, unitType },
+                        postgreSQL.instance.pool
+                    );
+
+                // if there's no bedRoom, there's no bathRoom as well
+                if (!finalizedUnitQuery.bedRooms.length) {
+                    const result = {
+                        units: [],
+                        numberOfResultsQueried: 0,
+                        rentalRangeFrequencies,
+                        bedRooms,
+                        bathRooms,
+                        page: 1,
+                        totalPage: 0,
+                        center: getCentralGeocode([], region ?? 'KP'),
+                    } as UnitsQueried;
+                    logger.log(result);
+                    res.status(200).json(result);
+                    return;
+                }
+
                 const units = await generalUnit.general(
                     finalizedUnitQuery,
                     postgreSQL.instance.pool
@@ -103,8 +126,8 @@ const generalRouter = (app: express.Application) => ({
                         units: [],
                         numberOfResultsQueried,
                         rentalRangeFrequencies: [],
-                        bedRooms: [],
-                        bathRooms: [],
+                        bedRooms,
+                        bathRooms,
                         page: 1,
                         totalPage: 0,
                         center: getCentralGeocode([], region ?? 'KP'),
@@ -123,10 +146,7 @@ const generalRouter = (app: express.Application) => ({
                 const result = {
                     units,
                     numberOfResultsQueried: empty ? 0 : numberOfResultsQueried,
-                    rentalRangeFrequencies: await generalUnit.rentalFrequency(
-                        { region, unitType },
-                        postgreSQL.instance.pool
-                    ),
+                    rentalRangeFrequencies,
                     bedRooms,
                     bathRooms,
                     page: unitQuery.currentPage,
@@ -209,6 +229,27 @@ const generalRouter = (app: express.Application) => ({
                     ...roomQuery,
                 };
 
+                const rentalRangeFrequencies =
+                    await generalRoom.rentalFrequency(
+                        { region, roomType },
+                        postgreSQL.instance.pool
+                    );
+
+                if (!finalizedRoomQuery.capacities.length) {
+                    const result = {
+                        rooms: [],
+                        numberOfResultsQueried: 0,
+                        rentalRangeFrequencies,
+                        capacities,
+                        page: 1,
+                        totalPage: 0,
+                        center: getCentralGeocode([], region ?? 'KP'),
+                    } as RoomsQueried;
+                    logger.log(result);
+                    res.status(200).json(result);
+                    return;
+                }
+
                 const rooms = await generalRoom.general(
                     finalizedRoomQuery,
                     postgreSQL.instance.pool
@@ -224,7 +265,7 @@ const generalRouter = (app: express.Application) => ({
                         rooms: [],
                         numberOfResultsQueried,
                         rentalRangeFrequencies: [],
-                        capacities: [],
+                        capacities,
                         page: 1,
                         totalPage: 0,
                         center: getCentralGeocode([], region ?? 'KP'),
@@ -243,10 +284,7 @@ const generalRouter = (app: express.Application) => ({
                 const result = {
                     rooms,
                     numberOfResultsQueried,
-                    rentalRangeFrequencies: await generalRoom.rentalFrequency(
-                        { region, roomType },
-                        postgreSQL.instance.pool
-                    ),
+                    rentalRangeFrequencies,
                     capacities,
                     page: parsedPage,
                     totalPage: empty ? 0 : totalPage,
