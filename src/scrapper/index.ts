@@ -9,6 +9,13 @@ import timeScrap from '../database/table/timeScrap';
 const upsertAllToDatabase = async (region: Region) => {
     const { scrapRoom, scrapRoommate, scrapHouse, scrapCondominium } =
         await scrapper(region);
+    logger.log({
+        roomLen: scrapRoom.length,
+        roommateLen: scrapRoommate.length,
+        houseLen: scrapHouse.length,
+        condominiumLen: scrapCondominium.length,
+        region,
+    });
     if (
         (
             await Promise.all([

@@ -80,6 +80,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                     postgreSQL.instance.pool
                 );
 
+                // if there's no bedRoom, there's no bathRoom as well
                 if (!bedRooms.length) {
                     const result = {
                         units: [],

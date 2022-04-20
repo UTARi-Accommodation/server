@@ -1,5 +1,14 @@
 ## declare PHONY
-.PHONY: build test
+.PHONY: build test all
+
+all:
+	make lint &&\
+		make typecheck &&\
+		make format-check &&\
+		make test &&\
+		make build
+
+NODE_BIN=node_modules/.bin/
 
 ## scrap
 scrap:
@@ -26,7 +35,7 @@ clean-up:
 
 ## type-check
 typecheck:
-	node_modules/.bin/tsc -p tsconfig.json $(arguments)
+	$(NODE_BIN)tsc -p tsconfig.json $(arguments)
 
 typecheck-watch:
 	make typecheck arguments=--w
@@ -37,7 +46,7 @@ pre-test:
 	rm -rf __tests__
 
 test: pre-test
-	node script/esbuild/test.js && node_modules/.bin/jest __tests__ $(arguments)
+	node script/esbuild/test.js && $(NODE_BIN)jest __tests__ $(arguments)
 
 ## code coverage
 code-cov:
@@ -45,7 +54,7 @@ code-cov:
 
 ## pg typed generator
 pg-gen:
-	node script/pgTyped.js && node_modules/.bin/pgtyped $(arguments) -c pgTyped.json
+	node script/pgTyped.js && $(NODE_BIN)pgtyped $(arguments) -c pgTyped.json
 
 pg-gen-watch:
 	make pg-gen arguments=-w
@@ -54,20 +63,33 @@ pg-gen-watch:
 format-sql:
 	node script/sqlFormatter.js
 
-prettier=node_modules/.bin/prettier
-format-ts:
-	$(prettier) --write src/
+prettier=$(NODE_BIN)prettier
+prettify-src:
+	$(prettier) --$(type) src/
+
+prettify-test:
+	$(prettier) --$(type) test/
 
 format-check:
-	$(prettier) --check src/
+	(trap 'kill 0' INT; make prettify-src type=check & make prettify-test type=check)
+
+format-ts:
+	(trap 'kill 0' INT; make prettify-src type=write & make prettify-test type=write)
 
 format:
 	make format-sql
 	make format-ts
 
 ## lint
+eslint=$(NODE_BIN)eslint
 lint-src:
-	node_modules/.bin/eslint src/** -f='stylish' --color
+	$(eslint) src/** -f='stylish' --color
+
+lint-test:
+	$(eslint) test/**/*.{ts} -f='stylish' --color
+
+lint:
+	(trap 'kill 0' INT; make lint-src & make lint-test)
 
 ## postgres setup and installation
 install:
