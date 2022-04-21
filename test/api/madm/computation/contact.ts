@@ -28,7 +28,7 @@ const testComputeContactScore = () =>
             });
         });
         describe('Empty Contact', () => {
-            it('should give 0 when contact is empty or blank', () =>
+            it('should give 0 when contact is an empty array', () =>
                 expect(
                     computeContactScore({
                         mobileNumber: [],

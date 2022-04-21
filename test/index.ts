@@ -26,10 +26,12 @@ import testUnitQuery from './api/query/unit';
 import testRoomQuery from './api/query/room';
 
 //scrapper
-import testBandarTunHusseinOnnScrapper from './scrapper/bandarTunHusseinOn';
+import {
+    testBandarTunHusseinOnnScrapper,
+    testKamparScrapper,
+    testSungaiLongScrapper,
+} from './scrapper/accommodation';
 import testGeocodeScrapper from './scrapper/geocode';
-import testKamparScrapper from './scrapper/kampar';
-import testSungaiLongScrapper from './scrapper/sungaiLong';
 import postgreSQL from '../src/database/postgres';
 
 (() => {
@@ -58,8 +60,8 @@ import postgreSQL from '../src/database/postgres';
     testUnitQuery();
     testRoomQuery();
 
-    testBandarTunHusseinOnnScrapper();
     testGeocodeScrapper();
+    testBandarTunHusseinOnnScrapper();
     testKamparScrapper();
     testSungaiLongScrapper();
 

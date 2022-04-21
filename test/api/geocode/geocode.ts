@@ -1,8 +1,8 @@
 import getCentralGeocode from '../../../src/api/geocode';
 
 const testGetCentralGeocode = () =>
-    describe('Compute center point for an array of geocode', () => {
-        it('should compute the center point', () => {
+    describe('Central geocode computer', () => {
+        it('should compute the center point if an array of geocode is provided', () => {
             expect(
                 getCentralGeocode(
                     [
@@ -31,7 +31,7 @@ const testGetCentralGeocode = () =>
                 lng: 101.13853322800641,
             });
         });
-        it('should return undefined', () => {
+        it('should return default region central geocode if empty array is given', () => {
             expect(getCentralGeocode([], 'KP')).toStrictEqual({
                 lat: 4.340067,
                 lng: 101.14298,

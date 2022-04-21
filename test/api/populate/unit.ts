@@ -5,8 +5,8 @@ import { insert, update } from '../../dummy/api/populate/unit.json';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
 
 const testUnitPopulation = () =>
-    describe('Unit', () => {
-        describe('Insert', () => {
+    describe('Populate Unit', () => {
+        describe('Inserting a unit and quqerying the inserted unit', () => {
             beforeAll(async () => {
                 await postgreSQL.instance.exec((await schema).drop);
                 await postgreSQL.instance.exec((await schema).create);
@@ -15,7 +15,7 @@ const testUnitPopulation = () =>
             const handlerID = '054658721';
             const accommodationId = 26767;
 
-            it('should be the same handler', async () => {
+            it('should return the same handler', async () => {
                 const handlers = (
                     await postgreSQL.instance.exec(
                         `SELECT name, id, handler_type FROM handler WHERE id='${handlerID}'`
@@ -36,7 +36,7 @@ const testUnitPopulation = () =>
                 expect(handlerType).toBe('Owner');
             });
 
-            it('should be the same email', async () => {
+            it('should return the same email', async () => {
                 const emails = (
                     await postgreSQL.instance.exec(
                         `SELECT email, handler FROM email WHERE handler='${handlerID}'`
@@ -56,7 +56,7 @@ const testUnitPopulation = () =>
                 expect(emailHandler).toBe(handlerID);
             });
 
-            it('should be the same mobile number', async () => {
+            it('should return the same mobile number', async () => {
                 const mobileNumbers = (
                     await postgreSQL.instance.exec(
                         `SELECT mobile_number, handler FROM mobile_number WHERE handler='${handlerID}'`
@@ -77,7 +77,7 @@ const testUnitPopulation = () =>
                 expect(mobileNumberHandler).toBe(handlerID);
             });
 
-            it('should be the same accommodation', async () => {
+            it('should return the same accommodation', async () => {
                 const accommodations = (
                     await postgreSQL.instance.exec(
                         `SELECT id, handler, address, latitude, longitude, remark, month, year, region, facilities, accommodation_type, available FROM accommodation WHERE handler='${handlerID}'`
@@ -132,7 +132,7 @@ const testUnitPopulation = () =>
                 }
             });
 
-            it('should be the same unit', async () => {
+            it('should return the same unit', async () => {
                 const units = (
                     await postgreSQL.instance.exec(
                         `SELECT id, accommodation, bath_rooms, bed_rooms, rental, unit_type, available FROM unit WHERE accommodation=${accommodationId}`
@@ -166,7 +166,7 @@ const testUnitPopulation = () =>
             });
         });
 
-        describe('Update', () => {
+        describe('Updating the inserted unit and querying the updated unit', () => {
             beforeAll(async () => {
                 await resetTablesAndColumns(postgreSQL.instance.pool);
                 await insertToDatabase(update, 'BTHO');
@@ -174,7 +174,7 @@ const testUnitPopulation = () =>
             const handlerID = '0123038119';
             const accommodationId = 26767;
 
-            it('should be the same handler', async () => {
+            it('should return the same handler', async () => {
                 const handlers = (
                     await postgreSQL.instance.exec(
                         `SELECT name, id, handler_type FROM handler WHERE id='${handlerID}'`
@@ -195,7 +195,7 @@ const testUnitPopulation = () =>
                 expect(handlerType).toBe('Tenant');
             });
 
-            it('should be the same email', async () => {
+            it('should return the same email', async () => {
                 const emails = (
                     await postgreSQL.instance.exec(
                         `SELECT email, handler FROM email WHERE handler='${handlerID}'`
@@ -215,7 +215,7 @@ const testUnitPopulation = () =>
                 expect(emailHandler).toBe(handlerID);
             });
 
-            it('should be the same mobile number', async () => {
+            it('should return the same mobile number', async () => {
                 const mobileNumbers = (
                     await postgreSQL.instance.exec(
                         `SELECT mobile_number, handler FROM mobile_number WHERE handler='${handlerID}'`
@@ -236,7 +236,7 @@ const testUnitPopulation = () =>
                 expect(mobileNumberHandler).toBe(handlerID);
             });
 
-            it('should be the same accommodation', async () => {
+            it('should return the same accommodation', async () => {
                 const accommodations = (
                     await postgreSQL.instance.exec(
                         `SELECT id, handler, address, latitude, longitude, remark, month, year, region, facilities, accommodation_type, available FROM accommodation WHERE handler='${handlerID}'`
@@ -288,7 +288,7 @@ const testUnitPopulation = () =>
             });
 
             // unit
-            it('should be the same unit', async () => {
+            it('should return the same unit', async () => {
                 const units = (
                     await postgreSQL.instance.exec(
                         `SELECT id, accommodation, bath_rooms, bed_rooms, rental, unit_type, available FROM unit WHERE accommodation='${accommodationId}'`

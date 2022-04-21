@@ -16,7 +16,7 @@ const testMultiAttributeDecisionModelUnit = () => {
     describe('Multi-Attribute Decision Model', () => {
         const { min: minRentalPerPax, max: maxRentalPerPax } =
             getMinMaxRental(unitOne);
-        it('should sort according to MADM', () => {
+        it('should sort a given unit-based accommodations according to MADM', () => {
             const scores = multiAttributeDecisionModelUnit(unitOne, {
                 minRentalPerPax,
                 maxRentalPerPax,
@@ -32,7 +32,7 @@ const testMultiAttributeDecisionModelUnit = () => {
     });
 
     describe('Multi-Attribute Decision Model', () => {
-        it('should sort according to MADM', () => {
+        it('should sort another given unit-based accommodations according to MADM', () => {
             const { min: minRentalPerPax, max: maxRentalPerPax } =
                 getMinMaxRental(unitTwo);
             const scores = multiAttributeDecisionModelUnit(unitTwo, {

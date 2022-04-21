@@ -11,7 +11,7 @@ import unitBookmarked from '../../../src/database/table/unitBookmarked';
 import { maxItemsPerPage } from 'utari-common';
 
 const testUnitMutation = () =>
-    describe('Unit', () => {
+    describe('Mutate Unit', () => {
         const userOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const userTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const timeCreated = new Date();
@@ -31,8 +31,8 @@ const testUnitMutation = () =>
         describe('Mutation', () => {
             const unitOne = 1;
             const unitTwo = 2;
-            describe('unit visit count', () => {
-                it('should update unit visit count', async () => {
+            describe('the score and visit count of units', () => {
+                it('should be updated after it is visited', async () => {
                     const visitorOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const visitorTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     await visitor.insert(
@@ -105,8 +105,8 @@ const testUnitMutation = () =>
                     });
                 });
             });
-            describe('unit rating', () => {
-                it('should update unit rating', async () => {
+            describe('the score and rating of rooms', () => {
+                it('should be updated after user give rating', async () => {
                     // insert new rating for unitOne from userOne
                     expect(
                         await unitRating.insert(
@@ -188,8 +188,8 @@ const testUnitMutation = () =>
                     ]);
                 });
             });
-            describe('query unit', () => {
-                it('should query units with newly added rating and view count', async () => {
+            describe('querying unit', () => {
+                it('should return units with newly updated rating, visit count and score', async () => {
                     const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
                     await utariUser.insert(
                         { id: userId, timeCreated: new Date() },
@@ -222,7 +222,7 @@ const testUnitMutation = () =>
                 });
             });
             describe('unit bookmark', () => {
-                it('should create, delete and create unit bookmarked', async () => {
+                it('should be able to create, delete and create bookmarks for unit again without affecting the scores of bookmarked unit', async () => {
                     // create new bookmark for unitOne from userOne
                     expect(
                         await unitBookmarked.insert(

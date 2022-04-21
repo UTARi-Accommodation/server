@@ -5,8 +5,8 @@ import { insert, update } from '../../dummy/api/populate/room.json';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
 
 const testRoomPopulate = () =>
-    describe('Room', () => {
-        describe('Insert', () => {
+    describe('Populate Room', () => {
+        describe('Inserting a room and querying the inserted room', () => {
             beforeAll(async () => {
                 await postgreSQL.instance.exec((await schema).drop);
                 await postgreSQL.instance.exec((await schema).create);
@@ -15,7 +15,7 @@ const testRoomPopulate = () =>
             const handlerID = '054658721';
             const accommodationId = 26729;
 
-            it('should be the same handler', async () => {
+            it('should return the same handler', async () => {
                 const handlers = (
                     await postgreSQL.instance.exec(
                         `SELECT name, id, handler_type FROM handler WHERE id='${handlerID}'`
@@ -36,7 +36,7 @@ const testRoomPopulate = () =>
                 expect(handlerType).toBe('Owner');
             });
 
-            it('should be the same email', async () => {
+            it('should return the same email', async () => {
                 const emails = (
                     await postgreSQL.instance.exec(
                         `SELECT email, handler FROM email WHERE handler='${handlerID}'`
@@ -56,7 +56,7 @@ const testRoomPopulate = () =>
                 expect(emailHandler).toBe(handlerID);
             });
 
-            it('should be the same mobile number', async () => {
+            it('should return the same mobile number', async () => {
                 const mobileNumbers = (
                     await postgreSQL.instance.exec(
                         `SELECT mobile_number, handler FROM mobile_number WHERE handler='${handlerID}'`
@@ -77,7 +77,7 @@ const testRoomPopulate = () =>
                 expect(mobileNumberHandler).toBe(handlerID);
             });
 
-            it('should be the same accommodation', async () => {
+            it('should return the same accommodation', async () => {
                 const accommodations = (
                     await postgreSQL.instance.exec(
                         `SELECT id, handler, address, latitude, longitude, remark, month, year, region, facilities, accommodation_type, available FROM accommodation WHERE handler='${handlerID}'`
@@ -132,7 +132,7 @@ const testRoomPopulate = () =>
                 }
             });
 
-            it('should be the same room', async () => {
+            it('should return the same room', async () => {
                 const rooms = (
                     await postgreSQL.instance.exec(
                         `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER BY id`
@@ -177,7 +177,7 @@ const testRoomPopulate = () =>
                 expect(master.available).toBe(true);
             });
 
-            it('should be the same room capacities', async () => {
+            it('should return the same room capacities', async () => {
                 const capacities = (
                     await postgreSQL.instance.exec(
                         `SELECT id, room, capacities FROM room_capacity ORDER BY id ASC`
@@ -223,7 +223,7 @@ const testRoomPopulate = () =>
             });
         });
 
-        describe('Update', () => {
+        describe('Update the inserted room and querying the updated room', () => {
             beforeAll(async () => {
                 await resetTablesAndColumns(postgreSQL.instance.pool);
                 await insertToDatabase(update, 'BTHO');
@@ -231,7 +231,7 @@ const testRoomPopulate = () =>
             const handlerID = '0183899550';
             const accommodationId = 26729;
 
-            it('should be the same handler', async () => {
+            it('should return the same handler', async () => {
                 const handlers = (
                     await postgreSQL.instance.exec(
                         `SELECT name, id, handler_type FROM handler WHERE id='${handlerID}'`
@@ -252,7 +252,7 @@ const testRoomPopulate = () =>
                 expect(handlerType).toBe('Owner');
             });
 
-            it('should be the same email', async () => {
+            it('should return the same email', async () => {
                 const emails = (
                     await postgreSQL.instance.exec(
                         `SELECT email, handler FROM email WHERE handler='${handlerID}'`
@@ -271,7 +271,7 @@ const testRoomPopulate = () =>
                 expect(emailHandler).toBe(handlerID);
             });
 
-            it('should be the same mobile nubmer', async () => {
+            it('should return the same mobile nubmer', async () => {
                 const mobileNumbers = (
                     await postgreSQL.instance.exec(
                         `SELECT mobile_number, handler FROM mobile_number WHERE handler='${handlerID}'`
@@ -292,7 +292,7 @@ const testRoomPopulate = () =>
                 expect(mobileNumberHandler).toBe(handlerID);
             });
 
-            it('should be the same accommodation', async () => {
+            it('should return the same accommodation', async () => {
                 const accommodations = (
                     await postgreSQL.instance.exec(
                         `SELECT id, handler, address, latitude, longitude, remark, month, year, region, facilities, accommodation_type, available FROM accommodation WHERE handler='${handlerID}'`
@@ -343,7 +343,7 @@ const testRoomPopulate = () =>
                 }
             });
 
-            it('should be the same room', async () => {
+            it('should return the same room', async () => {
                 const rooms = (
                     await postgreSQL.instance.exec(
                         `SELECT id, accommodation, room_type, room_size, rental, available FROM room WHERE accommodation=${accommodationId} ORDER BY id`
@@ -388,7 +388,7 @@ const testRoomPopulate = () =>
                 expect(master.available).toBe(true);
             });
 
-            it('should be the same room capacities', async () => {
+            it('should return the same room capacities', async () => {
                 const capacities = (
                     await postgreSQL.instance.exec(
                         `SELECT id, room, capacities FROM room_capacity ORDER BY id`

@@ -9,7 +9,7 @@ const testEmptyContactPopulation = () =>
             await postgreSQL.instance.exec((await schema).drop);
             await postgreSQL.instance.exec((await schema).create);
         });
-        describe('Only handler with non-empty contact can be inserted', () => {
+        describe('Only handler with non-empty contact (array of email or contact number) can be inserted', () => {
             it('should insert only 1 handler with non-empty contact', async () => {
                 await insertToDatabase(room, 'BTHO');
 

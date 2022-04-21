@@ -1,8 +1,20 @@
+import { Region } from 'utari-common';
 import scrapper from '../../src/scrapper/accommodation';
 
-const testBandarTunHusseinOnnScrapper = () =>
-    describe('Bandar Tun Hussein On', () => {
-        const scrapped = scrapper('BTHO');
+const formRegionNameFromAcronym = (region: Region) => {
+    switch (region) {
+        case 'BTHO':
+            return 'Bandar Tun Hussein On';
+        case 'SL':
+            return 'Sungai Long';
+        case 'KP':
+            return 'Kampar';
+    }
+};
+
+const testAccommodationScrapper = (region: Region) =>
+    describe(formRegionNameFromAcronym(region), () => {
+        const scrapped = scrapper(region);
         it('should return an array of rooms', async () => {
             const { scrapRoom } = await scrapped;
             expect(Array.isArray(scrapRoom));
@@ -69,4 +81,12 @@ const testBandarTunHusseinOnnScrapper = () =>
         });
     });
 
-export default testBandarTunHusseinOnnScrapper;
+const testKamparScrapper = () => testAccommodationScrapper('KP');
+const testSungaiLongScrapper = () => testAccommodationScrapper('SL');
+const testBandarTunHusseinOnnScrapper = () => testAccommodationScrapper('BTHO');
+
+export {
+    testKamparScrapper,
+    testSungaiLongScrapper,
+    testBandarTunHusseinOnnScrapper,
+};

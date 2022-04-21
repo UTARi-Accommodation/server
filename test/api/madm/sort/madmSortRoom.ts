@@ -23,7 +23,7 @@ const getMinMaxRental = (room: ReadonlyArray<QueriedRoom>) =>
 
 const testMultiAttributeDecisionModelRoom = () => {
     describe('Multi-Attribute Decision Model', () => {
-        it('should sort according to MADM', () => {
+        it('should sort a given room-based accommodations according to MADM', () => {
             const { min: minRentalPerPax, max: maxRentalPerPax } =
                 getMinMaxRental(roomOne);
 
@@ -44,7 +44,7 @@ const testMultiAttributeDecisionModelRoom = () => {
     });
 
     describe('Multi-Attribute Decision Model', () => {
-        it('should sort according to MADM', () => {
+        it('should sort another given room-based accommodations according to MADM', () => {
             const { min: minRentalPerPax, max: maxRentalPerPax } =
                 getMinMaxRental(roomTwo);
 
