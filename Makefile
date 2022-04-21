@@ -86,7 +86,7 @@ lint-src:
 	$(eslint) src/** -f='stylish' --color
 
 lint-test:
-	$(eslint) test/**/*.{ts} -f='stylish' --color
+	$(eslint) test/**/*.ts -f='stylish' --color
 
 lint:
 	(trap 'kill 0' INT; make lint-src & make lint-test)

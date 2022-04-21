@@ -3,7 +3,7 @@ import { computeRatingScore } from '../../../../src/api/madm';
 const testComputeRatingScore = () =>
     describe('Rating Computation for Multi-Attribute Decision Model', () => {
         describe('Same Number of Rating', () => {
-            it('should give higher priority for higher rating with same quantity', () => {
+            it('should give higher priority for higher rating with same number of rating', () => {
                 const scoreOne = computeRatingScore([4, 5, 3, 2]);
                 const scoreTwo = computeRatingScore([4, 2, 2, 2]);
                 const scoreThree = computeRatingScore([4, 1, 1, 1]);
@@ -33,7 +33,7 @@ const testComputeRatingScore = () =>
             });
         });
         describe('Sigmoid function', () => {
-            it('should reduce the significance of visit count as visit count increases, especially when visit count >= 160', () => {
+            it('should reduce the significance of rating as the number of rating increases, especially when the number of rating >= 150', () => {
                 const oneHundredFifty = computeRatingScore(
                     Array.from({ length: 150 }, () => 1)
                 );

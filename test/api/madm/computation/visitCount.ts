@@ -3,7 +3,7 @@ import { computeVisitCountScore } from '../../../../src/api/madm';
 const testComputeVisitCountScore = () =>
     describe('Visit Count Computation for Multi-Attribute Decision Model', () => {
         describe('Different Visit Count', () => {
-            it('should give higher priority for same rating with lower visit count', () => {
+            it('should give higher priority for higher visit count', () => {
                 const scoreOne = computeVisitCountScore(5);
                 const scoreTwo = computeVisitCountScore(7);
                 const scoreThree = computeVisitCountScore(10);

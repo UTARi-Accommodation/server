@@ -30,7 +30,7 @@ import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
 
 const testUnitQuery = () =>
-    describe('Unit', () => {
+    describe('Query Unit', () => {
         const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
@@ -316,7 +316,7 @@ const testUnitQuery = () =>
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(unitType);
             });
-            it('should return detailed unit that match the unitId', async () => {
+            it('should return the updated detailed information of a unit that match the unitId', async () => {
                 const timeCreated = new Date();
                 const unit = 7;
                 const dummyUser = 'dummyUser';

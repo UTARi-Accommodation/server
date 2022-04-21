@@ -28,7 +28,7 @@ import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
 
 const testRoomQuery = () =>
-    describe('Room', () => {
+    describe('Query Room', () => {
         const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
@@ -257,7 +257,7 @@ const testRoomQuery = () =>
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(roomType);
             });
-            it('should return detailed room that match the roomId', async () => {
+            it('should return the updated detailed information of a room that match the roomId', async () => {
                 const timeCreated = new Date();
                 const dummyUser = 'dummyUser';
                 const room = 20;

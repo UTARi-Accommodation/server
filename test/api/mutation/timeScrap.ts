@@ -16,6 +16,16 @@ const testTimeScrapMutation = () =>
                 timeCompleted,
                 id: 1,
             });
+            expect(
+                await timeScrap.insert(
+                    { timeStarted, timeCompleted },
+                    postgreSQL.instance.pool
+                )
+            ).toStrictEqual({
+                timeStarted,
+                timeCompleted,
+                id: 2,
+            });
         });
     });
 

@@ -11,7 +11,7 @@ import roomBookmarked from '../../../src/database/table/roomBookmarked';
 import { maxItemsPerPage } from 'utari-common';
 
 const testRoomMutation = () =>
-    describe('Room', () => {
+    describe('Mutate Room', () => {
         const userOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const userTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const timeCreated = new Date();
@@ -31,8 +31,8 @@ const testRoomMutation = () =>
         describe('Mutation', () => {
             const roomOne = 1;
             const roomTwo = 2;
-            describe('room visit count', () => {
-                it('should update room visit count', async () => {
+            describe('the score and visit count of rooms', () => {
+                it('should be updated after it is visited', async () => {
                     const visitorOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const visitorTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const timeCreated = new Date();
@@ -106,8 +106,8 @@ const testRoomMutation = () =>
                     });
                 });
             });
-            describe('room rating', () => {
-                it('should update room rating', async () => {
+            describe('the score and rating of rooms', () => {
+                it('should be updated after user give rating', async () => {
                     // insert new rating for roomOne from userOne
                     expect(
                         await roomRating.insert(
@@ -189,8 +189,8 @@ const testRoomMutation = () =>
                     ]);
                 });
             });
-            describe('query room', () => {
-                it('should query rooms with newly added rating and view count', async () => {
+            describe('querying room', () => {
+                it('should returns rooms with newly updated rating, visit count and score', async () => {
                     const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
                     await utariUser.insert(
                         { id: userId, timeCreated: new Date() },
@@ -220,8 +220,8 @@ const testRoomMutation = () =>
                     expect(rows).toStrictEqual(mutated);
                 });
             });
-            describe('room bookmark', () => {
-                it('should create, delete and create room bookmarked', async () => {
+            describe('bookmarking room', () => {
+                it('should be able to create, delete and create bookmarks for room again without affecting the scores of bookmarked room', async () => {
                     // create new bookmark for roomOne from userOne
                     expect(
                         await roomBookmarked.insert(
