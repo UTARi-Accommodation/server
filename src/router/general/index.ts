@@ -125,7 +125,7 @@ const generalRouter = (app: express.Application) => ({
                     const result = {
                         units: [],
                         numberOfResultsQueried,
-                        rentalRangeFrequencies: [],
+                        rentalRangeFrequencies,
                         bedRooms,
                         bathRooms,
                         page: 1,
@@ -264,7 +264,7 @@ const generalRouter = (app: express.Application) => ({
                     const result = {
                         rooms: [],
                         numberOfResultsQueried,
-                        rentalRangeFrequencies: [],
+                        rentalRangeFrequencies,
                         capacities,
                         page: 1,
                         totalPage: 0,
