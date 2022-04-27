@@ -80,12 +80,20 @@ const bookmarkedRouter = (app: express.Application) => ({
                     postgreSQL.instance.pool
                 );
 
+                const rentalRangeFrequencies =
+                    await bookmarkedUnit.selectRentalFrequency(
+                        {
+                            userId: verifiedId.uid,
+                        },
+                        postgreSQL.instance.pool
+                    );
+
                 // if there's no bedRoom, there's no bathRoom as well
                 if (!bedRooms.length) {
                     const result = {
                         units: [],
                         numberOfResultsQueried: 0,
-                        rentalRangeFrequencies: [],
+                        rentalRangeFrequencies,
                         bedRooms,
                         bathRooms,
                         page: 1,
@@ -153,13 +161,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 const result = {
                     units,
                     numberOfResultsQueried,
-                    rentalRangeFrequencies:
-                        await bookmarkedUnit.selectRentalFrequency(
-                            {
-                                userId: verifiedId.uid,
-                            },
-                            postgreSQL.instance.pool
-                        ),
+                    rentalRangeFrequencies,
                     bedRooms,
                     bathRooms,
                     page: currentPage,
@@ -216,11 +218,17 @@ const bookmarkedRouter = (app: express.Application) => ({
                     postgreSQL.instance.pool
                 );
 
+                const rentalRangeFrequencies =
+                    await bookmarkedRoom.selectRentalFrequency(
+                        { userId: verifiedId.uid },
+                        postgreSQL.instance.pool
+                    );
+
                 if (!capacities.length) {
                     const result = {
                         rooms: [],
                         numberOfResultsQueried: 0,
-                        rentalRangeFrequencies: [],
+                        rentalRangeFrequencies,
                         capacities,
                         page: 1,
                         totalPage: 0,
@@ -284,11 +292,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 const result = {
                     rooms,
                     numberOfResultsQueried,
-                    rentalRangeFrequencies:
-                        await bookmarkedRoom.selectRentalFrequency(
-                            { userId: verifiedId.uid },
-                            postgreSQL.instance.pool
-                        ),
+                    rentalRangeFrequencies,
                     capacities,
                     page: currentPage,
                     totalPage: Math.ceil(
