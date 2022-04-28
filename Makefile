@@ -21,7 +21,7 @@ serve:
 
 ## start
 start:
-	(trap 'kill 0' INT; make typecheck & make build)
+	(trap 'kill 0' INT; make typecheck-watch & make build)
 
 ## build
 pre-build:
