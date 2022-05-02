@@ -295,7 +295,7 @@ const getRooms = (element: HTMLElement) =>
                 )
             )
                 .inRangeOf(0, 100000)
-                .orElseThrowDefault('default');
+                .orElseThrowDefault('parsed rental');
             const parsedCapacities = parseAsString(capacities)
                 .orElseThrowDefault('capacities')
                 .split('/')
@@ -336,37 +336,47 @@ const getUnits = (element: HTMLElement): Unit | undefined => {
 
         return unit ? [unit] : [];
     });
-    return unitInfo.length !== 6
-        ? undefined
-        : {
-              bedRooms: parseAsNumber(
-                  parsePositiveInteger(
-                      parseAsString(unitInfo[1]).orElseThrowDefault(
-                          'bedRoom or unitInfo[1]'
-                      )
-                  )
-              )
-                  .inRangeOf(1, Number.MAX_SAFE_INTEGER)
-                  .orElseThrowDefault('bedRooms'),
-              bathRooms: parseAsNumber(
-                  parsePositiveInteger(
-                      parseAsString(unitInfo[3]).orElseThrowDefault(
-                          'bathRoom or unitInfo[3]'
-                      )
-                  )
-              )
-                  .inRangeOf(1, Number.MAX_SAFE_INTEGER)
-                  .orElseThrowDefault('bathRooms'),
-              rental: parseAsNumber(
-                  parsePositiveInteger(
-                      parseAsString(unitInfo[4]).orElseThrowDefault(
-                          'wholeUnit or unitInfo[4]'
-                      )
-                  )
-              )
-                  .inRangeOf(1, Number.MAX_SAFE_INTEGER)
-                  .orElseThrowDefault('rental'),
-          };
+
+    if (unitInfo.length !== 6) {
+        return undefined;
+    }
+
+    const bedRooms = parseAsNumber(
+        parsePositiveInteger(
+            parseAsString(unitInfo[1]).orElseThrowDefault(
+                'bedRoom or unitInfo[1]'
+            )
+        )
+    )
+        .inRangeOf(0, Number.MAX_SAFE_INTEGER)
+        .orElseThrowDefault('bedRooms');
+    const bathRooms = parseAsNumber(
+        parsePositiveInteger(
+            parseAsString(unitInfo[3]).orElseThrowDefault(
+                'bathRoom or unitInfo[3]'
+            )
+        )
+    )
+        .inRangeOf(0, Number.MAX_SAFE_INTEGER)
+        .orElseThrowDefault('bathRooms');
+    const rental = parseAsNumber(
+        parsePositiveInteger(
+            parseAsString(unitInfo[4]).orElseThrowDefault(
+                'wholeUnit or unitInfo[4]'
+            )
+        )
+    )
+        .inRangeOf(0, Number.MAX_SAFE_INTEGER)
+        .orElseThrowDefault('rental');
+    return bedRooms !== undefined &&
+        bathRooms !== undefined &&
+        rental != undefined
+        ? {
+              bedRooms,
+              bathRooms,
+              rental,
+          }
+        : undefined;
 };
 
 const parseAsHTMLElement = (elem: HTMLElement | undefined, index: number) => {
