@@ -287,7 +287,7 @@ const getRooms = (element: HTMLElement) =>
             .toLowerCase();
         if (type === 'master' || type === 'middle' || type === 'small') {
             if (prev[type]) {
-                throw new Error(`${type} already exists`);
+                return prev;
             }
             const parsedRental = parseAsNumber(
                 parsePositiveInteger(
