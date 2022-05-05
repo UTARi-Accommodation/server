@@ -43,7 +43,7 @@ const testMultiAttributeDecisionModelUnit = () => {
                 .map(({ score }) => score);
 
             expect(Math.trunc(scores[0])).toBe(76);
-            expect(Math.trunc(scores[1])).toBe(57);
+            expect(Math.trunc(scores[1])).toBe(56);
             expect(Math.trunc(scores[2])).toBe(43);
         });
     });
