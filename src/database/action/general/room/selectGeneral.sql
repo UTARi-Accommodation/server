@@ -44,9 +44,9 @@ FROM
                     AND (
                       :search :: TEXT IS NULL
                       OR (
-                        strict_word_similarity(:search :: TEXT, address) >= 0.1
-                        OR strict_word_similarity(:search :: TEXT, remark) >= 0.1
-                        OR strict_word_similarity(:search :: TEXT, facilities) >= 0.1
+                        strict_word_similarity(:search, address) >= 0.1
+                        OR strict_word_similarity(:search, remark) >= 0.1
+                        OR strict_word_similarity(:search, facilities) >= 0.1
                       )
                     )
                 ) accommodation
@@ -64,11 +64,11 @@ FROM
                     available = TRUE
                     AND (
                       :minRental :: NUMERIC(10, 2) IS NULL
-                      OR rental >= :minRental :: NUMERIC(10, 2)
+                      OR rental >= :minRental
                     )
                     AND (
                       :maxRental :: NUMERIC(10, 2) IS NULL
-                      OR rental <= :maxRental :: NUMERIC(10, 2)
+                      OR rental <= :maxRental
                     )
                     AND room_type = :roomType !
                 ) room ON accommodation.accommodation_id = room.accommodation
@@ -82,7 +82,7 @@ FROM
                 WHERE
                   (
                     :userId :: TEXT IS NULL
-                    OR utari_user = :userId :: TEXT
+                    OR utari_user = :userId
                   )
               ) room_bookmarked ON room_bookmarked.room = room.room_id
             )
