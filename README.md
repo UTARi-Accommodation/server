@@ -36,20 +36,19 @@ Refer to `.env.test.example` which is an example file for you to know what key-v
 
 Then, create an `.env.test` file. Then copy the key-value pairs to it and then add the values
 
-#### Install Dependencies
-
-1. Run `yarn` to install all dependencies, preferably `yarn install --frozen-lockfile`
-
 #### Make Commands
 
 _*Below are the listed commands that you can use to build/develop/test this app*_
 
-| Command           | Usage                                             |
-| ----------------- | ------------------------------------------------- |
-| make start        | Start development                                 |
-| make test         | Run all test code                                 |
-| make build        | Bundle and build the app                          |
-| make typecheck    | Run typechecking for source code                  |
-| make lint         | Run linter for source and test code               |
-| make format-check | Run prettier to check source and test code format |
-| make format       | Run prettier to format source and test code       |
+| Command                 | Usage                                             |
+| ----------------------- | ------------------------------------------------- |
+| make start              | Start development                                 |
+| make test               | Run all test code                                 |
+| make build              | Bundle and build the app                          |
+| make typecheck          | Run typechecking for source code                  |
+| make lint               | Run linter for source and test code               |
+| make format-check       | Run prettier to check source and test code format |
+| make format             | Run prettier to format source and test code       |
+| make install            | Install all dependencies                          |
+| make install-postgresql | Install PostgreSQL                                |
+| make setup-postgresql   | Setup PostgreSQL                                  |

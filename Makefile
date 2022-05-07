@@ -11,6 +11,10 @@ all:
 
 NODE_BIN=node_modules/.bin/
 
+## install
+install:
+	yarn install --frozen-lockfile
+
 ## scrap
 scrap:
 	rm -rf build && node script/esbuild/scrapper.js && node build/scrap.js
@@ -93,14 +97,14 @@ lint:
 	(trap 'kill 0' INT; make lint-src & make lint-test)
 
 ## postgres setup and installation
-install:
+install-postgresql:
 	# refer https://www.postgresql.org/download/linux/ubuntu/
 	sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(shell lsb_release -cs)-pgdg main"> /etc/apt/sources.list.d/pgdg.list'
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	sudo apt-get update
 	sudo apt-get -y install postgresql
 
-setup:
+setup-postgresql:
 	# start postgresql
 	sudo service postgresql start
 	# create runner

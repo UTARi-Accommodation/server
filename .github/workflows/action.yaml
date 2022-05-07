@@ -16,11 +16,11 @@ jobs:
 
             - name: Install and Setup PostgreSQL
               run: |
-                  make install
-                  make setup
+                  make install-postgresql
+                  make setup-postgresql
 
             - name: Install Depedencies
-              run: yarn
+              run: make install
 
             - name: Run PgTyped
               env:
