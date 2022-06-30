@@ -72,6 +72,14 @@ const ratingRouter = (app: express.Application) => ({
                     res.status(200).json(result);
                 } else {
                     switch (type) {
+                        case undefined: {
+                            const result = {
+                                message: 'rating not added',
+                            };
+                            logger.log(result);
+                            res.status(400).json(result);
+                            break;
+                        }
                         case 'Room': {
                             const response = await roomRating.insert(
                                 {
@@ -111,13 +119,6 @@ const ratingRouter = (app: express.Application) => ({
                             });
                             res.status(200).json(result);
                             break;
-                        }
-                        case undefined: {
-                            const result = {
-                                message: 'rating not added',
-                            };
-                            logger.log(result);
-                            res.status(400).json(result);
                         }
                     }
                 }
@@ -173,6 +174,14 @@ const ratingRouter = (app: express.Application) => ({
                     res.status(400).json(result);
                 } else {
                     switch (type) {
+                        case undefined: {
+                            const result = {
+                                message: 'rating not deleted',
+                            };
+                            logger.log(result);
+                            res.status(400).json(result);
+                            break;
+                        }
                         case 'Room': {
                             const results = await roomRating.delete(
                                 {
@@ -204,13 +213,6 @@ const ratingRouter = (app: express.Application) => ({
                                 `all rating from user for unit ${id} removed`
                             );
                             break;
-                        }
-                        case undefined: {
-                            const result = {
-                                message: 'rating not deleted',
-                            };
-                            logger.log(result);
-                            res.status(400).json(result);
                         }
                     }
                 }

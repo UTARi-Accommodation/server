@@ -65,7 +65,5 @@ import postgreSQL from '../src/database/postgres';
     testKamparScrapper();
     testSungaiLongScrapper();
 
-    afterAll(async () => {
-        await postgreSQL.instance.close();
-    });
+    afterAll(async () => await postgreSQL.instance.close());
 })();

@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import { CronJob } from 'cron';
 import cookieParser from 'cookie-parser';
-import csurf from 'csurf';
 
 import accommodationScrapper from './scrapper/';
 import generalRouter from './router/general/';
@@ -15,7 +14,6 @@ import ratingRouter from './router/rating/';
 import contactRouter from './router/contact/';
 import invalidRouter from './router/invalid';
 import logger from './logger';
-import antiCsrfRouter from './router/csrf';
 import { parseAsEnv } from 'esbuild-env-parsing';
 
 const { json, urlencoded } = express;
@@ -28,14 +26,10 @@ const { json, urlencoded } = express;
         ).start();
 
         const app = (() => {
-            const env = parseAsEnv({
-                env: process.env.NODE_ENV,
-                name: 'node env',
-            });
-            const isNotDev = env === 'production' || env === 'staging';
             const middleWares = [
                 json({ limit: '10mb' }),
                 urlencoded({ extended: true }),
+                cookieParser(),
                 cors({
                     origin: parseAsEnv({
                         env: process.env.ORIGIN,
@@ -43,34 +37,16 @@ const { json, urlencoded } = express;
                     }),
                     credentials: true,
                 }),
-                cookieParser(),
-                csurf({
-                    cookie: {
-                        httpOnly: true,
-                        secure: isNotDev,
-                        maxAge: 60 * 60 * 1000,
-                        // ref: https://developers.google.com/search/blog/2020/01/get-ready-for-new-samesitenone-secure
-                        sameSite: isNotDev ? 'none' : 'lax',
-                    },
-                }),
             ];
 
             const app = express();
             app.use(middleWares);
-            app.set('trust proxy', 1);
-            app.use((req, res, next) => {
-                res.cookie('XSRF-TOKEN', req.csrfToken(), { secure: isNotDev });
-                next();
-            });
             const port = process.env.PORT || 5000;
             app.listen(port, () =>
                 logger.log(`🚀 Express listening at port ${port} 🚀`)
             );
             return app;
         })();
-
-        const antiCsrf = antiCsrfRouter(app);
-        antiCsrf.generate();
 
         const visitor = visitorRouter(app);
         visitor.addNewVisitor();

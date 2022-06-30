@@ -8,7 +8,7 @@ import visitor from '../../../src/database/table/visitor';
 import roomVisit from '../../../src/database/table/roomVisit';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
-import { maxItemsPerPage } from 'utari-common';
+import { Accommodations, maxItemsPerPage } from 'utari-common';
 
 const testRoomMutation = () =>
     describe('Mutate Room', () => {
@@ -18,7 +18,7 @@ const testRoomMutation = () =>
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
             await postgreSQL.instance.exec((await schema).create);
-            await insertToDatabase(room, 'KP');
+            await insertToDatabase(room as Accommodations, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
                 postgreSQL.instance.pool

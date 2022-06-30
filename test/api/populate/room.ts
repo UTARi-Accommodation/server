@@ -3,6 +3,7 @@ import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/room.json';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
+import { Accommodations } from 'utari-common';
 
 const testRoomPopulate = () =>
     describe('Populate Room', () => {
@@ -10,7 +11,7 @@ const testRoomPopulate = () =>
             beforeAll(async () => {
                 await postgreSQL.instance.exec((await schema).drop);
                 await postgreSQL.instance.exec((await schema).create);
-                await insertToDatabase(insert, 'BTHO');
+                await insertToDatabase(insert as Accommodations, 'BTHO');
             });
             const handlerID = '054658721';
             const accommodationId = 26729;
@@ -226,7 +227,7 @@ const testRoomPopulate = () =>
         describe('Update the inserted room and querying the updated room', () => {
             beforeAll(async () => {
                 await resetTablesAndColumns(postgreSQL.instance.pool);
-                await insertToDatabase(update, 'BTHO');
+                await insertToDatabase(update as Accommodations, 'BTHO');
             });
             const handlerID = '0183899550';
             const accommodationId = 26729;

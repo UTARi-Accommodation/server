@@ -57,6 +57,14 @@ const visitRouter = (app: express.Application) => ({
                     res.status(400).json(result);
                 } else {
                     switch (type) {
+                        case undefined: {
+                            const result = {
+                                message: 'visit not added',
+                            };
+                            logger.log(result);
+                            res.status(400).json(result);
+                            break;
+                        }
                         case 'Room': {
                             const room = await roomVisit.insert(
                                 {
@@ -94,13 +102,6 @@ const visitRouter = (app: express.Application) => ({
                             });
                             res.status(200).json(result);
                             break;
-                        }
-                        case undefined: {
-                            const result = {
-                                message: 'visit not added',
-                            };
-                            logger.log(result);
-                            res.status(400).json(result);
                         }
                     }
                 }

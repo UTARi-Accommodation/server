@@ -145,7 +145,9 @@ const upsertAccommodation = async (
         },
         postgreSQL.instance.pool
     );
-    if (queriedId !== params.id) {
+    if (queriedId === params.id) {
+        await accommodation.update(params, postgreSQL.instance.pool);
+    } else {
         await accommodation.insert(
             {
                 ...params,
@@ -153,8 +155,6 @@ const upsertAccommodation = async (
             },
             postgreSQL.instance.pool
         );
-    } else {
-        await accommodation.update(params, postgreSQL.instance.pool);
     }
 };
 

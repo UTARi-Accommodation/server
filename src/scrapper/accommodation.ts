@@ -421,6 +421,21 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                 };
                 const { type } = category;
                 switch (type) {
+                    case 'Unit': {
+                        const unit = getUnits(parseAsHTMLElement(parsed[8], 8));
+                        return !unit
+                            ? []
+                            : [
+                                  {
+                                      ...obj,
+                                      accommodation: {
+                                          type,
+                                          unitType: category.unitType,
+                                          unit,
+                                      },
+                                  },
+                              ];
+                    }
                     case 'Room': {
                         const { small, middle, master } = getRooms(
                             parseAsHTMLElement(parsed[8], 8)
@@ -434,21 +449,6 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                                           type,
                                           roomType: category.roomType,
                                           rooms: { small, middle, master },
-                                      },
-                                  },
-                              ];
-                    }
-                    case 'Unit': {
-                        const unit = getUnits(parseAsHTMLElement(parsed[8], 8));
-                        return !unit
-                            ? []
-                            : [
-                                  {
-                                      ...obj,
-                                      accommodation: {
-                                          type,
-                                          unitType: category.unitType,
-                                          unit,
                                       },
                                   },
                               ];

@@ -2,6 +2,7 @@ import schema from '../../script/schema';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import room from '../../dummy/api/populate/emptyContact.json';
+import { Accommodations } from 'utari-common';
 
 const testEmptyContactPopulation = () =>
     describe('Insert Empty Contact', () => {
@@ -11,7 +12,7 @@ const testEmptyContactPopulation = () =>
         });
         describe('Only handler with non-empty contact (array of email or contact number) can be inserted', () => {
             it('should insert only 1 handler with non-empty contact', async () => {
-                await insertToDatabase(room, 'BTHO');
+                await insertToDatabase(room as Accommodations, 'BTHO');
 
                 const handlers = (
                     await postgreSQL.instance.exec('SELECT * FROM handler')

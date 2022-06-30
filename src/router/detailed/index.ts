@@ -34,8 +34,8 @@ const detailedRouter = (app: express.Application) => ({
                 } else {
                     if (userId) {
                         const result = {
-                            unit: await detailedUnit.selectWithUser(
-                                { id, userId },
+                            unit: await detailedUnit.select(
+                                { id },
                                 postgreSQL.instance.pool
                             ),
                         };
@@ -43,8 +43,8 @@ const detailedRouter = (app: express.Application) => ({
                         res.status(200).json(result);
                     } else {
                         const result = {
-                            unit: await detailedUnit.select(
-                                { id },
+                            unit: await detailedUnit.selectWithUser(
+                                { id, userId },
                                 postgreSQL.instance.pool
                             ),
                         };
@@ -81,8 +81,8 @@ const detailedRouter = (app: express.Application) => ({
                 } else {
                     if (userId) {
                         const result = {
-                            room: await detailedRoom.selectWithUser(
-                                { id, userId },
+                            room: await detailedRoom.select(
+                                { id },
                                 postgreSQL.instance.pool
                             ),
                         };
@@ -90,8 +90,8 @@ const detailedRouter = (app: express.Application) => ({
                         res.status(200).json(result);
                     } else {
                         const result = {
-                            room: await detailedRoom.select(
-                                { id },
+                            room: await detailedRoom.selectWithUser(
+                                { id, userId },
                                 postgreSQL.instance.pool
                             ),
                         };
