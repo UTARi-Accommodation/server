@@ -17,6 +17,13 @@ type MultiAttributeDecisionModelRooms = ReadonlyArray<
     Omit<QueriedRoom, 'bookmarked'>
 >;
 
+type ScoresWithId = ReadonlyArray<
+    Readonly<{
+        id: number;
+        score: number;
+    }>
+>;
+
 const convertMonthToNumeric = (month: Month) => {
     const index = months.indexOf(month) + 1;
     if (index < 1 || index > 12) {
@@ -54,9 +61,9 @@ const computeRatingScore = (rating: ReadonlyArray<number>) =>
         ? 0
         : normalizeBeneficialQuantifiableAttribute({
               current:
-                  (rating.length <= 150
-                      ? 5 / (1 + Math.exp(-0.1 * (rating.length - 50)))
-                      : 1) *
+                  (rating.length > 150
+                      ? 1
+                      : 5 / (1 + Math.exp(-0.1 * (rating.length - 50)))) *
                   (rating.reduce((prev, curr) => {
                       if (curr < 1 || curr > 5) {
                           throw new Error(
@@ -67,7 +74,7 @@ const computeRatingScore = (rating: ReadonlyArray<number>) =>
                   }, 0) /
                       rating.length),
               min: 0,
-              max: rating.length <= 150 ? 25 : 5,
+              max: rating.length > 150 ? 5 : 25,
           });
 
 // ref https://www.desmos.com/calculator/8yjcuu7oan
@@ -77,9 +84,9 @@ const computeVisitCountScore = (visitCount: number) =>
         : normalizeBeneficialQuantifiableAttribute({
               current: !visitCount
                   ? 0
-                  : visitCount <= 160
-                  ? 5 / (1 + Math.exp(-0.05 * (visitCount - 80)))
-                  : Math.log(visitCount) + 2.71,
+                  : visitCount > 160
+                  ? Math.log(visitCount) + 2.71
+                  : 5 / (1 + Math.exp(-0.05 * (visitCount - 80))),
               min: visitCount <= 160 ? 0 : 4.91,
               max: visitCount <= 160 ? 4.91 : 7.82,
           });
@@ -119,9 +126,9 @@ const computeContactScore = ({
         ? 1
         : mLength && !eLength
         ? 0.8
-        : !mLength && eLength
-        ? 0.5
-        : 0;
+        : !(!mLength && eLength)
+        ? 0
+        : 0.5;
 
 const computeUnitScore = (
     unit: Omit<QueriedUnit, 'bookmarked'>,
@@ -250,7 +257,7 @@ const multiAttributeDecisionModelUnit = (
         minRentalPerPax: number;
         maxRentalPerPax: number;
     }>
-) =>
+): ScoresWithId =>
     units.map((unit) => ({
         id: unit.id,
         score: computeUnitScore(unit, {
@@ -387,7 +394,7 @@ const multiAttributeDecisionModelRoom = (
         minRentalPerPax: number;
         maxRentalPerPax: number;
     }>
-) =>
+): ScoresWithId =>
     rooms.map((room) => ({
         id: room.id,
         score: computeRoomScore(room, {

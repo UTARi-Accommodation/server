@@ -29,6 +29,15 @@ const contactRouter = (app: express.Application) => ({
                     parseAsString(message).orElseGetEmptyString()
                 );
                 if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
+                    const result = {
+                        type: 'input',
+                        name,
+                        email,
+                        message,
+                    } as Data;
+                    logger.log(result);
+                    res.status(200).json(result);
+                } else {
                     const email = parseAsEnv({
                         env: process.env.EMAIL,
                         name: 'email',
@@ -84,15 +93,6 @@ const contactRouter = (app: express.Application) => ({
                             logger.log(result);
                             res.status(200).json(result);
                         });
-                } else {
-                    const result = {
-                        type: 'input',
-                        name,
-                        email,
-                        message,
-                    } as Data;
-                    logger.log(result);
-                    res.status(200).json(result);
                 }
             }
         }),

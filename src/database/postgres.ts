@@ -1,5 +1,4 @@
 import pkg from 'pg';
-import dotenv from 'dotenv';
 import { parseAsEnv } from 'esbuild-env-parsing';
 const { Pool } = pkg;
 
@@ -9,10 +8,6 @@ const postgresConfig = () => {
     const env = parseAsEnv({
         env: process.env.NODE_ENV,
         name: 'node env',
-    });
-
-    dotenv.config({
-        path: `${process.cwd()}/.env${env === 'test' ? '.test' : ''}`,
     });
 
     return env === 'staging' || env === 'production'

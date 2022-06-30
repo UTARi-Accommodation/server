@@ -7,7 +7,7 @@ const getSchemaFiles = (dir: string): ReadonlyArray<string> =>
             return getSchemaFiles(path);
         }
         const extension = path.split('.').pop();
-        return extension ? (extension === 'sql' ? [path] : []) : [];
+        return !extension ? [] : extension !== 'sql' ? [] : [path];
     });
 
 const readCode = (files: string): Promise<string> =>

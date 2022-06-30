@@ -1,16 +1,12 @@
 import { Region } from 'utari-common';
 import scrapper from '../../src/scrapper/accommodation';
 
-const formRegionNameFromAcronym = (region: Region) => {
-    switch (region) {
-        case 'BTHO':
-            return 'Bandar Tun Hussein On';
-        case 'SL':
-            return 'Sungai Long';
-        case 'KP':
-            return 'Kampar';
-    }
-};
+const formRegionNameFromAcronym = (region: Region) =>
+    region === 'KP'
+        ? 'Kampar'
+        : region === 'SL'
+        ? 'Sungai Long'
+        : 'Bandar Tun Hussein Onn';
 
 const testAccommodationScrapper = (region: Region) =>
     describe(formRegionNameFromAcronym(region), () => {

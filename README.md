@@ -12,6 +12,7 @@ This is the server of UTARi-client
 | Testing                                                                | Jest           |
 | Run-time Environment                                                   | NodeJS         |
 | Database                                                               | PostgreSQL     |
+| TypeScript Code Gen from raw SQL                                       | PgTyped        |
 | Authentication Service                                                 | Firebase       |
 | Build Automation Tool                                                  | Make           |
 | Text Editor                                                            | NeoVim         |
@@ -45,7 +46,7 @@ _*Below are the listed commands that you can use to build/develop/test this app*
 | make start              | Start development                                 |
 | make test               | Run all test code                                 |
 | make build              | Bundle and build the app                          |
-| make typecheck          | Run typechecking for source code                  |
+| make typecheck          | Run typechecking for source and test code         |
 | make lint               | Run linter for source and test code               |
 | make format-check       | Run prettier to check source and test code format |
 | make format             | Run prettier to format source and test code       |

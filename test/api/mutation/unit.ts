@@ -8,7 +8,7 @@ import visitor from '../../../src/database/table/visitor';
 import unitVisit from '../../../src/database/table/unitVisit';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
-import { maxItemsPerPage } from 'utari-common';
+import { Accommodations, maxItemsPerPage } from 'utari-common';
 
 const testUnitMutation = () =>
     describe('Mutate Unit', () => {
@@ -18,7 +18,7 @@ const testUnitMutation = () =>
         beforeAll(async () => {
             await postgreSQL.instance.exec((await schema).drop);
             await postgreSQL.instance.exec((await schema).create);
-            await insertToDatabase(unit, 'KP');
+            await insertToDatabase(unit as Accommodations, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
                 postgreSQL.instance.pool

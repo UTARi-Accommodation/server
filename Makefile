@@ -36,7 +36,7 @@ build: pre-build
 
 ## clean-up:
 clean-up:
-	rm -rf src test node_modules script sql .github .git
+	rm -rf src test node_modules script sql .git*
 
 ## type-check
 typecheck:
@@ -48,14 +48,10 @@ typecheck-watch:
 ## test
 api=test-api
 pre-test:
-	rm -rf __tests__
+	rm -rf __tests__ && node script/esbuild/test.js 
 
 test: pre-test
-	node script/esbuild/test.js && $(NODE_BIN)jest __tests__ $(arguments)
-
-## code coverage
-code-cov:
-	make test arguments=--coverage
+	$(NODE_BIN)jest __tests__
 
 ## pg typed generator
 pg-gen:
@@ -69,32 +65,22 @@ format-sql:
 	node script/sqlFormatter.js
 
 prettier=$(NODE_BIN)prettier
-prettify-src:
-	$(prettier) --$(type) src/
-
-prettify-test:
-	$(prettier) --$(type) test/
+prettify:
+	$(prettier) --$(type) src/ test/
 
 format-check:
-	(trap 'kill 0' INT; make prettify-src type=check & make prettify-test type=check)
+	make prettify type=check
 
 format-ts:
-	(trap 'kill 0' INT; make prettify-src type=write & make prettify-test type=write)
+	make prettify type=write
 
 format:
 	make format-sql
 	make format-ts
 
 ## lint
-eslint=$(NODE_BIN)eslint
-lint-src:
-	$(eslint) src/** -f='stylish' --color
-
-lint-test:
-	$(eslint) test/**/*.ts -f='stylish' --color
-
 lint:
-	(trap 'kill 0' INT; make lint-src & make lint-test)
+	$(NODE_BIN)eslint src/ test/ -f='stylish' --color
 
 ## postgres setup and installation
 install-postgresql:

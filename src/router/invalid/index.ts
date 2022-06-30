@@ -27,12 +27,12 @@ const invalidRouter = (app: express.Application) => {
                     --compressed
                 `;
                 const { stdout, stderr } = child.exec(command);
-                if (stdout) {
+                if (!stdout && !stderr) {
+                    respond(res, 'No more facts for now');
+                } else if (stdout) {
                     stdout.on('data', (data) => respond(res, data));
                 } else if (stderr) {
                     stderr?.on('data', (data) => respond(res, data));
-                } else {
-                    respond(res, 'No more facts for now');
                 }
             }),
     };
