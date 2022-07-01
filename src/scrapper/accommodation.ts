@@ -214,10 +214,9 @@ const removeDateFromRemarks = (remark: string) =>
           )
         : '';
 
-const getRemarks = (element: HTMLElement) => {
-    const remarks = element
-        .getElementsByTagName('font')
-        .reduce((prev, { text }) => {
+const getRemarks = (element: HTMLElement) =>
+    element.getElementsByTagName('font').reduce(
+        (prev, { text }) => {
             if (text === 'Remark:') {
                 return prev;
             }
@@ -250,11 +249,15 @@ const getRemarks = (element: HTMLElement) => {
                     )
                 )
                     .inRangeOf(2002, new Date().getFullYear())
-                    .orElseThrowDefault('year'),
+                    .orElseGetUndefined(),
             };
-        }, {} as Remarks);
-    return remarks;
-};
+        },
+        {} as Readonly<{
+            remark: Remarks['remark'];
+            month: Remarks['month'];
+            year: Remarks['year'] | undefined;
+        }>
+    );
 
 const getRooms = (element: HTMLElement) =>
     element.getElementsByTagName('font').reduce((prev, font) => {
@@ -419,6 +422,13 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                     ),
                     remarks: getRemarks(parseAsHTMLElement(parsed[11], 11)),
                 };
+                if (!obj.remarks.year) {
+                    return [];
+                }
+                const newObj = {
+                    ...obj,
+                    remarks: obj.remarks as Remarks,
+                };
                 const { type } = category;
                 switch (type) {
                     case 'Unit': {
@@ -427,7 +437,7 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                             ? []
                             : [
                                   {
-                                      ...obj,
+                                      ...newObj,
                                       accommodation: {
                                           type,
                                           unitType: category.unitType,
@@ -444,7 +454,7 @@ const scrapAccommodationInfo = async (category: Category, urlLists: URLLists) =>
                             ? []
                             : [
                                   {
-                                      ...obj,
+                                      ...newObj,
                                       accommodation: {
                                           type,
                                           roomType: category.roomType,
