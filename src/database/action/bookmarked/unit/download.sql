@@ -6,22 +6,22 @@
  @param regions -> (...)
  */
 SELECT
-  unit_id,
-  mobile_number,
+  "unitId",
+  "mobileNumber",
   email,
   address,
   facilities,
   remark,
   year,
   month,
-  bed_rooms,
-  bath_rooms,
+  "bedRooms",
+  "bathRooms",
   rental,
   rating,
   ratings,
-  time_created,
+  "timeCreated",
   name,
-  handler_type
+  "handlerType"
 FROM
   (
     (
@@ -35,7 +35,7 @@ FROM
                     SELECT
                       unit,
                       utari_user,
-                      time_created
+                      time_created AS "timeCreated"
                     FROM
                       unit_bookmarked
                     WHERE
@@ -70,10 +70,10 @@ FROM
                 )
                 JOIN (
                   SELECT
-                    id AS unit_id,
+                    id AS "unitId",
                     accommodation,
-                    bath_rooms,
-                    bed_rooms,
+                    bath_rooms AS "bathRooms",
+                    bed_rooms AS "bedRooms",
                     rental,
                     unit_type
                   FROM
@@ -91,7 +91,7 @@ FROM
                     AND (bed_rooms IN :bedRooms)
                     AND (bath_rooms IN :bathRooms)
                     AND (unit_type IN :unitTypes)
-                ) unit ON unit_bookmarked.unit = unit.unit_id
+                ) unit ON unit_bookmarked.unit = unit."unitId"
               )
               JOIN (
                 SELECT
@@ -123,7 +123,7 @@ FROM
               SELECT
                 id,
                 name,
-                handler_type
+                handler_type AS "handlerType"
               FROM
                 handler
             ) handler ON handler.id = accommodation.handler
@@ -149,7 +149,7 @@ FROM
               mobile_number
               ORDER BY
                 mobile_number ASC
-            ) mobile_number
+            ) AS "mobileNumber"
           FROM
             mobile_number
           GROUP BY
@@ -182,8 +182,8 @@ FROM
           ) latest_ratings
         GROUP BY
           unit
-      ) unit_ratings ON unit.unit_id = unit_ratings.unit
+      ) unit_ratings ON unit."unitId" = unit_ratings.unit
     )
   )
 ORDER BY
-  unit_bookmarked.time_created DESC;
+  unit_bookmarked."timeCreated" DESC;

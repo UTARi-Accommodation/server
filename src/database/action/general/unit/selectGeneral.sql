@@ -4,7 +4,7 @@
  @param bathRooms -> (...)
  */
 SELECT
-  unit_id,
+  "unitId",
   score,
   address,
   latitude,
@@ -12,11 +12,11 @@ SELECT
   facilities,
   year,
   month,
-  bed_rooms,
-  bath_rooms,
+  "bedRooms",
+  "bathRooms",
   rental,
   ratings,
-  utari_user
+  "utariUser"
 FROM
   (
     (
@@ -48,10 +48,10 @@ FROM
         ) accommodation
         JOIN (
           SELECT
-            id AS unit_id,
+            id AS "unitId",
             accommodation,
-            bath_rooms,
-            bed_rooms,
+            bath_rooms AS "bathRooms",
+            bed_rooms AS "bedRooms",
             rental,
             unit_type,
             score
@@ -75,7 +75,7 @@ FROM
       LEFT OUTER JOIN (
         SELECT
           unit,
-          utari_user
+          utari_user AS "utariUser"
         FROM
           unit_bookmarked
         WHERE
@@ -83,7 +83,7 @@ FROM
             :userId :: TEXT IS NULL
             OR utari_user = :userId
           )
-      ) unit_bookmarked ON unit_bookmarked.unit = unit.unit_id
+      ) unit_bookmarked ON unit_bookmarked.unit = unit."unitId"
     )
     LEFT OUTER JOIN (
       SELECT
@@ -111,7 +111,7 @@ FROM
         ) latest_ratings
       GROUP BY
         unit
-    ) unit_ratings ON unit.unit_id = unit_ratings.unit
+    ) unit_ratings ON unit."unitId" = unit_ratings.unit
   )
 ORDER BY
   unit.score DESC

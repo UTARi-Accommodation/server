@@ -32,19 +32,19 @@ const transformGeneralQuery = (
     units.map(
         ({
             address,
-            bath_rooms,
-            bed_rooms,
+            bathRooms,
+            bedRooms,
             facilities,
             latitude,
             longitude,
             month,
             ratings,
             rental,
-            unit_id,
+            unitId,
             year,
-            utari_user,
+            utariUser,
         }) => ({
-            id: unit_id,
+            id: unitId,
             location: {
                 address,
                 coordinate: {
@@ -58,12 +58,12 @@ const transformGeneralQuery = (
                 month,
             },
             properties: parseProperties({
-                bed_rooms,
+                bedRooms,
                 rental,
-                bath_rooms,
+                bathRooms,
             }),
             ratings: parseRating(ratings),
-            bookmarked: Boolean(utari_user),
+            bookmarked: Boolean(utariUser),
         })
     );
 

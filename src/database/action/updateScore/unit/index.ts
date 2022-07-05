@@ -30,24 +30,24 @@ const updateUnitScore = (() => {
         units.map(
             ({
                 address,
-                bath_rooms,
-                bed_rooms,
+                bathRooms,
+                bedRooms,
                 email,
                 facilities,
                 latitude,
                 longitude,
-                mobile_number,
+                mobileNumber,
                 month,
                 ratings,
                 remark,
                 rental,
-                unit_id,
-                visit_count,
+                unitId,
+                visitCount,
                 year,
             }) => ({
-                id: unit_id,
+                id: unitId,
                 contact: parseContact({
-                    mobileNumber: mobile_number,
+                    mobileNumber,
                     email,
                 }),
                 location: {
@@ -64,12 +64,12 @@ const updateUnitScore = (() => {
                     month,
                 },
                 properties: parseProperties({
-                    bed_rooms,
+                    bedRooms,
                     rental,
-                    bath_rooms,
+                    bathRooms,
                 }),
                 ratings: parseRating(ratings),
-                visitCount: parseVisitCount(visit_count),
+                visitCount: parseVisitCount(visitCount),
             })
         );
 

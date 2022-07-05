@@ -5,19 +5,19 @@
  @param capacities -> (...)
  */
 SELECT
-  room_id,
+  "roomId",
   address,
   latitude,
   longitude,
   facilities,
   year,
   month,
-  room_size,
+  "roomSize",
   rental,
   capacities,
   ratings,
-  utari_user,
-  time_created
+  "utariUser",
+  "timeCreated"
 FROM
   (
     (
@@ -26,8 +26,8 @@ FROM
           (
             SELECT
               room,
-              utari_user,
-              time_created
+              utari_user AS "utariUser",
+              time_created AS "timeCreated"
             FROM
               room_bookmarked
             WHERE
@@ -35,10 +35,10 @@ FROM
           ) room_bookmarked
           JOIN (
             SELECT
-              id AS room_id,
+              id AS "roomId",
               accommodation,
               rental,
-              room_size,
+              room_size AS "roomSize",
               room_type
             FROM
               room
@@ -53,7 +53,7 @@ FROM
                 OR rental <= :maxRental
               )
               AND (room_type IN :roomTypes)
-          ) room ON room_bookmarked.room = room.room_id
+          ) room ON room_bookmarked.room = room."roomId"
         )
         JOIN (
           SELECT
@@ -108,7 +108,7 @@ FROM
           ) latest_ratings
         GROUP BY
           room
-      ) room_ratings ON room.room_id = room_ratings.room
+      ) room_ratings ON room."roomId" = room_ratings.room
     )
     JOIN (
       SELECT
@@ -124,9 +124,9 @@ FROM
         capacities IN :capacities
       GROUP BY
         room
-    ) room_capacity ON room.room_id = room_capacity.room
+    ) room_capacity ON room."roomId" = room_capacity.room
   )
 ORDER BY
-  room_bookmarked.time_created DESC
+  room_bookmarked."timeCreated" DESC
 LIMIT
   :maxItemsPerPage ! OFFSET (:currentPage ! - 1) * :maxItemsPerPage !;

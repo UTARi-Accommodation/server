@@ -1,7 +1,7 @@
 /* @name QueryToUpdateScoreOfOneRoom */
 SELECT
-  room_id,
-  mobile_number,
+  "roomId",
+  "mobileNumber",
   email,
   address,
   latitude,
@@ -10,11 +10,11 @@ SELECT
   remark,
   year,
   month,
-  room_size,
+  "roomSize",
   rental,
   capacities,
   ratings,
-  visit_count
+  "visitCount"
 FROM
   (
     (
@@ -24,10 +24,10 @@ FROM
             (
               (
                 SELECT
-                  id AS room_id,
+                  id AS "roomId",
                   accommodation,
                   rental,
-                  room_size,
+                  room_size AS "roomSize",
                   room_type
                 FROM
                   room
@@ -75,7 +75,7 @@ FROM
                 mobile_number
                 ORDER BY
                   mobile_number ASC
-              ) mobile_number
+              ) AS "mobileNumber"
             FROM
               mobile_number
             GROUP BY
@@ -108,17 +108,17 @@ FROM
             ) latest_ratings
           GROUP BY
             room
-        ) room_ratings ON room.room_id = room_ratings.room
+        ) room_ratings ON room."roomId" = room_ratings.room
       )
       LEFT OUTER JOIN (
         SELECT
           room,
-          COUNT(DISTINCT(room, visitor)) AS visit_count
+          COUNT(DISTINCT(room, visitor)) AS "visitCount"
         FROM
           room_visit
         GROUP BY
           room
-      ) room_visit ON room.room_id = room_visit.room
+      ) room_visit ON room."roomId" = room_visit.room
     )
     JOIN (
       SELECT
@@ -132,5 +132,5 @@ FROM
         room_capacity
       GROUP BY
         room
-    ) room_capacity ON room.room_id = room_capacity.room
+    ) room_capacity ON room."roomId" = room_capacity.room
   );

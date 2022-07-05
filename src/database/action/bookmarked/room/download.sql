@@ -5,22 +5,22 @@
  @param capacities -> (...)
  */
 SELECT
-  room_id,
-  mobile_number,
+  "roomId",
+  "mobileNumber",
   email,
   address,
   facilities,
   remark,
   year,
   month,
-  room_size,
+  "roomSize",
   rental,
   capacities,
   rating,
   ratings,
-  time_created,
+  "timeCreated",
   name,
-  handler_type
+  "handlerType"
 FROM
   (
     (
@@ -34,7 +34,7 @@ FROM
                     SELECT
                       room,
                       utari_user,
-                      time_created
+                      time_created AS "timeCreated"
                     FROM
                       room_bookmarked
                     WHERE
@@ -69,10 +69,10 @@ FROM
                 )
                 JOIN (
                   SELECT
-                    id AS room_id,
+                    id AS "roomId",
                     accommodation,
                     rental,
-                    room_size,
+                    room_size AS "roomSize",
                     room_type
                   FROM
                     room
@@ -87,7 +87,7 @@ FROM
                       OR rental <= :maxRental
                     )
                     AND (room_type IN :roomTypes)
-                ) room ON room_bookmarked.room = room.room_id
+                ) room ON room_bookmarked.room = room."roomId"
               )
               JOIN (
                 SELECT
@@ -119,7 +119,7 @@ FROM
               SELECT
                 id,
                 name,
-                handler_type
+                handler_type AS "handlerType"
               FROM
                 handler
             ) handler ON handler.id = accommodation.handler
@@ -145,7 +145,7 @@ FROM
               mobile_number
               ORDER BY
                 mobile_number ASC
-            ) mobile_number
+            ) AS "mobileNumber"
           FROM
             mobile_number
           GROUP BY
@@ -178,7 +178,7 @@ FROM
           ) latest_ratings
         GROUP BY
           room
-      ) room_ratings ON room.room_id = room_ratings.room
+      ) room_ratings ON room."roomId" = room_ratings.room
     )
     JOIN (
       SELECT
@@ -194,7 +194,7 @@ FROM
         capacities IN :capacities
       GROUP BY
         room
-    ) room_capacity ON room.room_id = room_capacity.room
+    ) room_capacity ON room."roomId" = room_capacity.room
   )
 ORDER BY
-  room_bookmarked.time_created DESC;
+  room_bookmarked."timeCreated" DESC;

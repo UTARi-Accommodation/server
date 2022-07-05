@@ -5,17 +5,17 @@ import { parseRentalFromNumeric } from './common';
 
 const parseProperties = ({
     rental,
-    bed_rooms,
-    bath_rooms,
+    bedRooms,
+    bathRooms,
 }: Readonly<{
-    bed_rooms: number;
+    bedRooms: number;
     rental: string;
-    bath_rooms: number;
+    bathRooms: number;
 }>) =>
     ({
-        bedRooms: bed_rooms,
+        bedRooms,
         rental: parseRentalFromNumeric(rental),
-        bathRooms: bath_rooms,
+        bathRooms,
     } as const);
 
 export { parseProperties, generalUnit, detailedUnit, bookmarkedUnit };
