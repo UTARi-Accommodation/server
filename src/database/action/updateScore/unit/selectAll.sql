@@ -1,7 +1,7 @@
 /* @name QueryToUpdateScoreOfAllUnit */
 SELECT
-  unit_id,
-  mobile_number,
+  "unitId",
+  "mobileNumber",
   email,
   address,
   latitude,
@@ -10,11 +10,11 @@ SELECT
   remark,
   year,
   month,
-  bed_rooms,
-  bath_rooms,
+  "bedRooms",
+  "bathRooms",
   rental,
   ratings,
-  visit_count
+  "visitCount"
 FROM
   (
     (
@@ -41,10 +41,10 @@ FROM
             ) accommodation
             JOIN (
               SELECT
-                id AS unit_id,
+                id AS "unitId",
                 accommodation,
-                bath_rooms,
-                bed_rooms,
+                bath_rooms AS "bathRooms",
+                bed_rooms AS "bedRooms",
                 rental,
                 unit_type
               FROM
@@ -74,7 +74,7 @@ FROM
               mobile_number
               ORDER BY
                 mobile_number ASC
-            ) mobile_number
+            ) AS "mobileNumber"
           FROM
             mobile_number
           GROUP BY
@@ -107,15 +107,15 @@ FROM
           ) latest_ratings
         GROUP BY
           unit
-      ) unit_ratings ON unit.unit_id = unit_ratings.unit
+      ) unit_ratings ON unit."unitId" = unit_ratings.unit
     )
     LEFT OUTER JOIN (
       SELECT
         unit,
-        COUNT(DISTINCT(unit, visitor)) AS visit_count
+        COUNT(DISTINCT(unit, visitor)) AS "visitCount"
       FROM
         unit_visit
       GROUP BY
         unit
-    ) unit_visit ON unit.unit_id = unit_visit.unit
+    ) unit_visit ON unit."unitId" = unit_visit.unit
   );

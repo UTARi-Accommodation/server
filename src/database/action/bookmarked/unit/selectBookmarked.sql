@@ -6,19 +6,19 @@
  @param regions -> (...)
  */
 SELECT
-  unit_id,
+  "unitId",
   address,
   latitude,
   longitude,
   facilities,
   year,
   month,
-  bed_rooms,
-  bath_rooms,
+  "bedRooms",
+  "bathRooms",
   rental,
   ratings,
-  utari_user,
-  time_created
+  "utariUser",
+  "timeCreated"
 FROM
   (
     (
@@ -26,8 +26,8 @@ FROM
         (
           SELECT
             unit,
-            utari_user,
-            time_created
+            utari_user AS "utariUser",
+            time_created AS "timeCreated"
           FROM
             unit_bookmarked
           WHERE
@@ -35,10 +35,10 @@ FROM
         ) unit_bookmarked
         JOIN (
           SELECT
-            id AS unit_id,
+            id AS "unitId",
             accommodation,
-            bath_rooms,
-            bed_rooms,
+            bath_rooms AS "bathRooms",
+            bed_rooms AS "bedRooms",
             rental,
             unit_type
           FROM
@@ -56,7 +56,7 @@ FROM
             AND (bed_rooms IN :bedRooms)
             AND (bath_rooms IN :bathRooms)
             AND (unit_type IN :unitTypes)
-        ) unit ON unit_bookmarked.unit = unit.unit_id
+        ) unit ON unit_bookmarked.unit = unit."unitId"
       )
       JOIN (
         SELECT
@@ -112,9 +112,9 @@ FROM
         ) latest_ratings
       GROUP BY
         unit
-    ) unit_ratings ON unit.unit_id = unit_ratings.unit
+    ) unit_ratings ON unit."unitId" = unit_ratings.unit
   )
 ORDER BY
-  unit_bookmarked.time_created DESC
+  unit_bookmarked."timeCreated" DESC
 LIMIT
   :maxItemsPerPage ! OFFSET (:currentPage ! - 1) * :maxItemsPerPage !;

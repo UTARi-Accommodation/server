@@ -35,19 +35,19 @@ const updateRoomScore = (() => {
                 facilities,
                 latitude,
                 longitude,
-                mobile_number,
+                mobileNumber,
                 month,
                 ratings,
                 remark,
                 rental,
-                room_id,
-                room_size,
-                visit_count,
+                roomId,
+                roomSize,
+                visitCount,
                 year,
             }) => ({
-                id: room_id,
+                id: roomId,
                 contact: parseContact({
-                    mobileNumber: mobile_number,
+                    mobileNumber,
                     email,
                 }),
                 location: {
@@ -66,10 +66,10 @@ const updateRoomScore = (() => {
                 properties: parseProperties({
                     rental,
                     capacities,
-                    roomSize: room_size,
+                    roomSize,
                 }),
                 ratings: parseRating(ratings),
-                visitCount: parseVisitCount(visit_count),
+                visitCount: parseVisitCount(visitCount),
             })
         );
 

@@ -3,7 +3,7 @@
  @param capacities -> (...)
  */
 SELECT
-  room_id,
+  "roomId",
   score,
   address,
   latitude,
@@ -11,11 +11,11 @@ SELECT
   facilities,
   year,
   month,
-  room_size,
+  "roomSize",
   rental,
   capacities,
   ratings,
-  utari_user
+  "utariUser"
 FROM
   (
     (
@@ -52,10 +52,10 @@ FROM
                 ) accommodation
                 JOIN (
                   SELECT
-                    id AS room_id,
+                    id AS "roomId",
                     accommodation,
                     rental,
-                    room_size,
+                    room_size AS "roomSize",
                     room_type,
                     score
                   FROM
@@ -76,7 +76,7 @@ FROM
               LEFT OUTER JOIN (
                 SELECT
                   room,
-                  utari_user
+                  utari_user AS "utariUser"
                 FROM
                   room_bookmarked
                 WHERE
@@ -84,7 +84,7 @@ FROM
                     :userId :: TEXT IS NULL
                     OR utari_user = :userId
                   )
-              ) room_bookmarked ON room_bookmarked.room = room.room_id
+              ) room_bookmarked ON room_bookmarked.room = room."roomId"
             )
             LEFT OUTER JOIN (
               SELECT
@@ -140,7 +140,7 @@ FROM
             ) latest_ratings
           GROUP BY
             room
-        ) room_ratings ON room.room_id = room_ratings.room
+        ) room_ratings ON room."roomId" = room_ratings.room
       )
       LEFT OUTER JOIN (
         SELECT
@@ -150,7 +150,7 @@ FROM
           room_visit
         GROUP BY
           room
-      ) room_visit ON room.room_id = room_visit.room
+      ) room_visit ON room."roomId" = room_visit.room
     )
     JOIN (
       SELECT
@@ -166,7 +166,7 @@ FROM
         capacities IN :capacities
       GROUP BY
         room
-    ) room_capacity ON room.room_id = room_capacity.room
+    ) room_capacity ON room."roomId" = room_capacity.room
   )
 ORDER BY
   room.score DESC

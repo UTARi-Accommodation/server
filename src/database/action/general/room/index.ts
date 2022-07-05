@@ -39,12 +39,12 @@ const transformGeneralQuery = (
             month,
             ratings,
             rental,
-            room_id,
-            room_size,
+            roomId,
+            roomSize,
             year,
-            utari_user,
+            utariUser,
         }) => ({
-            id: room_id,
+            id: roomId,
             location: {
                 address,
                 coordinate: {
@@ -60,10 +60,10 @@ const transformGeneralQuery = (
             properties: parseProperties({
                 rental,
                 capacities,
-                roomSize: room_size,
+                roomSize,
             }),
             ratings: parseRating(ratings),
-            bookmarked: Boolean(utari_user),
+            bookmarked: Boolean(utariUser),
         })
     );
 
