@@ -71,9 +71,11 @@ if (process.env.IS_CI && selectedTests.length) {
     throw new Error('cannot have "only" in ci cd');
 }
 
-beforeAll(
-    async () => await (await reset).viewsAndFunctions(postgreSQL.instance.exec)
-);
+beforeAll(async () => {
+    const { viewsAndFunctions, db } = await reset;
+    await db(postgreSQL.instance.exec);
+    await viewsAndFunctions(postgreSQL.instance.exec);
+});
 
 (!selectedTests.length ? tests : selectedTests).forEach(([test]) => test());
 
