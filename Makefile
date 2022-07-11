@@ -109,4 +109,3 @@ setup-postgresql:
 	sudo -u postgres createdb test
 	psql template1 -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 	psql utari -c "\i sql/migration/create.sql"
-	psql utari -c "\i sql/view/create/filterDetailedUnitById.sql"
