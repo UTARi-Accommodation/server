@@ -258,6 +258,12 @@ const bookmarkedRouter = (app: express.Application) => ({
                     typeof type === 'string' &&
                     type.toLowerCase() === 'download'
                 ) {
+                    (
+                        await bookmarkedRoom.download(
+                            finalizedRoomQuery,
+                            postgreSQL.instance.pool
+                        )
+                    )[0]?.timeCreated.toString();
                     const result = {
                         rooms: await bookmarkedRoom.download(
                             finalizedRoomQuery,

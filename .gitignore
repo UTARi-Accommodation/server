@@ -1,32 +1,28 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 
 # testing
-/coverage
-/__tests__
+__tests__
 
 # production
-/build
-/dist
+build
 
 # pgtyped generated statement
-/src/database/**/*.queries.ts
+src/database/**/*.queries.ts
+
+# view/function creation/drop
+temp
 
 # misc
 .DS_Store
 .env
 .env.test
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
 pgTyped.json
 
-npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

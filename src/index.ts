@@ -20,10 +20,7 @@ const { json, urlencoded } = express;
 
 (async () => {
     try {
-        new CronJob(
-            '00 00 00 * * *',
-            async () => await accommodationScrapper()
-        ).start();
+        new CronJob('00 00 00 * * *', accommodationScrapper).start();
 
         const app = (() => {
             const middleWares = [

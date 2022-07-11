@@ -29,7 +29,7 @@ const roomRating = {
         );
         return {
             room: result.room,
-            user: result.utari_user,
+            user: result.utariUser,
         };
     },
     delete: async (params: Readonly<IRemoveParams>, pool: Pool) => {
@@ -47,8 +47,8 @@ const roomRating = {
             },
             postgreSQL.instance.pool
         );
-        return results.map(({ utari_user, room }) => ({
-            user: utari_user,
+        return results.map(({ utariUser, room }) => ({
+            user: utariUser,
             room,
         }));
     },

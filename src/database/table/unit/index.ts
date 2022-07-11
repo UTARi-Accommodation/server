@@ -42,7 +42,7 @@ const unit = {
         return parseAsNumber(units[0]?.id).orElseThrowDefault('unit Id');
     },
     setAvailabilityFalse: async (pool: Pool) => {
-        await setAvailabilityFalse.run(undefined as void, pool);
+        await setAvailabilityFalse.run(undefined, pool);
     },
     updateScore: async (
         params: Readonly<IUpdateScoreParams>,

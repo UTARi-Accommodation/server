@@ -2,6 +2,9 @@ name: server-ci-cd
 
 on: [push, pull_request]
 
+env:
+    IS_CI: true
+
 jobs:
     all:
         runs-on: ubuntu-latest
@@ -15,9 +18,8 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Install and Setup PostgreSQL
-              run: |
-                  make install-postgresql
-                  make setup-postgresql
+              run: make install-postgresql
+                  && make setup-postgresql
 
             - name: Install Depedencies
               run: make install
@@ -30,6 +32,9 @@ jobs:
                   PGPASSWORD: postgres
                   PGPORT: 5432
               run: make pg-gen
+
+            - name: Create Views and Functions
+              run: mkdir temp&& make create
 
             - name: Run Linter
               run: make lint

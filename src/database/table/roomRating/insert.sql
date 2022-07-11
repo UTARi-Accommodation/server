@@ -5,5 +5,5 @@
 INSERT INTO
   room_rating (utari_user, room, rating, time_created)
 VALUES
-  :params RETURNING utari_user,
+  :params RETURNING utari_user AS "utariUser",
   room;

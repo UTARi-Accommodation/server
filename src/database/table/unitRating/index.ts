@@ -37,7 +37,7 @@ const unitRating = {
         );
         return {
             unit: result.unit,
-            user: result.utari_user,
+            user: result.utariUser,
         };
     },
     delete: async (params: Readonly<IRemoveParams>, pool: Pool) => {
@@ -55,8 +55,8 @@ const unitRating = {
             },
             postgreSQL.instance.pool
         );
-        return results.map(({ utari_user, unit }) => ({
-            user: utari_user,
+        return results.map(({ utariUser, unit }) => ({
+            user: utariUser,
             unit,
         }));
     },

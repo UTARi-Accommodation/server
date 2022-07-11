@@ -13,24 +13,7 @@ SELECT
       bath_rooms ASC
   ) AS bath_rooms
 FROM
-  (
-    (
-      SELECT
-        id
-      FROM
-        accommodation
-      WHERE
-        region = :region !
-    ) accommodation
-    JOIN (
-      SELECT
-        bed_rooms,
-        bath_rooms,
-        accommodation
-      FROM
-        unit
-      WHERE
-        available = TRUE
-        AND unit_type = :unitType !
-    ) unit ON accommodation.id = unit.accommodation
-  );
+  filter_general_unit_meta_data
+WHERE
+  region = :region !
+  AND unit_type = :unitType !;

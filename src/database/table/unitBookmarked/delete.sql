@@ -4,4 +4,4 @@ DELETE FROM
 WHERE
   utari_user = :user !
   AND unit = :unit ! RETURNING unit,
-  utari_user;
+  utari_user AS "utariUser";

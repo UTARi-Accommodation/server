@@ -27,9 +27,10 @@ const getAllSQLCode = (files: ReadonlyArray<string>) =>
         code: await readCode(file),
     }));
 
-const schema = (async () => {
-    const files = getSchemaFiles('sql');
-    const [schemaOne, schemaTwo] = await getAllSQLCode(files).reduce(
+type Exec<T> = (sqlCode: string) => Promise<T>;
+
+const reset = (async () => {
+    const schemas = await getAllSQLCode(getSchemaFiles('sql')).reduce(
         async (prev, curr) => (await prev).concat(await curr),
         Promise.resolve(
             [] as ReadonlyArray<
@@ -40,17 +41,32 @@ const schema = (async () => {
             >
         )
     );
-    if (schemaTwo && schemaOne) {
-        return {
-            create: schemaTwo.file.includes('create')
-                ? schemaTwo.code
-                : schemaOne.code,
-            drop: schemaTwo.file.includes('drop')
-                ? schemaTwo.code
-                : schemaOne.code,
-        };
-    }
-    throw new Error('Could not find create and drop for schema');
+
+    const createViewsAndFunctions = () =>
+        schemas
+            .flatMap(({ file, code }) => {
+                if (file.includes('migration')) {
+                    return [];
+                }
+                return [code];
+            })
+            .join(';\n');
+
+    const resetTables = () =>
+        schemas
+            .flatMap(({ file, code }) => (!file.includes('drop') ? [] : [code]))
+            .concat(
+                schemas.flatMap(({ file, code }) =>
+                    file.includes('drop') ? [] : [code]
+                )
+            )
+            .join(';\n');
+
+    return {
+        db: <T>(exec: Exec<T>) => exec(resetTables()),
+        viewsAndFunctions: <T>(exec: Exec<T>) =>
+            exec(createViewsAndFunctions()),
+    };
 })();
 
-export default schema;
+export default reset;

@@ -1,6 +1,6 @@
 import { format } from 'sql-formatter';
 import * as fs from 'fs';
-import { getAllFilesAndCode, getAllFiles } from './util.js';
+import { getAllFilesAndCode, getAllFiles } from '../util.js';
 
 const config = {
     language: 'postgresql',

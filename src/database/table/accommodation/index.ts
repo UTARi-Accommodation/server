@@ -50,7 +50,7 @@ const accommodation = {
         );
     },
     setAvailabilityFalse: async (pool: Pool) => {
-        await setAvailabilityFalse.run(undefined as void, pool);
+        await setAvailabilityFalse.run(undefined, pool);
     },
 };
 

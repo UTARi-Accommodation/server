@@ -8,29 +8,13 @@ SELECT
 FROM
   (
     (
-      (
-        SELECT
-          room
-        FROM
-          room_bookmarked
-        WHERE
-          utari_user = :userId !
-      ) room_bookmarked
-      JOIN (
-        SELECT
-          id,
-          rental
-        FROM
-          room
-        WHERE
-          available = TRUE
-      ) room ON room_bookmarked.room = room.id
-    )
-    JOIN (
       SELECT
-        capacities,
-        room
+        id,
+        rental
       FROM
-        room_capacity
-    ) room_capacity ON room_capacity.room = room.id
+        filter_bookmarked_room_meta_data
+      WHERE
+        utari_user = :userId !
+    ) room
+    JOIN filter_room_capacity room_capacity ON room_capacity.room = room.id
   );

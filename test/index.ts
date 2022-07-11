@@ -1,4 +1,3 @@
-//api
 import testGetCentralGeocode from './api/geocode/geocode';
 
 import testComputeAddressScore from './api/madm/computation/address';
@@ -25,7 +24,6 @@ import testUnitPopulate from './api/populate/unit';
 import testUnitQuery from './api/query/unit';
 import testRoomQuery from './api/query/room';
 
-//scrapper
 import {
     testBandarTunHusseinOnnScrapper,
     testKamparScrapper,
@@ -33,37 +31,50 @@ import {
 } from './scrapper/accommodation';
 import testGeocodeScrapper from './scrapper/geocode';
 import postgreSQL from '../src/database/postgres';
+import reset from './script/reset';
 
-(() => {
-    testGetCentralGeocode();
-    testComputeAddressScore();
-    testComputeContactScore();
-    testComputeFacilitiesScore();
-    testComputeRatingScore();
-    testComputeRemarkScore();
-    testComputeTimeScore();
-    testComputeVisitCountScore();
+const tests: ReadonlyArray<readonly [() => void, 'only'?]> = [
+    [testGetCentralGeocode],
+    [testComputeAddressScore],
+    [testComputeContactScore],
+    [testComputeFacilitiesScore],
+    [testComputeRatingScore],
+    [testComputeRemarkScore],
+    [testComputeTimeScore],
+    [testComputeVisitCountScore],
 
-    testMultiAttributeDecisionModelUnit();
-    testMultiAttributeDecisionModelRoom();
+    [testMultiAttributeDecisionModelUnit],
+    [testMultiAttributeDecisionModelRoom],
 
-    testUnitMutation();
-    testRoomMutation();
-    testUserMutation();
-    testVisitorMutation();
-    testTimeScrapMutation();
+    [testUnitMutation],
+    [testRoomMutation],
+    [testUserMutation],
+    [testVisitorMutation],
+    [testTimeScrapMutation],
 
-    testEmptyContactPopulation();
-    testRoomPopulate();
-    testUnitPopulate();
+    [testEmptyContactPopulation],
+    [testRoomPopulate],
+    [testUnitPopulate],
 
-    testUnitQuery();
-    testRoomQuery();
+    [testUnitQuery],
+    [testRoomQuery],
 
-    testGeocodeScrapper();
-    testBandarTunHusseinOnnScrapper();
-    testKamparScrapper();
-    testSungaiLongScrapper();
+    [testGeocodeScrapper],
+    [testBandarTunHusseinOnnScrapper],
+    [testKamparScrapper],
+    [testSungaiLongScrapper],
+];
 
-    afterAll(async () => await postgreSQL.instance.close());
-})();
+const selectedTests = tests.filter(([_, only]) => only);
+
+if (process.env.IS_CI && selectedTests.length) {
+    throw new Error('cannot have "only" in ci cd');
+}
+
+beforeAll(
+    async () => await (await reset).viewsAndFunctions(postgreSQL.instance.exec)
+);
+
+(!selectedTests.length ? tests : selectedTests).forEach(([test]) => test());
+
+afterAll(postgreSQL.instance.close);

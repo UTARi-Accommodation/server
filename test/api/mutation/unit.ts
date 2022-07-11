@@ -1,4 +1,4 @@
-import schema from '../../script/schema';
+import reset from '../../script/reset';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { unit, mutated } from '../../dummy/api/mutation/unit.json';
@@ -16,8 +16,8 @@ const testUnitMutation = () =>
         const userTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const timeCreated = new Date();
         beforeAll(async () => {
-            await postgreSQL.instance.exec((await schema).drop);
-            await postgreSQL.instance.exec((await schema).create);
+            const { db } = await reset;
+            await db(postgreSQL.instance.exec);
             await insertToDatabase(unit as Accommodations, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
@@ -35,14 +35,27 @@ const testUnitMutation = () =>
                 it('should be updated after it is visited', async () => {
                     const visitorOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const visitorTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
-                    await visitor.insert(
-                        { id: visitorOne, timeCreated },
-                        postgreSQL.instance.pool
-                    );
-                    await visitor.insert(
-                        { id: visitorTwo, timeCreated },
-                        postgreSQL.instance.pool
-                    );
+
+                    expect(
+                        await visitor.insert(
+                            { id: visitorOne, timeCreated },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: visitorOne,
+                        type: 'created',
+                    });
+
+                    expect(
+                        await visitor.insert(
+                            { id: visitorTwo, timeCreated },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: visitorTwo,
+                        type: 'created',
+                    });
+
                     // insert new visit for unitOne from userOne
                     expect(
                         await unitVisit.insert(
@@ -191,34 +204,50 @@ const testUnitMutation = () =>
             describe('querying unit', () => {
                 it('should return units with newly updated rating, visit count and score', async () => {
                     const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
-                    await utariUser.insert(
-                        { id: userId, timeCreated: new Date() },
-                        postgreSQL.instance.pool
-                    );
-                    const { bathRooms, bedRooms } = await generalUnit.range(
-                        {
-                            region: 'KP',
-                            unitType: 'House',
-                        },
-                        postgreSQL.instance.pool
-                    );
+                    expect(
+                        await utariUser.insert(
+                            { id: userId, timeCreated: new Date() },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: userId,
+                        type: 'created',
+                    });
+
+                    const rowsProps = {
+                        region: 'KP',
+                        unitType: 'House',
+                        search: undefined,
+                        minRental: undefined,
+                        maxRental: undefined,
+                        userId,
+                        ...(await generalUnit.range(
+                            {
+                                region: 'KP',
+                                unitType: 'House',
+                            },
+                            postgreSQL.instance.pool
+                        )),
+                    } as const;
+
                     const rows = await generalUnit.general(
                         {
-                            region: 'KP',
-                            unitType: 'House',
-                            search: undefined,
-                            minRental: undefined,
-                            maxRental: undefined,
-                            userId,
-                            bathRooms,
-                            bedRooms,
+                            ...rowsProps,
                             maxItemsPerPage,
                             currentPage: 1,
                         },
                         postgreSQL.instance.pool
                     );
-                    expect(rows.length).toBe(2);
+
+                    const rowsCount = await generalUnit.count(
+                        rowsProps,
+                        postgreSQL.instance.pool
+                    );
+
                     expect(rows).toStrictEqual(mutated);
+                    expect(
+                        rowsCount === mutated.length && rowsCount === 2
+                    ).toBe(true);
                 });
             });
             describe('unit bookmark', () => {

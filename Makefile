@@ -36,7 +36,7 @@ build: pre-build
 
 ## clean-up:
 clean-up:
-	rm -rf src test node_modules script sql .git*
+	rm -rf src test node_modules script sql .git* temp
 
 ## type-check
 typecheck:
@@ -60,9 +60,17 @@ pg-gen:
 pg-gen-watch:
 	make pg-gen arguments=-w
 
+## drop all views and functions
+drop:
+	node script/sql/viewsAndFunctions.js drop && psql utari -c "\i temp/drop.sql"
+
+## create all views and functions
+create:
+	node script/sql/viewsAndFunctions.js create && psql utari -c "\i temp/create.sql"
+
 ## format
 format-sql:
-	node script/sqlFormatter.js
+	node script/sql/formatter.js
 
 prettier=$(NODE_BIN)prettier
 prettify:
@@ -100,4 +108,5 @@ setup-postgresql:
 	# create program test
 	sudo -u postgres createdb test
 	psql template1 -c "ALTER USER postgres WITH PASSWORD 'postgres'"
-	psql utari -c "\i sql/create.sql"
+	psql utari -c "\i sql/migration/create.sql"
+	psql utari -c "\i sql/view/create/filterDetailedUnitById.sql"

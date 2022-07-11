@@ -46,10 +46,7 @@ import { parseAsEnv } from 'esbuild-env-parsing';
             null,
             4
         ),
-        (err) => {
-            if (err) {
-                console.error(err);
-            }
-        }
+        (error) =>
+            error ? console.error(error) : console.log('generated pgTyped.json')
     );
 })();

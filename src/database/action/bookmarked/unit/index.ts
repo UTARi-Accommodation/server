@@ -17,10 +17,12 @@ import { Pool } from '../../../postgres';
 import {
     selectBookmarkedUnitQuery,
     ISelectBookmarkedUnitQueryParams,
+    ISelectBookmarkedUnitQueryResult,
 } from './selectBookmarked.queries';
 import {
     downloadBookmarkedUnitQuery,
     IDownloadBookmarkedUnitQueryParams,
+    IDownloadBookmarkedUnitQueryResult,
 } from './download.queries';
 import {
     ISelectRentalFrequencyParams,
@@ -34,23 +36,32 @@ import {
     ISelectCountBookmarkedUnitQueryParams,
     selectCountBookmarkedUnitQuery,
 } from './selectCount.queries';
+import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
 
 const bookmarkedUnit = {
     select: async (
-        params: ConvertCurrencyToNumber<ISelectBookmarkedUnitQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepReadonly<ISelectBookmarkedUnitQueryParams>
+        >,
         pool: Pool
     ): Promise<SortedUnit> =>
         (
-            await selectBookmarkedUnitQuery.run(
+            (await selectBookmarkedUnitQuery.run(
                 {
                     ...params,
+                    bathRooms: Array.from(params.bathRooms),
+                    bedRooms: Array.from(params.bedRooms),
+                    regions: Array.from(params.regions),
+                    unitTypes: Array.from(params.unitTypes),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
                 },
                 pool
-            )
+            )) as ReadonlyArray<
+                DeepNonNullable<ISelectBookmarkedUnitQueryResult>
+            >
         ).map(
             ({
                 address,
@@ -90,20 +101,27 @@ const bookmarkedUnit = {
             })
         ),
     download: async (
-        params: ConvertCurrencyToNumber<IDownloadBookmarkedUnitQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepReadonly<IDownloadBookmarkedUnitQueryParams>
+        >,
         pool: Pool
     ): Promise<SortedBookmarkedUnitDownload> =>
         (
-            await downloadBookmarkedUnitQuery.run(
+            (await downloadBookmarkedUnitQuery.run(
                 {
                     ...params,
+                    bathRooms: Array.from(params.bathRooms),
+                    bedRooms: Array.from(params.bedRooms),
+                    unitTypes: Array.from(params.unitTypes),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
                 },
                 pool
-            )
+            )) as ReadonlyArray<
+                DeepNonNullable<IDownloadBookmarkedUnitQueryResult>
+            >
         ).map(
             ({
                 address,
@@ -185,12 +203,18 @@ const bookmarkedUnit = {
         };
     },
     count: async (
-        params: ConvertCurrencyToNumber<ISelectCountBookmarkedUnitQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepReadonly<ISelectCountBookmarkedUnitQueryParams>
+        >,
         pool: Pool
     ) => {
         const results = await selectCountBookmarkedUnitQuery.run(
             {
                 ...params,
+                regions: Array.from(params.regions),
+                unitTypes: Array.from(params.unitTypes),
+                bathRooms: Array.from(params.bathRooms),
+                bedRooms: Array.from(params.bedRooms),
                 ...convertRentalToNumeric({
                     min: params.minRental,
                     max: params.maxRental,

@@ -10,6 +10,7 @@ import {
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/unit';
+import { DeepNonNullable } from '../../../../util/type';
 import postgreSQL, { Pool } from '../../../postgres';
 import unit from '../../../table/unit';
 import { selectMinMaxRental } from './minMaxRental.queries';
@@ -23,9 +24,11 @@ import {
     queryToUpdateScoreOfOneUnit,
 } from './selectOne.queries';
 
+type Units = ReadonlyArray<DeepNonNullable<IQueryToUpdateScoreOfAllUnitResult>>;
+
 const updateUnitScore = (() => {
     const transformGeneralQuery = (
-        units: ReadonlyArray<IQueryToUpdateScoreOfAllUnitResult>
+        units: Units
     ): MultiAttributeDecisionModelUnits =>
         units.map(
             ({
@@ -75,7 +78,7 @@ const updateUnitScore = (() => {
 
     const parseAsUnitMinMaxRental = async () => {
         const rentals = await selectMinMaxRental.run(
-            undefined as void,
+            undefined,
             postgreSQL.instance.pool
         );
         if (rentals.length !== 1) {
@@ -97,7 +100,10 @@ const updateUnitScore = (() => {
         ) => {
             const units = multiAttributeDecisionModelUnit(
                 transformGeneralQuery(
-                    await queryToUpdateScoreOfAllUnit.run(params, pool)
+                    (await queryToUpdateScoreOfAllUnit.run(
+                        params,
+                        pool
+                    )) as Units
                 ),
                 await parseAsUnitMinMaxRental()
             );
@@ -124,7 +130,7 @@ const updateUnitScore = (() => {
             pool: Pool
         ) => {
             const units = transformGeneralQuery(
-                await queryToUpdateScoreOfOneUnit.run(params, pool)
+                (await queryToUpdateScoreOfOneUnit.run(params, pool)) as Units
             );
             if (units.length !== 1) {
                 throw new Error(
@@ -135,10 +141,7 @@ const updateUnitScore = (() => {
             if (!unitQueried) {
                 throw new Error('unit cannot be undefined');
             }
-            const rentals = await selectMinMaxRental.run(
-                undefined as void,
-                pool
-            );
+            const rentals = await selectMinMaxRental.run(undefined, pool);
             if (rentals.length !== 1) {
                 throw new Error(
                     `Expect rental to have 1 element, got ${rentals.length} instead`

@@ -38,7 +38,7 @@ const roomBookmarked = {
             ? undefined
             : {
                   room: room.room,
-                  user: room.utari_user,
+                  user: room.utariUser,
               };
     },
     delete: async (params: Readonly<IRemoveParams>, pool: Pool) => {
@@ -53,7 +53,7 @@ const roomBookmarked = {
             ? undefined
             : {
                   room: room.room,
-                  user: room.utari_user,
+                  user: room.utariUser,
               };
     },
 };

@@ -10,6 +10,7 @@ import {
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/room';
+import { DeepNonNullable } from '../../../../util/type';
 import postgreSQL, { Pool } from '../../../postgres';
 import room from '../../../table/room';
 import { selectMinMaxRental } from './minMaxRental.queries';
@@ -23,9 +24,11 @@ import {
     queryToUpdateScoreOfOneRoom,
 } from './selectOne.queries';
 
+type Rooms = ReadonlyArray<DeepNonNullable<IQueryToUpdateScoreOfAllRoomResult>>;
+
 const updateRoomScore = (() => {
     const transformGeneralQuery = (
-        rooms: ReadonlyArray<IQueryToUpdateScoreOfAllRoomResult>
+        rooms: Rooms
     ): MultiAttributeDecisionModelRooms =>
         rooms.map(
             ({
@@ -75,7 +78,7 @@ const updateRoomScore = (() => {
 
     const parseAsRoomMinMaxRental = async () => {
         const rentals = await selectMinMaxRental.run(
-            undefined as void,
+            undefined,
             postgreSQL.instance.pool
         );
         if (rentals.length !== 1) {
@@ -97,7 +100,10 @@ const updateRoomScore = (() => {
         ) => {
             const rooms = multiAttributeDecisionModelRoom(
                 transformGeneralQuery(
-                    await queryToUpdateScoreOfAllRoom.run(params, pool)
+                    (await queryToUpdateScoreOfAllRoom.run(
+                        params,
+                        pool
+                    )) as Rooms
                 ),
                 await parseAsRoomMinMaxRental()
             );
@@ -124,7 +130,7 @@ const updateRoomScore = (() => {
             pool: Pool
         ) => {
             const rooms = transformGeneralQuery(
-                await queryToUpdateScoreOfOneRoom.run(params, pool)
+                (await queryToUpdateScoreOfOneRoom.run(params, pool)) as Rooms
             );
             if (rooms.length !== 1) {
                 throw new Error(
@@ -135,10 +141,7 @@ const updateRoomScore = (() => {
             if (!roomQueried) {
                 throw new Error('room cannot be undefined');
             }
-            const rentals = await selectMinMaxRental.run(
-                undefined as void,
-                pool
-            );
+            const rentals = await selectMinMaxRental.run(undefined, pool);
             if (rentals.length !== 1) {
                 throw new Error(
                     `Expect rental to have 1 element, got ${rentals.length} instead`

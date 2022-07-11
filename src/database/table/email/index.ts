@@ -16,7 +16,7 @@ const email = {
         return emails[0];
     },
     truncate: async (pool: Pool) => {
-        await truncate.run(undefined as void, pool);
+        await truncate.run(undefined, pool);
     },
 };
 

@@ -25,10 +25,11 @@ import {
     ISelectCountGeneralUnitQueryParams,
     selectCountGeneralUnitQuery,
 } from './selectCount.queries';
+import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
 
-const transformGeneralQuery = (
-    units: ReadonlyArray<ISelectGeneralUnitQueryResult>
-) =>
+type Units = ReadonlyArray<DeepNonNullable<ISelectGeneralUnitQueryResult>>;
+
+const transformGeneralQuery = (units: Units) =>
     units.map(
         ({
             address,
@@ -69,20 +70,24 @@ const transformGeneralQuery = (
 
 const generalUnit = {
     general: async (
-        params: ConvertCurrencyToNumber<ISelectGeneralUnitQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepReadonly<ISelectGeneralUnitQueryParams>
+        >,
         pool: Pool
     ) =>
         transformGeneralQuery(
-            await selectGeneralUnitQuery.run(
+            (await selectGeneralUnitQuery.run(
                 {
                     ...params,
+                    bathRooms: Array.from(params.bathRooms),
+                    bedRooms: Array.from(params.bedRooms),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
                 },
                 pool
-            )
+            )) as Units
         ),
     range: async (
         params: Readonly<ISelectBedRoomsAndBathRoomsRangeParams>,
@@ -120,12 +125,16 @@ const generalUnit = {
             ),
         ]),
     count: async (
-        params: ConvertCurrencyToNumber<ISelectCountGeneralUnitQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepReadonly<ISelectCountGeneralUnitQueryParams>
+        >,
         pool: Pool
     ) => {
         const results = await selectCountGeneralUnitQuery.run(
             {
                 ...params,
+                bathRooms: Array.from(params.bathRooms),
+                bedRooms: Array.from(params.bedRooms),
                 ...convertRentalToNumeric({
                     min: params.minRental,
                     max: params.maxRental,

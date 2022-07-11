@@ -4,5 +4,5 @@
 INSERT INTO
   unit_rating (utari_user, unit, rating, time_created)
 VALUES
-  :params RETURNING utari_user,
+  :params RETURNING utari_user AS "utariUser",
   unit;
