@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_distinct_room_rating AS
+CREATE
+OR REPLACE VIEW filter_distinct_room_rating AS
 SELECT
   DISTINCT ON (room, utari_user) room,
   rating,

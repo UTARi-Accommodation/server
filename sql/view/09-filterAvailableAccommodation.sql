@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_available_accommodation AS
+CREATE
+OR REPLACE VIEW filter_available_accommodation AS
 SELECT
   id AS accommodation_id,
   HANDLER,

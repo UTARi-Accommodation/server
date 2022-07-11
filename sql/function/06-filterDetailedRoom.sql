@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_detailed_room (roomId INT) RETURNS TABLE (
+CREATE
+OR REPLACE FUNCTION filter_detailed_room (roomId INT) RETURNS TABLE (
   email_handler TEXT,
   mobile_number_handler TEXT,
   handler_mobile_number TEXT [ ],

@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW aggregate_handler_contact AS
+CREATE
+OR REPLACE VIEW aggregate_handler_contact AS
 SELECT
   *
 FROM

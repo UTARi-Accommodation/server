@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_bookmarked_unit_by_a_user (userId TEXT DEFAULT NULL) RETURNS TABLE (id INTEGER, utariUser TEXT, timeCreated TIMESTAMPTZ) LANGUAGE plpgsql AS $$
+CREATE
+OR REPLACE FUNCTION filter_bookmarked_unit_by_a_user (userId TEXT DEFAULT NULL) RETURNS TABLE (id INTEGER, utariUser TEXT, timeCreated TIMESTAMPTZ) LANGUAGE plpgsql AS $$
 BEGIN 
   RETURN QUERY
 SELECT

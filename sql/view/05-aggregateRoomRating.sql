@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW aggregate_room_rating AS
+CREATE
+OR REPLACE VIEW aggregate_room_rating AS
 SELECT
   room,
   ARRAY_AGG(

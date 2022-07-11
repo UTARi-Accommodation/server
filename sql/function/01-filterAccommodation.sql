@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_accommodation (regions TEXT [ ], SEARCH TEXT DEFAULT NULL) RETURNS TABLE (
+CREATE
+OR REPLACE FUNCTION filter_accommodation (regions TEXT [ ], SEARCH TEXT DEFAULT NULL) RETURNS TABLE (
   accommodation_id INTEGER,
   accommodation_handler TEXT,
   accommodation_address TEXT,

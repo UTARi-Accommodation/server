@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW get_units_to_update_score AS
+CREATE
+OR REPLACE VIEW get_units_to_update_score AS
 SELECT
   "unitId",
   "mobileNumbers" AS "mobileNumber",

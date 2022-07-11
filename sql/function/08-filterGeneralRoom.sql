@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_general_room (
+CREATE
+OR REPLACE FUNCTION filter_general_room (
   region_queried TEXT,
   roomType_queried TEXT,
   capacities_queried INTEGER [ ],

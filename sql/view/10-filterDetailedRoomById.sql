@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_detailed_room_by_id AS
+CREATE
+OR REPLACE VIEW filter_detailed_room_by_id AS
 SELECT
   *
 FROM

@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW get_room_visit AS
+CREATE
+OR REPLACE VIEW get_room_visit AS
 SELECT
   room,
   COUNT(DISTINCT(room, visitor)) "visitCount"

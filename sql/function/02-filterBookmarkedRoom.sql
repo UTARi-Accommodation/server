@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_bookmarked_room (
+CREATE
+OR REPLACE FUNCTION filter_bookmarked_room (
   userId TEXT,
   capacities_queried INTEGER [ ],
   roomTypes_queried TEXT [ ],

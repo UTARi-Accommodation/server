@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_bookmarked_unit (
+CREATE
+OR REPLACE FUNCTION filter_bookmarked_unit (
   userId TEXT,
   bedRooms_queried INTEGER [ ],
   bathRooms_queried INTEGER [ ],

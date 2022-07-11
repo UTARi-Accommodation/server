@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_general_unit_meta_data AS
+CREATE
+OR REPLACE VIEW filter_general_unit_meta_data AS
 SELECT
   *
 FROM

@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_room_capacity AS
+CREATE
+OR REPLACE VIEW filter_room_capacity AS
 SELECT
   capacities,
   room

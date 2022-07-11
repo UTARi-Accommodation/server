@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION aggregate_room_capacity (room_capacities_queried INTEGER [ ] DEFAULT NULL) RETURNS TABLE (id INTEGER, aggregation INTEGER [ ]) LANGUAGE plpgsql AS $$
+CREATE
+OR REPLACE FUNCTION aggregate_room_capacity (room_capacities_queried INTEGER [ ] DEFAULT NULL) RETURNS TABLE (id INTEGER, aggregation INTEGER [ ]) LANGUAGE plpgsql AS $$
 BEGIN 
   RETURN QUERY
 SELECT

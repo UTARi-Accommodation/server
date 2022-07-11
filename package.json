@@ -5,8 +5,7 @@
     "author": "PoolOfDeath20",
     "license": "GPL-3.0",
     "scripts": {
-        "build": "make build && make clean-up",
-        "postinstall": "mkdir -p temp && make create && make pg-gen && make scrap"
+        "build": "mkdir -p temp && make create && make pg-gen && make scrap && make build && make clean-up"
     },
     "devDependencies": {
         "@types/cookie-parser": "^1.4.2",

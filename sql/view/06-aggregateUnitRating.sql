@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW aggregate_unit_rating AS
+CREATE
+OR REPLACE VIEW aggregate_unit_rating AS
 SELECT
   unit,
   ARRAY_AGG(

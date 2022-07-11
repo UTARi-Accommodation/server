@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_room (
+CREATE
+OR REPLACE FUNCTION filter_room (
   roomTypes_queried TEXT [ ],
   minRental NUMERIC(10, 2) DEFAULT NULL,
   maxRental NUMERIC(10, 2) DEFAULT NULL

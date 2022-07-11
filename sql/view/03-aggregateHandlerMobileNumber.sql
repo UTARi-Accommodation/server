@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW aggregate_handler_mobile_number AS
+CREATE
+OR REPLACE VIEW aggregate_handler_mobile_number AS
 SELECT
   HANDLER AS mn_handler,
   ARRAY_AGG(

@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW get_rooms_to_update_score AS
+CREATE
+OR REPLACE VIEW get_rooms_to_update_score AS
 SELECT
   "roomId",
   "mobileNumbers" AS "mobileNumber",

@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION filter_general_unit (
+CREATE
+OR REPLACE FUNCTION filter_general_unit (
   region_queried TEXT,
   unitType_queried TEXT,
   bedRooms_queried INTEGER [ ],

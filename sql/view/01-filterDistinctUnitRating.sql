@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW filter_distinct_unit_rating AS
+CREATE
+OR REPLACE VIEW filter_distinct_unit_rating AS
 SELECT
   DISTINCT ON (unit, utari_user) unit,
   rating,

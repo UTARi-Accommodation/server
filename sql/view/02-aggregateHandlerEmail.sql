@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW aggregate_handler_email AS
+CREATE
+OR REPLACE VIEW aggregate_handler_email AS
 SELECT
   HANDLER,
   ARRAY_AGG(

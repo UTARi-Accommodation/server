@@ -24,6 +24,9 @@ jobs:
             - name: Install Depedencies
               run: make install
 
+            - name: Create Views and Functions
+              run: mkdir temp && make create
+
             - name: Run PgTyped
               env:
                   PGUSER: postgres
@@ -32,9 +35,6 @@ jobs:
                   PGPASSWORD: postgres
                   PGPORT: 5432
               run: make pg-gen
-
-            - name: Create Views and Functions
-              run: mkdir temp&& make create
 
             - name: Run Linter
               run: make lint
