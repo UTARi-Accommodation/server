@@ -25,10 +25,11 @@ import {
     ISelectCountGeneralRoomQueryParams,
     selectCountGeneralRoomQuery,
 } from './selectCount.queries';
+import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
 
-const transformGeneralQuery = (
-    rooms: ReadonlyArray<ISelectGeneralRoomQueryResult>
-) =>
+type Rooms = ReadonlyArray<DeepNonNullable<ISelectGeneralRoomQueryResult>>;
+
+const transformGeneralQuery = (rooms: Rooms) =>
     rooms.map(
         ({
             address,
@@ -69,20 +70,23 @@ const transformGeneralQuery = (
 
 const generalRoom = {
     general: async (
-        params: ConvertCurrencyToNumber<ISelectGeneralRoomQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepNonNullable<DeepReadonly<ISelectGeneralRoomQueryParams>>
+        >,
         pool: Pool
     ) =>
         transformGeneralQuery(
-            await selectGeneralRoomQuery.run(
+            (await selectGeneralRoomQuery.run(
                 {
                     ...params,
+                    capacities: Array.from(params.capacities),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
                 },
                 pool
-            )
+            )) as Rooms
         ),
     range: async (
         params: Readonly<ISelectCapacitiesRangeParams>,
@@ -112,12 +116,15 @@ const generalRoom = {
             ),
         ]),
     count: async (
-        params: ConvertCurrencyToNumber<ISelectCountGeneralRoomQueryParams>,
+        params: ConvertCurrencyToNumber<
+            DeepNonNullable<DeepReadonly<ISelectCountGeneralRoomQueryParams>>
+        >,
         pool: Pool
     ) => {
         const results = await selectCountGeneralRoomQuery.run(
             {
                 ...params,
+                capacities: Array.from(params.capacities),
                 ...convertRentalToNumeric({
                     min: params.minRental,
                     max: params.maxRental,

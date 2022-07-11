@@ -5,26 +5,10 @@ SELECT
   rental,
   COUNT(rental) AS frequency
 FROM
-  (
-    (
-      SELECT
-        id
-      FROM
-        accommodation
-      WHERE
-        region = :region !
-    ) accommodation
-    JOIN (
-      SELECT
-        rental,
-        accommodation
-      FROM
-        unit
-      WHERE
-        available = TRUE
-        AND unit_type = :unitType !
-    ) unit ON accommodation.id = unit.accommodation
-  )
+  filter_general_unit_meta_data
+WHERE
+  region = :region !
+  AND unit_type = :unitType !
 GROUP BY
   rental
 ORDER BY

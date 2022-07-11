@@ -27,11 +27,7 @@ const timeScrap = {
         if (!timeScrap) {
             throw new Error('room from roomVisit insert is undefined');
         }
-        return {
-            timeStarted: timeScrap.time_started,
-            timeCompleted: timeScrap.time_completed,
-            id: timeScrap.id,
-        };
+        return timeScrap;
     },
 };
 

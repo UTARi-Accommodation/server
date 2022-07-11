@@ -1,4 +1,4 @@
-import schema from '../../script/schema';
+import reset from '../../script/reset';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/unit.json';
@@ -9,8 +9,8 @@ const testUnitPopulation = () =>
     describe('Populate Unit', () => {
         describe('Inserting a unit and quqerying the inserted unit', () => {
             beforeAll(async () => {
-                await postgreSQL.instance.exec((await schema).drop);
-                await postgreSQL.instance.exec((await schema).create);
+                const { db } = await reset;
+                await db(postgreSQL.instance.exec);
                 await insertToDatabase(insert as Accommodations, 'BTHO');
             });
             const handlerID = '054658721';

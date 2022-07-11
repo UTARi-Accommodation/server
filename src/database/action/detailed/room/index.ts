@@ -8,14 +8,17 @@ import {
     parseVisitCount,
 } from '../../../../api/query/common';
 import { parseProperties } from '../../../../api/query/room';
+import { DeepNonNullable } from '../../../../util/type';
 import { Pool } from '../../../postgres';
 import {
     detailedRoomQuery,
     IDetailedRoomQueryParams,
+    IDetailedRoomQueryResult,
 } from './detailed.queries';
 import {
     detailedRoomQueryWithUser,
     IDetailedRoomQueryWithUserParams,
+    IDetailedRoomQueryWithUserResult,
 } from './detailedWithUser.queries';
 
 const detailedRoom = {
@@ -29,7 +32,9 @@ const detailedRoom = {
                 `Expect rooms to have 0 or 1 room, got ${rooms.length} instead`
             );
         }
-        const [room] = rooms.map(
+        const [room] = (
+            rooms as ReadonlyArray<DeepNonNullable<IDetailedRoomQueryResult>>
+        ).map(
             ({
                 address,
                 latitude,
@@ -91,7 +96,11 @@ const detailedRoom = {
                 `Expect rooms to have 0 or 1 room, got ${rooms.length} instead`
             );
         }
-        const [room] = rooms.map(
+        const [room] = (
+            rooms as ReadonlyArray<
+                DeepNonNullable<IDetailedRoomQueryWithUserResult>
+            >
+        ).map(
             ({
                 address,
                 latitude,

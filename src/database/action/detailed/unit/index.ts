@@ -12,11 +12,14 @@ import { Pool } from '../../../postgres';
 import {
     detailedUnitQueryWithUser,
     IDetailedUnitQueryWithUserParams,
+    IDetailedUnitQueryWithUserResult,
 } from './detailedWithUser.queries';
 import {
     detailedUnitQuery,
     IDetailedUnitQueryParams,
+    IDetailedUnitQueryResult,
 } from './detailed.queries';
+import { DeepNonNullable } from '../../../../util/type';
 
 const detailedUnit = {
     select: async (
@@ -29,7 +32,9 @@ const detailedUnit = {
                 `Expect units to have 0 or 1 unit, got ${units.length} instead`
             );
         }
-        const [unit] = units.map(
+        const [unit] = (
+            units as ReadonlyArray<DeepNonNullable<IDetailedUnitQueryResult>>
+        ).map(
             ({
                 address,
                 latitude,
@@ -91,7 +96,11 @@ const detailedUnit = {
                 `Expect units to have 0 or 1 unit, got ${units.length} instead`
             );
         }
-        const [unit] = units.map(
+        const [unit] = (
+            units as ReadonlyArray<
+                DeepNonNullable<IDetailedUnitQueryWithUserResult>
+            >
+        ).map(
             ({
                 address,
                 latitude,

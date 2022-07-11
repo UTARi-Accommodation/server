@@ -25,10 +25,10 @@ const roomCapacities = {
         );
     },
     alterIdSequence: async (pool: Pool) => {
-        await alterIdSequence.run(undefined as void, pool);
+        await alterIdSequence.run(undefined, pool);
     },
     truncate: async (pool: Pool) => {
-        await truncate.run(undefined as void, pool);
+        await truncate.run(undefined, pool);
     },
 };
 

@@ -9,6 +9,7 @@ import {
     Region,
     Room,
     RoomProperties,
+    RoomSize,
     RoomType,
     Unit,
     UnitType,
@@ -34,9 +35,9 @@ const upsertRoom = async ({
     Readonly<{
         accommodation: number;
         roomType: RoomType;
-        roomSize: 'Small' | 'Middle' | 'Master';
+        roomSize: RoomSize;
     }>) => {
-    const roomID = await room.upsert(
+    const roomId = await room.upsert(
         {
             accommodation,
             rental,
@@ -52,7 +53,7 @@ const upsertRoom = async ({
                 async (capacity) =>
                     await roomCapacities.insert(
                         {
-                            room: roomID,
+                            room: roomId,
                             capacities: capacity,
                         },
                         postgreSQL.instance.pool
@@ -294,13 +295,13 @@ const updateScores = async (accommodations: Accommodations) => {
         accommodations.filter(({ accommodation: { type } }) => type === 'Unit')
             .length
     ) {
-        await updateUnitScore.all(undefined as void, postgreSQL.instance.pool);
+        await updateUnitScore.all(undefined, postgreSQL.instance.pool);
     }
     if (
         accommodations.filter(({ accommodation: { type } }) => type === 'Room')
             .length
     ) {
-        await updateRoomScore.all(undefined as void, postgreSQL.instance.pool);
+        await updateRoomScore.all(undefined, postgreSQL.instance.pool);
     }
 };
 

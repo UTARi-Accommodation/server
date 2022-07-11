@@ -1,4 +1,4 @@
-import schema from '../../script/schema';
+import reset from '../../script/reset';
 import postgreSQL from '../../../src/database/postgres';
 import upsertToDatabase from '../../../src/api/populate';
 import {
@@ -33,8 +33,8 @@ const testUnitQuery = () =>
     describe('Query Unit', () => {
         const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
         beforeAll(async () => {
-            await postgreSQL.instance.exec((await schema).drop);
-            await postgreSQL.instance.exec((await schema).create);
+            const { db } = await reset;
+            await db(postgreSQL.instance.exec);
             await upsertToDatabase(units as Accommodations, 'BTHO');
 
             // set region to KP
@@ -60,314 +60,448 @@ const testUnitQuery = () =>
         });
         describe('Query', () => {
             it('should return units that matches the general query', async () => {
+                const bthoProps = {
+                    region: 'BTHO',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'BTHO',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const bthoQueriedWithoutRentalQuery = await generalUnit.general(
                     {
-                        region: 'BTHO',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
-                        userId,
+                        ...bthoProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'BTHO',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(bthoQueriedWithoutRentalQuery.length).toBe(2);
+                const bthoCount = await generalUnit.count(
+                    bthoProps,
+                    postgreSQL.instance.pool
+                );
                 expect(bthoQueriedWithoutRentalQuery).toStrictEqual(btho);
+                expect(bthoCount === btho.length && bthoCount === 2).toBe(true);
 
+                const kpProps = {
+                    region: 'KP',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const kpQueriedWithoutRentalQuery = await generalUnit.general(
                     {
-                        region: 'KP',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
-                        userId,
+                        ...kpProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(kpQueriedWithoutRentalQuery.length).toBe(2);
+                const kpCount = await generalUnit.count(
+                    kpProps,
+                    postgreSQL.instance.pool
+                );
                 expect(kpQueriedWithoutRentalQuery).toStrictEqual(kp);
+                expect(kpCount === kp.length && kpCount === 2).toBe(true);
 
+                const slProps = {
+                    region: 'SL',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'SL',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const slQueriedWithoutRentalQuery = await generalUnit.general(
                     {
-                        region: 'SL',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
-                        userId,
+                        ...slProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'SL',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(slQueriedWithoutRentalQuery.length).toBe(2);
+                const slCount = await generalUnit.count(
+                    slProps,
+                    postgreSQL.instance.pool
+                );
                 expect(slQueriedWithoutRentalQuery).toStrictEqual(sl);
+                expect(slCount === sl.length && slCount === 2).toBe(true);
             });
             it('should return units that matches the search query', async () => {
+                const rowsProps = {
+                    region: 'SL',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: 'sutera pines condo',
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'SL',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
+                const rowsOneCount = await generalUnit.count(
+                    rowsProps,
+                    postgreSQL.instance.pool
+                );
                 const rowsOne = await generalUnit.general(
                     {
-                        region: 'SL',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: 'sutera pines condo',
-                        userId,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'SL',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rowsOne.length).toBe(2);
                 expect(rowsOne).toStrictEqual(searchOne);
+                expect(
+                    rowsOneCount === searchOne.length && rowsOneCount === 2
+                ).toBe(true);
 
+                const rowsTwoProps = {
+                    region: 'BTHO',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: 'mrt feeder bus',
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'BTHO',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
+                const rowsTwoCount = await generalUnit.count(
+                    rowsTwoProps,
+                    postgreSQL.instance.pool
+                );
                 const rowsTwo = await generalUnit.general(
                     {
-                        region: 'BTHO',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: 'mrt feeder bus',
-                        userId,
+                        ...rowsTwoProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'BTHO',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rowsTwo.length).toBe(1);
                 expect(rowsTwo).toStrictEqual(searchTwo);
+                expect(
+                    rowsTwoCount === searchTwo.length && rowsTwoCount === 1
+                ).toBe(true);
 
+                const rowsThreeProps = {
+                    region: 'KP',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: 'PARKING BAY',
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const rowsThree = await generalUnit.general(
                     {
-                        region: 'KP',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: 'PARKING BAY',
-                        userId,
+                        ...rowsThreeProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rowsThree.length).toBe(2);
+                const rowsThreeCount = await generalUnit.count(
+                    rowsThreeProps,
+                    postgreSQL.instance.pool
+                );
                 expect(rowsThree).toStrictEqual(searchThree);
+                expect(
+                    rowsThreeCount === searchThree.length &&
+                        rowsThreeCount === 2
+                ).toBe(true);
             });
             it('should return units that matches the bed rooms query', async () => {
+                const rowsProps = {
+                    region: 'SL',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                    bedRooms: [2, 3],
+                    userId,
+                };
                 const rows = await generalUnit.general(
                     {
-                        region: 'SL',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
-                        bedRooms: [2, 3],
-                        userId,
                     },
+                    postgreSQL.instance.pool
+                );
+                const rowsCount = await generalUnit.count(
+                    rowsProps,
                     postgreSQL.instance.pool
                 );
                 expect(rows.length).toBe(1);
                 expect(rows).toStrictEqual(bedRooms);
+                expect(rowsCount === bedRooms.length && rowsCount === 1).toBe(
+                    true
+                );
             });
             it('should return units that matches the bath rooms query', async () => {
+                const rowsProps = {
+                    region: 'KP',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                    bathRooms: [5, 6],
+                    userId,
+                } as const;
                 const rows = await generalUnit.general(
                     {
-                        region: 'KP',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
-                        bathRooms: [5, 6],
-                        userId,
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rows.length).toBe(1);
+                const rowsCount = await generalUnit.count(
+                    rowsProps,
+                    postgreSQL.instance.pool
+                );
                 expect(rows).toStrictEqual(bathRooms);
+                expect(rowsCount === bathRooms.length && rowsCount === 1).toBe(
+                    true
+                );
             });
             it('should return units that matches the bath and bed rooms query', async () => {
+                const rowsProps = {
+                    region: 'KP',
+                    unitType: 'House',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    bathRooms: [2, 5],
+                    bedRooms: [3],
+                    userId,
+                } as const;
                 const rows = await generalUnit.general(
                     {
-                        region: 'KP',
-                        unitType: 'House',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
-                        bathRooms: [2, 5],
-                        bedRooms: [3],
-                        userId,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rows.length).toBe(2);
+                const rowsCount = await generalUnit.count(
+                    rowsProps,
+                    postgreSQL.instance.pool
+                );
                 expect(rows).toStrictEqual(bathAndBedRooms);
+                expect(
+                    rowsCount === bathAndBedRooms.length && rowsCount === 2
+                ).toBe(true);
             });
             it('should return units that matches the rental query', async () => {
+                const rowsProps = {
+                    region: 'KP',
+                    unitType: 'House',
+                    minRental: 900,
+                    maxRental: 1000,
+                    search: undefined,
+                    userId,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const rows = await generalUnit.general(
                     {
-                        region: 'KP',
-                        unitType: 'House',
-                        minRental: 900,
-                        maxRental: 1000,
-                        search: undefined,
-                        userId,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rows.length).toBe(1);
+                const rowsCount = await generalUnit.count(
+                    rowsProps,
+                    postgreSQL.instance.pool
+                );
                 expect(rows).toStrictEqual(rental);
+                expect(rowsCount === rental.length && rowsCount === 1).toBe(
+                    true
+                );
             });
             it('should return 1 unit that matches the unit type query', async () => {
+                const rowsProps = {
+                    region: 'BTHO',
+                    unitType: 'Condominium',
+                    minRental: undefined,
+                    maxRental: undefined,
+                    search: undefined,
+                    userId,
+                    maxItemsPerPage,
+                    currentPage: 1,
+                    ...(await generalUnit.range(
+                        {
+                            region: 'KP',
+                            unitType: 'House',
+                        },
+                        postgreSQL.instance.pool
+                    )),
+                } as const;
                 const rows = await generalUnit.general(
                     {
-                        region: 'BTHO',
-                        unitType: 'Condominium',
-                        minRental: undefined,
-                        maxRental: undefined,
-                        search: undefined,
-                        userId,
+                        ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                        ...(await generalUnit.range(
-                            {
-                                region: 'KP',
-                                unitType: 'House',
-                            },
-                            postgreSQL.instance.pool
-                        )),
                     },
                     postgreSQL.instance.pool
                 );
-                expect(rows.length).toBe(1);
+                const rowsCount = await generalUnit.count(
+                    rowsProps,
+                    postgreSQL.instance.pool
+                );
                 expect(rows).toStrictEqual(unitType);
+                expect(rowsCount === unitType.length && rowsCount === 1).toBe(
+                    true
+                );
             });
             it('should return the updated detailed information of a unit that match the unitId', async () => {
                 const timeCreated = new Date();
                 const unit = 7;
                 const dummyUser = 'dummyUser';
-                await utariUser.insert(
-                    {
-                        id: userId,
-                        timeCreated,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await utariUser.insert(
-                    {
-                        id: dummyUser,
-                        timeCreated,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitBookmarked.insert(
-                    {
-                        unit,
-                        user: userId,
-                        timeCreated,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitRating.insert(
-                    {
-                        unit,
-                        user: userId,
-                        timeCreated,
-                        rating: 4,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitRating.insert(
-                    {
-                        unit,
-                        user: userId,
-                        timeCreated,
-                        rating: 3,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitBookmarked.insert(
-                    {
-                        unit,
-                        user: dummyUser,
-                        timeCreated,
-                    },
-                    postgreSQL.instance.pool
-                );
+
+                expect(
+                    await utariUser.insert(
+                        {
+                            id: userId,
+                            timeCreated,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    id: userId,
+                    type: 'existed',
+                });
+
+                expect(
+                    await utariUser.insert(
+                        {
+                            id: dummyUser,
+                            timeCreated,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    id: dummyUser,
+                    type: 'created',
+                });
+
+                expect(
+                    await unitBookmarked.insert(
+                        {
+                            unit,
+                            user: userId,
+                            timeCreated,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit,
+                    user: userId,
+                });
+
+                expect(
+                    await unitRating.insert(
+                        {
+                            unit,
+                            user: userId,
+                            timeCreated,
+                            rating: 4,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit,
+                    user: userId,
+                });
+
+                expect(
+                    await unitRating.insert(
+                        {
+                            unit,
+                            user: userId,
+                            timeCreated,
+                            rating: 3,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit,
+                    user: userId,
+                });
+
+                expect(
+                    await unitBookmarked.insert(
+                        {
+                            unit,
+                            user: dummyUser,
+                            timeCreated,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit,
+                    user: dummyUser,
+                });
+
                 // user did bookmarked this room
                 expect(
                     await detailUnitQuery.selectWithUser(
@@ -382,6 +516,7 @@ const testUnitQuery = () =>
                     bookmarked: true,
                     rating: 3,
                 });
+
                 expect(
                     await detailUnitQuery.selectWithUser(
                         {
@@ -395,6 +530,7 @@ const testUnitQuery = () =>
                     bookmarked: true,
                     rating: undefined,
                 });
+
                 // fake user Id to simulate fake user that did not bookmark this room
                 expect(
                     await detailUnitQuery.selectWithUser(
@@ -408,6 +544,7 @@ const testUnitQuery = () =>
                     ...detailedUnit,
                     rating: undefined,
                 });
+
                 // user not logged in
                 expect(
                     await detailUnitQuery.select(
@@ -420,6 +557,7 @@ const testUnitQuery = () =>
                     ...detailedUnit,
                     rating: undefined,
                 });
+
                 expect(
                     await bookmarkUnitQuery.download(
                         {
@@ -520,39 +658,63 @@ const testUnitQuery = () =>
             it('should return bookmarked unit that match the bookmarked Id', async () => {
                 const user = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                 const timeCreatedOne = new Date();
-                await utariUser.insert(
-                    {
-                        id: user,
-                        timeCreated: timeCreatedOne,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitRating.insert(
-                    {
-                        unit: 7,
-                        user,
-                        timeCreated: timeCreatedOne,
-                        rating: 5,
-                    },
-                    postgreSQL.instance.pool
-                );
-                await unitBookmarked.insert(
-                    {
-                        unit: 7,
-                        user,
-                        timeCreated: timeCreatedOne,
-                    },
-                    postgreSQL.instance.pool
-                );
+                expect(
+                    await utariUser.insert(
+                        {
+                            id: user,
+                            timeCreated: timeCreatedOne,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    id: user,
+                    type: 'created',
+                });
+
+                expect(
+                    await unitRating.insert(
+                        {
+                            unit: 7,
+                            user,
+                            timeCreated: timeCreatedOne,
+                            rating: 5,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit: 7,
+                    user,
+                });
+
+                expect(
+                    await unitBookmarked.insert(
+                        {
+                            unit: 7,
+                            user,
+                            timeCreated: timeCreatedOne,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit: 7,
+                    user,
+                });
+
                 const timeCreatedTwo = new Date();
-                await unitBookmarked.insert(
-                    {
-                        unit: 6,
-                        user,
-                        timeCreated: timeCreatedTwo,
-                    },
-                    postgreSQL.instance.pool
-                );
+                expect(
+                    await unitBookmarked.insert(
+                        {
+                            unit: 6,
+                            user,
+                            timeCreated: timeCreatedTwo,
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toStrictEqual({
+                    unit: 6,
+                    user,
+                });
+
                 expect(
                     await bookmarkUnitQuery.selectRentalFrequency(
                         {
@@ -561,6 +723,7 @@ const testUnitQuery = () =>
                         postgreSQL.instance.pool
                     )
                 ).toStrictEqual([[1100, 2]]);
+
                 expect(
                     await bookmarkUnitQuery.range(
                         {
@@ -572,6 +735,7 @@ const testUnitQuery = () =>
                     bedRooms: [3],
                     bathRooms: [2],
                 });
+
                 expect(
                     await bookmarkUnitQuery.select(
                         {
@@ -589,6 +753,23 @@ const testUnitQuery = () =>
                         postgreSQL.instance.pool
                     )
                 ).toStrictEqual(bookmarkedUnit);
+
+                expect(
+                    await bookmarkUnitQuery.count(
+                        {
+                            userId: user,
+                            regions: ['SL', 'BTHO'],
+                            unitTypes: ['Condominium', 'House'],
+                            minRental: undefined,
+                            maxRental: undefined,
+                            search: undefined,
+                            bedRooms: [3],
+                            bathRooms: [2],
+                        },
+                        postgreSQL.instance.pool
+                    )
+                ).toBe(bookmarkedUnit.length);
+
                 expect(
                     await bookmarkUnitQuery.download(
                         {

@@ -5,4 +5,4 @@ SET
   time_deleted = :timeDeleted !
 WHERE
   id = :id ! RETURNING id,
-  time_deleted;
+  time_deleted AS "timeDeleted";

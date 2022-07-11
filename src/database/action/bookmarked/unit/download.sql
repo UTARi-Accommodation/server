@@ -1,26 +1,23 @@
 /*
  @name DownloadBookmarkedUnitQuery
- @param bedRooms -> (...)
- @param bathRooms -> (...)
- @param unitTypes -> (...)
  @param regions -> (...)
  */
 SELECT
-  "unitId",
+  unitId AS "unitId",
   "mobileNumber",
   email,
   address,
   facilities,
   remark,
-  year,
-  month,
-  "bedRooms",
-  "bathRooms",
-  rental,
+  YEAR,
+  MONTH,
+  unitBedRooms AS "bedRooms",
+  unitBathRooms AS "bathRooms",
+  unitRental AS rental,
   rating,
   ratings,
-  "timeCreated",
-  name,
+  timeCreated AS "timeCreated",
+  NAME,
   "handlerType"
 FROM
   (
@@ -31,16 +28,7 @@ FROM
             (
               (
                 (
-                  (
-                    SELECT
-                      unit,
-                      utari_user,
-                      time_created AS "timeCreated"
-                    FROM
-                      unit_bookmarked
-                    WHERE
-                      utari_user = :userId !
-                  ) unit_bookmarked
+                  filter_bookmarked_unit_by_a_user(:userId !) unit_bookmarked
                   LEFT OUTER JOIN (
                     SELECT
                       unit,
@@ -48,59 +36,34 @@ FROM
                     FROM
                       (
                         SELECT
-                          DISTINCT ON (unit, utari_user) unit,
+                          unit,
                           rating
                         FROM
-                          unit_rating
+                          filter_distinct_unit_rating
                         WHERE
                           utari_user = :userId !
-                        GROUP BY
-                          unit,
-                          utari_user,
-                          id
-                        ORDER BY
-                          unit,
-                          utari_user,
-                          id DESC
                       ) latest_ratings
                     GROUP BY
                       unit,
                       rating
-                  ) unit_rating ON unit_rating.unit = unit_bookmarked.unit
+                  ) unit_rating ON unit_rating.unit = unit_bookmarked.id
                 )
-                JOIN (
-                  SELECT
-                    id AS "unitId",
-                    accommodation,
-                    bath_rooms AS "bathRooms",
-                    bed_rooms AS "bedRooms",
-                    rental,
-                    unit_type
-                  FROM
-                    unit
-                  WHERE
-                    available = TRUE
-                    AND (
-                      :minRental :: NUMERIC(10, 2) IS NULL
-                      OR rental >= :minRental
-                    )
-                    AND (
-                      :maxRental :: NUMERIC(10, 2) IS NULL
-                      OR rental <= :maxRental
-                    )
-                    AND (bed_rooms IN :bedRooms)
-                    AND (bath_rooms IN :bathRooms)
-                    AND (unit_type IN :unitTypes)
-                ) unit ON unit_bookmarked.unit = unit."unitId"
+                JOIN filter_unit(
+                  :unitTypes !,
+                  :bedRooms !,
+                  :bathRooms !,
+                  :minRental,
+                  :maxRental
+                ) unit ON unit_bookmarked.id = unit.unitId
               )
               JOIN (
                 SELECT
                   id AS accommodation_id,
-                  handler,
+                  HANDLER,
                   address,
                   remark,
-                  month,
-                  year,
+                  MONTH,
+                  YEAR,
                   region,
                   facilities,
                   accommodation_type
@@ -117,20 +80,20 @@ FROM
                       OR strict_word_similarity(:search, facilities) >= 0.1
                     )
                   )
-              ) accommodation ON accommodation.accommodation_id = unit.accommodation
+              ) accommodation ON accommodation.accommodation_id = unit.unitAccommodation
             )
             JOIN (
               SELECT
                 id,
-                name,
+                NAME,
                 handler_type AS "handlerType"
               FROM
-                handler
-            ) handler ON handler.id = accommodation.handler
+                HANDLER
+            ) HANDLER ON HANDLER.id = accommodation.handler
           )
           LEFT OUTER JOIN (
             SELECT
-              handler,
+              HANDLER,
               ARRAY_AGG(
                 email
                 ORDER BY
@@ -139,12 +102,12 @@ FROM
             FROM
               email
             GROUP BY
-              handler
-          ) email ON handler.id = email.handler
+              HANDLER
+          ) email ON HANDLER.id = email.handler
         )
         LEFT OUTER JOIN (
           SELECT
-            handler,
+            HANDLER,
             ARRAY_AGG(
               mobile_number
               ORDER BY
@@ -153,8 +116,8 @@ FROM
           FROM
             mobile_number
           GROUP BY
-            handler
-        ) mobile_number ON handler.id = mobile_number.handler
+            HANDLER
+        ) mobile_number ON HANDLER.id = mobile_number.handler
       )
       LEFT OUTER JOIN (
         SELECT
@@ -165,25 +128,11 @@ FROM
               rating ASC
           ) ratings
         FROM
-          (
-            SELECT
-              DISTINCT ON (unit, utari_user) unit,
-              rating
-            FROM
-              unit_rating
-            GROUP BY
-              unit,
-              utari_user,
-              id
-            ORDER BY
-              unit,
-              utari_user,
-              id DESC
-          ) latest_ratings
+          filter_distinct_unit_rating
         GROUP BY
           unit
-      ) unit_ratings ON unit."unitId" = unit_ratings.unit
+      ) unit_ratings ON unit.unitId = unit_ratings.unit
     )
   )
 ORDER BY
-  unit_bookmarked."timeCreated" DESC;
+  unit_bookmarked.timeCreated DESC;

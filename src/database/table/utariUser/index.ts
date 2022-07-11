@@ -45,14 +45,10 @@ const user = {
         if (!user) {
             throw new Error('user cannot be undefined');
         }
-        const { id, time_deleted } = user;
-        if (time_deleted === null) {
+        if (user.timeDeleted === null) {
             throw new Error(`Expect time_deleted to be Date, got null instead`);
         }
-        return {
-            id,
-            timeDeleted: time_deleted,
-        };
+        return user;
     },
 };
 

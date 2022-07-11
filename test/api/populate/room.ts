@@ -1,4 +1,4 @@
-import schema from '../../script/schema';
+import reset from '../../script/reset';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/room.json';
@@ -9,8 +9,8 @@ const testRoomPopulate = () =>
     describe('Populate Room', () => {
         describe('Inserting a room and querying the inserted room', () => {
             beforeAll(async () => {
-                await postgreSQL.instance.exec((await schema).drop);
-                await postgreSQL.instance.exec((await schema).create);
+                const { db } = await reset;
+                await db(postgreSQL.instance.exec);
                 await insertToDatabase(insert as Accommodations, 'BTHO');
             });
             const handlerID = '054658721';
@@ -109,8 +109,8 @@ const testRoomPopulate = () =>
                 } = accommodation;
                 expect(accommodationID).toBe(accommodationId);
                 expect(accommodationHandler).toBe(handlerID);
-                expect(latitude).toBe(3.046815);
-                expect(longitude).toBe(101.786024);
+                expect(latitude).toBe(3.046771);
+                expect(longitude).toBe(101.78602);
                 expect(address).toBe(
                     '32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor'
                 );
@@ -324,8 +324,8 @@ const testRoomPopulate = () =>
                 } = accommodation;
                 expect(accommodationID).toBe(accommodationId);
                 expect(accommodationHandler).toBe(handlerID);
-                expect(latitude).toBe(3.046815);
-                expect(longitude).toBe(101.786024);
+                expect(latitude).toBe(3.046771);
+                expect(longitude).toBe(101.78602);
                 expect(address).toBe(
                     '32A, Jalan Putera 7/1, Bandar Mahkota Cheras, 43200, Kajang, Selangor'
                 );

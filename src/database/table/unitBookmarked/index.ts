@@ -38,7 +38,7 @@ const unitBookmarked = {
             ? undefined
             : {
                   unit: unit.unit,
-                  user: unit.utari_user,
+                  user: unit.utariUser,
               };
     },
     delete: async (params: Readonly<IRemoveParams>, pool: Pool) => {
@@ -53,7 +53,7 @@ const unitBookmarked = {
             ? undefined
             : {
                   unit: unit.unit,
-                  user: unit.utari_user,
+                  user: unit.utariUser,
               };
     },
 };

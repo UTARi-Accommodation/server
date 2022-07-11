@@ -40,7 +40,7 @@ const room = {
         return parseAsNumber(rooms[0]?.id).orElseThrowDefault('room ID');
     },
     setAvailabilityFalse: async (pool: Pool) => {
-        await setAvailabilityFalse.run(undefined as void, pool);
+        await setAvailabilityFalse.run(undefined, pool);
     },
     updateScore: async (
         params: Readonly<IUpdateScoreParams>,

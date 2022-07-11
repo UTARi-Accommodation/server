@@ -1,4 +1,4 @@
-import schema from '../../script/schema';
+import reset from '../../script/reset';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { room, mutated } from '../../dummy/api/mutation/room.json';
@@ -16,8 +16,8 @@ const testRoomMutation = () =>
         const userTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
         const timeCreated = new Date();
         beforeAll(async () => {
-            await postgreSQL.instance.exec((await schema).drop);
-            await postgreSQL.instance.exec((await schema).create);
+            const { db } = await reset;
+            await db(postgreSQL.instance.exec);
             await insertToDatabase(room as Accommodations, 'KP');
             await utariUser.insert(
                 { id: userOne, timeCreated },
@@ -36,14 +36,26 @@ const testRoomMutation = () =>
                     const visitorOne = '41bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const visitorTwo = '31bd91ae-a2bf-4715-9496-2a37e8b9bcce';
                     const timeCreated = new Date();
-                    await visitor.insert(
-                        { id: visitorOne, timeCreated },
-                        postgreSQL.instance.pool
-                    );
-                    await visitor.insert(
-                        { id: visitorTwo, timeCreated },
-                        postgreSQL.instance.pool
-                    );
+                    expect(
+                        await visitor.insert(
+                            { id: visitorOne, timeCreated },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: visitorOne,
+                        type: 'created',
+                    });
+
+                    expect(
+                        await visitor.insert(
+                            { id: visitorTwo, timeCreated },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: visitorTwo,
+                        type: 'created',
+                    });
+
                     // insert new visit for roomOne from userOne
                     expect(
                         await roomVisit.insert(
@@ -192,32 +204,50 @@ const testRoomMutation = () =>
             describe('querying room', () => {
                 it('should returns rooms with newly updated rating, visit count and score', async () => {
                     const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
-                    await utariUser.insert(
-                        { id: userId, timeCreated: new Date() },
+
+                    expect(
+                        await utariUser.insert(
+                            { id: userId, timeCreated: new Date() },
+                            postgreSQL.instance.pool
+                        )
+                    ).toStrictEqual({
+                        id: userId,
+                        type: 'created',
+                    });
+
+                    const rowsProps = {
+                        region: 'KP',
+                        roomType: 'Roommate',
+                        search: undefined,
+                        minRental: undefined,
+                        maxRental: undefined,
+                        userId,
+                        capacities: await generalRoom.range(
+                            {
+                                roomType: 'Roommate',
+                                region: 'KP',
+                            },
+                            postgreSQL.instance.pool
+                        ),
+                    } as const;
+
+                    const rowsCount = await generalRoom.count(
+                        rowsProps,
                         postgreSQL.instance.pool
                     );
                     const rows = await generalRoom.general(
                         {
-                            region: 'KP',
-                            roomType: 'Roommate',
-                            search: undefined,
-                            minRental: undefined,
-                            maxRental: undefined,
-                            userId,
-                            capacities: await generalRoom.range(
-                                {
-                                    roomType: 'Roommate',
-                                    region: 'KP',
-                                },
-                                postgreSQL.instance.pool
-                            ),
+                            ...rowsProps,
                             maxItemsPerPage,
                             currentPage: 1,
                         },
                         postgreSQL.instance.pool
                     );
-                    expect(rows.length).toBe(3);
+
                     expect(rows).toStrictEqual(mutated);
+                    expect(
+                        rowsCount === mutated.length && rowsCount === 3
+                    ).toBe(true);
                 });
             });
             describe('bookmarking room', () => {
