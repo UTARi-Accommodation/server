@@ -1,7 +1,7 @@
 /* @name SelectRentalFrequency */
 SELECT
   rental,
-  COUNT(rental) AS frequency
+  COUNT(rental) :: INT frequency
 FROM
   filter_general_room_meta_data
 WHERE
@@ -11,3 +11,4 @@ GROUP BY
   rental
 ORDER BY
   rental;
+
