@@ -4,7 +4,7 @@ OR REPLACE FUNCTION filter_detailed_unit (unitId INT) RETURNS TABLE (
   mobile_number_handler TEXT,
   handler_mobile_number TEXT [ ],
   handler_email TEXT [ ],
-  unit_visit_count BIGINT,
+  unit_visit_count INT,
   unit_ratings INT [ ]
 ) LANGUAGE plpgsql AS $$
 BEGIN 
@@ -28,3 +28,4 @@ FROM
   );
 END;
 $$
+

@@ -1,4 +1,4 @@
-import { parseAsNumber, parseAsString } from 'parse-dont-validate';
+import { parseAsNumber } from 'parse-dont-validate';
 import { MultiSelectNumber } from 'utari-common';
 import {
     ConvertCurrencyToNumber,
@@ -111,9 +111,7 @@ const generalRoom = {
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
             parseRentalFromNumeric(obj.rental),
-            parseAsNumber(parseInt(obj.frequency ?? '')).orElseThrowDefault(
-                'frequency'
-            ),
+            parseAsNumber(obj.frequency).orElseThrowDefault('frequency'),
         ]),
     count: async (
         params: ConvertCurrencyToNumber<
@@ -137,9 +135,7 @@ const generalRoom = {
                 `Expect bookmarked units count to have 1 element, got ${results.length} instead`
             );
         }
-        return parseInt(
-            parseAsString(results[0]?.count).orElseThrowDefault('count')
-        );
+        return parseAsNumber(results[0]?.count).orElseThrowDefault('count');
     },
 };
 
