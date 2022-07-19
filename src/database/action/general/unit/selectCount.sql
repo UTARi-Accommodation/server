@@ -2,7 +2,7 @@
  @name SelectCountGeneralUnitQuery
  */
 SELECT
-  COUNT(unit_id)
+  COUNT(unit_id) :: INT COUNT
 FROM
   filter_general_unit(
     :region !,
@@ -14,3 +14,4 @@ FROM
     :maxRental,
     :userId
   );
+

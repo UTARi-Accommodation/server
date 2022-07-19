@@ -2,7 +2,7 @@
  @name SelectCountBookmarkedUnitQuery
  */
 SELECT
-  COUNT(unit_id)
+  COUNT(unit_id) :: INT COUNT
 FROM
   filter_bookmarked_unit(
     :userId !,
@@ -14,3 +14,4 @@ FROM
     :minRental,
     :maxRental
   );
+

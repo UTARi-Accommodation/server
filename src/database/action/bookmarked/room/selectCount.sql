@@ -2,7 +2,7 @@
  @name SelectCountBookmarkedRoomQuery
  */
 SELECT
-  COUNT(room_id)
+  COUNT(room_id) :: INT COUNT
 FROM
   filter_bookmarked_room(
     :userId !,
@@ -13,3 +13,4 @@ FROM
     :minRental,
     :maxRental
   );
+

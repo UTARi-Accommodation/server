@@ -5,7 +5,7 @@ OR REPLACE FUNCTION filter_detailed_room (roomId INT) RETURNS TABLE (
   handler_mobile_number TEXT [ ],
   handler_email TEXT [ ],
   room_capacities INTEGER [ ],
-  room_visit_count BIGINT,
+  room_visit_count INT,
   room_ratings INT [ ]
 ) LANGUAGE plpgsql AS $$
 BEGIN 
@@ -34,3 +34,4 @@ FROM
   );
 END;
 $$
+

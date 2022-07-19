@@ -1,4 +1,3 @@
-import { isPositiveInt } from 'granula-string';
 import { parseAsString } from 'parse-dont-validate';
 import { RentalRange } from 'utari-common';
 
@@ -17,12 +16,8 @@ const convertRentalToNumeric = ({ min, max }: Undefinable<RentalRange>) => ({
     maxRental: parseNullableNumericFromRental(max),
 });
 
-const parseVisitCount = (visitCount: string | null) =>
-    visitCount === null
-        ? 0
-        : !isPositiveInt(visitCount)
-        ? 0
-        : parseInt(visitCount, 10);
+const parseVisitCount = (visitCount: number | null) =>
+    !visitCount || visitCount < 0 ? 0 : visitCount;
 
 const parseContact = ({
     mobileNumber,

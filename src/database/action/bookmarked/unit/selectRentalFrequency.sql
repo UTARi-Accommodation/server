@@ -3,7 +3,7 @@
  */
 SELECT
   rental,
-  COUNT(rental) AS frequency
+  COUNT(rental) :: INT frequency
 FROM
   filter_bookmarked_unit_meta_data
 WHERE
@@ -12,3 +12,4 @@ GROUP BY
   rental
 ORDER BY
   rental;
+
