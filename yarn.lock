@@ -3027,11 +3027,6 @@ granula-string@^1.0.2:
   resolved "https://registry.yarnpkg.com/granula-string/-/granula-string-1.0.3.tgz#fa2622775a613b77168935b3c61fa80c4599580d"
   integrity sha512-GQsP4ca7+NL5PeLEfY09FOT2tLBC/UdtaMLupFYgGpVBXs7jupbFOEzXZgGXkKsNKSq7Ufduj9lZUezq9on+JA==
 
-granula-string@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/granula-string/-/granula-string-1.0.5.tgz#d3c314e48de263efc0f94400abf05521d8e598ef"
-  integrity sha512-3XC5VWGA6jXtvjF3VW4g3R+rmKEbqtApK1dUx3WzOX8VOElBrRxjzZAzxFeUsNrMoWxdw2brIRSQhvOkUibxFw==
-
 granula-string@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/granula-string/-/granula-string-1.0.6.tgz#6e81beecfd6d6f63e457799a3da855bb2b5e62ee"
@@ -4394,7 +4389,7 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
-parse-dont-validate@^1.0.1, parse-dont-validate@^1.0.3:
+parse-dont-validate@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/parse-dont-validate/-/parse-dont-validate-1.0.3.tgz#68f075c6a545ae18816fb4a12ff1a553fd875348"
   integrity sha512-IfJMSDvgoMnsf4yFkf6FHSbk/UPfbjAIEiBkdqYTL28YdBNa8zRPECZumVRLyL9HiP2x5wEsfOu14wX1Tjdjfw==
@@ -5163,16 +5158,6 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
-ts-add-js-extension@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ts-add-js-extension/-/ts-add-js-extension-1.2.0.tgz#c1fdae1542f57219e97cee0a95d9eb02a04ad75d"
-  integrity sha512-uELVJHfmOn/STtBY4l7vOH2VGc0Cq1wz3BUsfHcYAjWHzmN3G+lh4MnLtKCf3aKGFY047BI/E5GnV75zKI7g1g==
-  dependencies:
-    "@typescript-eslint/typescript-estree" "^5.4.0"
-    console-table-printer "^2.11.0"
-    parse-dont-validate "^1.0.1"
-    yargs "^17.3.0"
-
 ts-add-js-extension@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/ts-add-js-extension/-/ts-add-js-extension-1.2.1.tgz#350bbf7b7bb7f18af0d9e6f06d773b8a2ff5a57c"
@@ -5287,7 +5272,7 @@ uri-js@^4.2.2:
 
 "utari-common@https://github.com/Utari-Room/common.git":
   version "0.0.1"
-  resolved "https://github.com/Utari-Room/common.git#3470066e9c7c7ebafbd8f06bbaa1c7c413165e97"
+  resolved "https://github.com/Utari-Room/common.git#6354c46dab7553ce204c7fc4670522de4ea073ff"
   dependencies:
     granula-string "^1.0.6"
     parse-dont-validate "^2.0.4"
