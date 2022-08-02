@@ -1,4 +1,4 @@
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from 'esbuild-env-parsing';
 import express from 'express';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
@@ -38,11 +38,11 @@ const contactRouter = (app: express.Application) => ({
                     logger.log(result);
                     res.status(200).json(result);
                 } else {
-                    const email = parseAsEnv({
+                    const email = parseAsStringEnv({
                         env: process.env.EMAIL,
                         name: 'email',
                     });
-                    const pass = parseAsEnv({
+                    const pass = parseAsStringEnv({
                         env: process.env.PASS,
                         name: 'pass',
                     });

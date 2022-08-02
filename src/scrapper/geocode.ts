@@ -1,5 +1,5 @@
 import { Client } from '@googlemaps/google-maps-services-js';
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const client = new Client({});
 
@@ -10,7 +10,7 @@ const geocode = {
         } = await client.geocode({
             params: {
                 address,
-                key: parseAsEnv({
+                key: parseAsStringEnv({
                     env: process.env.MAPS_API_KEY,
                     name: 'Maps Api Key',
                 }),

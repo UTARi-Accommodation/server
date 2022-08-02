@@ -14,7 +14,7 @@ import ratingRouter from './router/rating/';
 import contactRouter from './router/contact/';
 import invalidRouter from './router/invalid';
 import logger from './logger';
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from 'esbuild-env-parsing';
 
 const { json, urlencoded } = express;
 
@@ -28,7 +28,7 @@ const { json, urlencoded } = express;
                 urlencoded({ extended: true }),
                 cookieParser(),
                 cors({
-                    origin: parseAsEnv({
+                    origin: parseAsStringEnv({
                         env: process.env.ORIGIN,
                         name: 'origin',
                     }),

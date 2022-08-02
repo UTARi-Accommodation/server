@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import dotenv from 'dotenv';
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsNumEnv, parseAsStringEnv } from 'esbuild-env-parsing';
 
 (() => {
     dotenv.config({});
@@ -19,28 +19,26 @@ import { parseAsEnv } from 'esbuild-env-parsing';
                 failOnError: true,
                 camelCaseColumnNames: false,
                 db: {
-                    user: parseAsEnv({
+                    user: parseAsStringEnv({
                         env: process.env.PGUSER,
                         name: 'pguser',
                     }),
-                    host: parseAsEnv({
+                    host: parseAsStringEnv({
                         env: process.env.PGHOST,
                         name: 'pghost',
                     }),
-                    dbName: parseAsEnv({
+                    dbName: parseAsStringEnv({
                         env: process.env.PGDATABASE,
                         name: 'pgdatabase',
                     }),
-                    password: parseAsEnv({
+                    password: parseAsStringEnv({
                         env: process.env.PGPASSWORD,
                         name: 'pgpassword',
                     }),
-                    port: parseInt(
-                        parseAsEnv({
-                            env: process.env.PGPORT,
-                            name: 'pgport',
-                        })
-                    ),
+                    port: parseAsNumEnv({
+                        env: process.env.PGPORT,
+                        name: 'pgport',
+                    }),
                 },
             },
             null,
