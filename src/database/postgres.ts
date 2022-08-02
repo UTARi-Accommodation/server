@@ -1,18 +1,18 @@
 import pkg from 'pg';
-import { parseAsEnv } from 'esbuild-env-parsing';
+import { parseAsNumEnv, parseAsStringEnv } from 'esbuild-env-parsing';
 const { Pool } = pkg;
 
 type Pool = pkg.Pool;
 
 const postgresConfig = () => {
-    const env = parseAsEnv({
+    const env = parseAsStringEnv({
         env: process.env.NODE_ENV,
         name: 'node env',
     });
 
     return env === 'staging' || env === 'production'
         ? {
-              connectionString: parseAsEnv({
+              connectionString: parseAsStringEnv({
                   env: process.env.DATABASE_URL,
                   name: 'database url',
               }),
@@ -21,28 +21,26 @@ const postgresConfig = () => {
               },
           }
         : {
-              user: parseAsEnv({
+              user: parseAsStringEnv({
                   env: process.env.PGUSER,
                   name: 'pguser',
               }),
-              host: parseAsEnv({
+              host: parseAsStringEnv({
                   env: process.env.PGHOST,
                   name: 'pghost',
               }),
-              database: parseAsEnv({
+              database: parseAsStringEnv({
                   env: process.env.PGDATABASE,
                   name: 'pgdatabase',
               }),
-              password: parseAsEnv({
+              password: parseAsStringEnv({
                   env: process.env.PGPASSWORD,
                   name: 'pgpassword',
               }),
-              port: parseInt(
-                  parseAsEnv({
-                      env: process.env.PGPORT,
-                      name: 'pgport',
-                  })
-              ),
+              port: parseAsNumEnv({
+                  env: process.env.PGPORT,
+                  name: 'pgport',
+              }),
           };
 };
 
