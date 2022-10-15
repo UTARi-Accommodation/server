@@ -66,7 +66,7 @@ const getGeoCodeResponse = async (
 
 const geocode = (async () => {
     const browser = await puppeteer.launch({
-        args: ['--disable-setuid-sandbox'],
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
         ignoreHTTPSErrors: true,
     });
     return {
