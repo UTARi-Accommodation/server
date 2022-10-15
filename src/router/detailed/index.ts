@@ -14,7 +14,7 @@ const detailedRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
                 const verifiedId = token
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };
@@ -61,7 +61,7 @@ const detailedRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
                 const verifiedId = token
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };

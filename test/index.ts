@@ -31,9 +31,10 @@ import {
 } from './scrapper/accommodation';
 import testGeocodeScrapper from './scrapper/geocode';
 import postgreSQL from '../src/database/postgres';
+import geocode from '../src/scrapper/geocode';
 import reset from './script/reset';
 
-const tests: ReadonlyArray<readonly [() => void, 'only'?]> = [
+const tests: ReadonlyArray<Readonly<[() => void, 'only'?]>> = [
     [testGetCentralGeocode],
     [testComputeAddressScore],
     [testComputeContactScore],
@@ -79,4 +80,7 @@ beforeAll(async () => {
 
 (!selectedTests.length ? tests : selectedTests).forEach(([test]) => test());
 
-afterAll(postgreSQL.instance.close);
+afterAll(async () => {
+    await postgreSQL.instance.close();
+    (await geocode).close();
+});

@@ -6,7 +6,6 @@ import {
     parseRating,
     parseRentalFromNumeric,
 } from '../../../../api/query/common';
-import { parseProperties } from '../../../../api/query/room';
 import { Pool } from '../../../postgres';
 import {
     ISelectCapacitiesRangeParams,
@@ -26,6 +25,7 @@ import {
     selectCountGeneralRoomQuery,
 } from './selectCount.queries';
 import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
+import { parseProperties } from '../../../../api/query/room';
 
 type Rooms = ReadonlyArray<DeepNonNullable<ISelectGeneralRoomQueryResult>>;
 
@@ -74,20 +74,20 @@ const generalRoom = {
             DeepNonNullable<DeepReadonly<ISelectGeneralRoomQueryParams>>
         >,
         pool: Pool
-    ) =>
-        transformGeneralQuery(
+    ) => {
+        return transformGeneralQuery(
             (await selectGeneralRoomQuery.run(
                 {
                     ...params,
-                    capacities: Array.from(params.capacities),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
-                },
+                } as ISelectGeneralRoomQueryParams,
                 pool
             )) as Rooms
-        ),
+        );
+    },
     range: async (
         params: Readonly<ISelectCapacitiesRangeParams>,
         pool: Pool
@@ -111,7 +111,9 @@ const generalRoom = {
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
             parseRentalFromNumeric(obj.rental),
-            parseAsNumber(obj.frequency).orElseThrowDefault('frequency'),
+            parseAsNumber(obj.frequency).elseThrow(
+                'frequency is not a number, it is null'
+            ),
         ]),
     count: async (
         params: ConvertCurrencyToNumber<
@@ -122,12 +124,11 @@ const generalRoom = {
         const results = await selectCountGeneralRoomQuery.run(
             {
                 ...params,
-                capacities: Array.from(params.capacities),
                 ...convertRentalToNumeric({
                     min: params.minRental,
                     max: params.maxRental,
                 }),
-            },
+            } as ISelectCountGeneralRoomQueryParams,
             pool
         );
         if (results.length !== 1) {
@@ -135,7 +136,10 @@ const generalRoom = {
                 `Expect bookmarked units count to have 1 element, got ${results.length} instead`
             );
         }
-        return parseAsNumber(results[0]?.count).orElseThrowDefault('count');
+        const count = results[0]?.count;
+        return parseAsNumber(count).elseThrow(
+            `count is not a number, it is ${count}`
+        );
     },
 };
 

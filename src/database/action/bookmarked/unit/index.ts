@@ -41,23 +41,19 @@ import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
 const bookmarkedUnit = {
     select: async (
         params: ConvertCurrencyToNumber<
-            DeepReadonly<ISelectBookmarkedUnitQueryParams>
+            DeepNonNullable<DeepReadonly<ISelectBookmarkedUnitQueryParams>>
         >,
         pool: Pool
-    ): Promise<SortedUnit> =>
+    ): Promise<DeepNonNullable<SortedUnit>> =>
         (
             (await selectBookmarkedUnitQuery.run(
                 {
                     ...params,
-                    bathRooms: Array.from(params.bathRooms),
-                    bedRooms: Array.from(params.bedRooms),
-                    regions: Array.from(params.regions),
-                    unitTypes: Array.from(params.unitTypes),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
-                },
+                } as ISelectBookmarkedUnitQueryParams,
                 pool
             )) as ReadonlyArray<
                 DeepNonNullable<ISelectBookmarkedUnitQueryResult>
@@ -102,7 +98,7 @@ const bookmarkedUnit = {
         ),
     download: async (
         params: ConvertCurrencyToNumber<
-            DeepReadonly<IDownloadBookmarkedUnitQueryParams>
+            DeepNonNullable<DeepReadonly<IDownloadBookmarkedUnitQueryParams>>
         >,
         pool: Pool
     ): Promise<SortedBookmarkedUnitDownload> =>
@@ -110,14 +106,11 @@ const bookmarkedUnit = {
             (await downloadBookmarkedUnitQuery.run(
                 {
                     ...params,
-                    bathRooms: Array.from(params.bathRooms),
-                    bedRooms: Array.from(params.bedRooms),
-                    unitTypes: Array.from(params.unitTypes),
                     ...convertRentalToNumeric({
                         min: params.minRental,
                         max: params.maxRental,
                     }),
-                },
+                } as IDownloadBookmarkedUnitQueryParams,
                 pool
             )) as ReadonlyArray<
                 DeepNonNullable<IDownloadBookmarkedUnitQueryResult>
@@ -173,7 +166,9 @@ const bookmarkedUnit = {
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
             parseRentalFromNumeric(obj.rental),
-            parseAsNumber(obj.frequency).orElseThrowDefault('frequency'),
+            parseAsNumber(obj.frequency).elseThrow(
+                'frequency is not a number, it is null'
+            ),
         ]),
     range: async (
         params: Readonly<ISelectBedRoomsAndBathRoomsRangeParams>,
@@ -225,7 +220,10 @@ const bookmarkedUnit = {
                 `Expect bookmarked units count to have 1 element, got ${results.length} instead`
             );
         }
-        return parseAsNumber(results[0]?.count).orElseThrowDefault('count');
+        const count = results[0]?.count;
+        return parseAsNumber(count).elseThrow(
+            `count is not number, it is ${count}`
+        );
     },
 };
 

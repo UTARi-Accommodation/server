@@ -2,7 +2,11 @@ import { parseAsString } from 'parse-dont-validate';
 import { RentalRange } from 'utari-common';
 
 const parseRentalFromNumeric = (rental: string | null | undefined) =>
-    parseFloat(parseAsString(rental).orElseThrowDefault('rental'));
+    Number(
+        parseAsString(rental).elseThrow(
+            `rental is not a string, it is ${rental}`
+        )
+    );
 
 const parseNumericFromRental = (rental: number) => `${rental}`;
 
@@ -40,8 +44,12 @@ const parseAsMinMaxRental = ({
     min: string | null;
     max: string | null;
 }>) => ({
-    minRentalPerPax: parseFloat(parseAsString(min).orElseThrowDefault('min')),
-    maxRentalPerPax: parseFloat(parseAsString(max).orElseThrowDefault('max')),
+    minRentalPerPax: parseFloat(
+        parseAsString(min).elseThrow('min is not a string, it is null')
+    ),
+    maxRentalPerPax: parseFloat(
+        parseAsString(max).elseThrow('max is not a string, it is null')
+    ),
 });
 
 type ConvertCurrencyToNumber<T> = Omit<Readonly<T>, 'minRental' | 'maxRental'> &

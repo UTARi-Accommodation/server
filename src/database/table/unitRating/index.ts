@@ -47,10 +47,11 @@ const unitRating = {
                 `Expect result to have at least 1 id, got 0 instead`
             );
         }
+        const id = results[0]?.unit;
         await updateScore.one(
             {
-                id: parseAsNumber(results[0]?.unit).orElseThrowDefault(
-                    'unit rating unit id'
+                id: parseAsNumber(id).elseThrow(
+                    'unit rating unit id is not a number, it is undefined'
                 ),
             },
             postgreSQL.instance.pool

@@ -4,15 +4,13 @@ import child from 'child_process';
 import config from './config.js';
 import { parseAsEnvs, parseAsStringEnv } from 'esbuild-env-parsing';
 
-dotenv.config({});
-
-const isDev =
-    parseAsStringEnv({
-        env: process.env.NODE_ENV,
-        name: 'node env',
-    }) === 'development';
-
-(() =>
+const main = () => {
+    dotenv.config({});
+    const isDev =
+        parseAsStringEnv({
+            env: process.env.NODE_ENV,
+            name: 'node env',
+        }) === 'development';
     build({
         ...config({
             entryPoint: 'src/index.ts',
@@ -27,7 +25,6 @@ const isDev =
                 'PGDATABASE',
                 'PGPASSWORD',
                 'PGPORT',
-                'MAPS_API_KEY',
                 'EMAIL',
                 'PASS',
                 'FIREBASE_TYPE',
@@ -52,39 +49,21 @@ const isDev =
             ? undefined
             : [
                   (() => {
-                      let serverPid = undefined;
+                      let server = undefined;
                       return {
                           name: 'express',
                           setup: (build) => {
                               build.onStart(() => {
-                                  if (serverPid !== undefined) {
-                                      child.exec(`kill ${serverPid}`);
+                                  if (server) {
+                                      console.log('Restarting Server...');
+                                      server.kill('SIGINT');
                                   }
                               });
                               build.onEnd(() => {
-                                  const { stdout, stderr, pid } = child.exec(
-                                      'make serve',
-                                      (error, stdout, stderr) => {
-                                          console.log(
-                                              `serve stdout: ${stdout}`
-                                          );
-                                          console.error(
-                                              `serve stderr: ${stderr}`
-                                          );
-                                          if (error !== null) {
-                                              console.log(
-                                                  `serve error: ${error}`
-                                              );
-                                          }
-                                      }
-                                  );
-                                  stdout.on('data', (data) =>
-                                      console.log(data)
-                                  );
-                                  stderr.on('data', (data) =>
-                                      console.log(data)
-                                  );
-                                  serverPid = pid + 2;
+                                  if (server) {
+                                      console.log('Restarted Server...');
+                                  }
+                                  server = child.spawn('make', ['serve']);
                               });
                           },
                       };
@@ -98,4 +77,7 @@ const isDev =
         .catch((e) => {
             console.log('Error building:', e.message);
             process.exit(1);
-        }))();
+        });
+};
+
+main();

@@ -13,4 +13,3 @@ GROUP BY
   rental
 ORDER BY
   rental;
-

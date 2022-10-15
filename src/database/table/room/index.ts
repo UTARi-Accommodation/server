@@ -37,7 +37,10 @@ const room = {
                 `Expect room to have 1 id, got ${rooms.length} instead`
             );
         }
-        return parseAsNumber(rooms[0]?.id).orElseThrowDefault('room ID');
+        const id = rooms[0]?.id;
+        return parseAsNumber(id).elseThrow(
+            `room id is not a number, it is ${id}`
+        );
     },
     setAvailabilityFalse: async (pool: Pool) => {
         await setAvailabilityFalse.run(undefined, pool);
@@ -52,7 +55,10 @@ const room = {
                 `Expect room to have 1 id, got ${rooms.length} instead`
             );
         }
-        return parseAsNumber(rooms[0]?.id).orElseThrowDefault('room ID');
+        const id = rooms[0]?.id;
+        return parseAsNumber(id).elseThrow(
+            `room id is not a number, it is ${id}`
+        );
     },
 };
 

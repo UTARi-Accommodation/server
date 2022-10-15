@@ -27,6 +27,8 @@ import utariUser from '../../../src/database/table/utariUser';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
 
+type Search = undefined | string;
+
 const testRoomQuery = () =>
     describe('Query Room', () => {
         const userId = '66067e71-8fc3-4353-899d-8906df0c6a74';
@@ -57,7 +59,7 @@ const testRoomQuery = () =>
                     roomType: 'Room',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     capacities: await generalRoom.range(
                         {
@@ -66,17 +68,17 @@ const testRoomQuery = () =>
                         },
                         postgreSQL.instance.pool
                     ),
-                } as const;
+                };
                 const bthoQueried = await generalRoom.general(
                     {
                         ...bthoProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 const bthoCount = await generalRoom.count(
-                    bthoProps,
+                    bthoProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 expect(bthoQueried).toStrictEqual(btho);
@@ -87,7 +89,7 @@ const testRoomQuery = () =>
                     roomType: 'Room',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     capacities: await generalRoom.range(
                         {
@@ -102,11 +104,11 @@ const testRoomQuery = () =>
                         ...kamparProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 const kpCount = await generalRoom.count(
-                    kamparProps,
+                    kamparProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 expect(kpQueried).toStrictEqual(kp);
@@ -117,7 +119,7 @@ const testRoomQuery = () =>
                     roomType: 'Room',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     capacities: await generalRoom.range(
                         {
@@ -132,11 +134,11 @@ const testRoomQuery = () =>
                         ...slProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 const slCount = await generalRoom.count(
-                    slProps,
+                    slProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 expect(slQueried).toStrictEqual(sl);
@@ -246,12 +248,12 @@ const testRoomQuery = () =>
                     roomType: 'Room',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     capacities: [2, 3],
                     userId,
-                } as const;
+                };
                 const rowsCount = await generalRoom.count(
-                    rowsProps,
+                    rowsProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 const rows = await generalRoom.general(
@@ -259,7 +261,7 @@ const testRoomQuery = () =>
                         ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 expect(rows).toStrictEqual(capacities);
@@ -273,7 +275,7 @@ const testRoomQuery = () =>
                     roomType: 'Room',
                     minRental: 500,
                     maxRental: 100000,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     capacities: await generalRoom.range(
                         {
@@ -284,7 +286,7 @@ const testRoomQuery = () =>
                     ),
                 } as const;
                 const rowsCount = await generalRoom.count(
-                    rowsProps,
+                    rowsProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 const rowsWithRentalQuery = await generalRoom.general(
@@ -292,7 +294,7 @@ const testRoomQuery = () =>
                         ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 expect(rowsWithRentalQuery).toStrictEqual(rental);
@@ -306,7 +308,7 @@ const testRoomQuery = () =>
                     roomType: 'Roommate',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     capacities: await generalRoom.range(
                         {
@@ -317,7 +319,7 @@ const testRoomQuery = () =>
                     ),
                 } as const;
                 const rowsCount = await generalRoom.count(
-                    rowsProps,
+                    rowsProps as Parameters<typeof generalRoom.count>[0],
                     postgreSQL.instance.pool
                 );
                 const rows = await generalRoom.general(
@@ -325,7 +327,7 @@ const testRoomQuery = () =>
                         ...rowsProps,
                         maxItemsPerPage,
                         currentPage: 1,
-                    },
+                    } as Parameters<typeof generalRoom.general>[0],
                     postgreSQL.instance.pool
                 );
                 expect(rows).toStrictEqual(roomType);
@@ -704,4 +706,5 @@ const testRoomQuery = () =>
         });
     });
 
+export { Search };
 export default testRoomQuery;

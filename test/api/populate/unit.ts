@@ -7,7 +7,7 @@ import { Accommodations } from 'utari-common';
 
 const testUnitPopulation = () =>
     describe('Populate Unit', () => {
-        describe('Inserting a unit and quqerying the inserted unit', () => {
+        describe('Inserting a unit and querying the inserted unit', () => {
             beforeAll(async () => {
                 const { db } = await reset;
                 await db(postgreSQL.instance.exec);

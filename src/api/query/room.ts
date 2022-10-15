@@ -4,12 +4,13 @@ import { parseRentalFromNumeric } from './common';
 import generalRoom from '../../database/action/general/room';
 import detailedRoom from '../../database/action/detailed/room';
 import bookmarkedRoom from '../../database/action/bookmarked/room';
+import { DeepReadonly } from '../../util/type';
 
 const parseProperties = ({
     rental,
     roomSize,
     capacities,
-}: Readonly<{
+}: DeepReadonly<{
     rental: string;
     roomSize: RoomSize;
     capacities: MultiSelectNumber | null;
@@ -17,8 +18,10 @@ const parseProperties = ({
     ({
         size: roomSize,
         capacities: parseAsReadonlyArray(capacities, (capacity) =>
-            parseAsNumber(capacity).orElseThrowDefault('capacity')
-        ).orElseThrowDefault('capacity'),
+            parseAsNumber(capacity).elseThrow(
+                `capacity is not a number, it is ${capacity}`
+            )
+        ).elseThrow(`capacities is not an array, it is ${capacities}`),
         rental: parseRentalFromNumeric(rental),
     } as const);
 

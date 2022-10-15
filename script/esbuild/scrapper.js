@@ -3,9 +3,8 @@ import config from './config.js';
 import dotenv from 'dotenv';
 import { parseAsEnvs } from 'esbuild-env-parsing';
 
-dotenv.config({});
-
-(() =>
+const main = () => {
+    dotenv.config({});
     build({
         ...config({
             entryPoint: 'src/scrapper/scrap.ts',
@@ -18,7 +17,6 @@ dotenv.config({});
             'PGDATABASE',
             'PGPASSWORD',
             'PGPORT',
-            'MAPS_API_KEY',
         ]),
     })
         .then((r) => {
@@ -28,4 +26,7 @@ dotenv.config({});
         .catch((e) => {
             console.log('Error building:', e.message);
             process.exit(1);
-        }))();
+        });
+};
+
+main();

@@ -232,7 +232,7 @@ const getRemarks = (element: HTMLElement) =>
                 );
             }
             const [month, year] = parseAsString(matches[0])
-                .orElseThrowDefault('match')
+                .elseThrow('match is not a string, it is undefined')
                 .replace('Available From', '')
                 .trim()
                 .toUpperCase()
@@ -241,15 +241,19 @@ const getRemarks = (element: HTMLElement) =>
             return {
                 remark: removeDateFromRemarks(remark.split(regex).join('')),
                 month: processMonth(
-                    parseAsString(month).orElseThrowDefault('month')
+                    parseAsString(month).elseThrow(
+                        'month is not a string, it is undefined'
+                    )
                 ),
                 year: parseAsNumber(
                     parsePositiveInteger(
-                        parseAsString(year).orElseThrowDefault('year')
+                        parseAsString(year).elseThrow(
+                            'year is not a parseable string, it is undefined'
+                        )
                     )
                 )
                     .inRangeOf(2002, new Date().getFullYear())
-                    .orElseGetUndefined(),
+                    .elseGet(undefined),
             };
         },
         {} as Readonly<{
@@ -285,7 +289,7 @@ const getRooms = (element: HTMLElement) =>
         }
         const [roomType, rental, capacities] = roomInfo;
         const type = parseAsString(roomType)
-            .orElseThrowDefault('roomType')
+            .elseThrow('roomType is not a string, it is undefined')
             .replace(' Bedroom', '')
             .toLowerCase();
         if (type === 'master' || type === 'middle' || type === 'small') {
@@ -294,18 +298,24 @@ const getRooms = (element: HTMLElement) =>
             }
             const parsedRental = parseAsNumber(
                 parsePositiveInteger(
-                    parseAsString(rental).orElseThrowDefault('rental')
+                    parseAsString(rental).elseThrow(
+                        'rental is not a string, it is undefined'
+                    )
                 )
             )
                 .inRangeOf(0, 100000)
-                .orElseThrowDefault('parsed rental');
+                .elseThrow(
+                    'parsed rental is not a number within specified range'
+                );
             const parsedCapacities = parseAsString(capacities)
-                .orElseThrowDefault('capacities')
+                .elseThrow('capacities is not a string, it is undefined')
                 .split('/')
                 .flatMap((capacity) => {
                     const parsed = parseAsNumber(parsePositiveInteger(capacity))
                         .inRangeOf(0, Number.MAX_SAFE_INTEGER)
-                        .orElseThrowDefault('capacity');
+                        .elseThrow(
+                            'capacity is not a number specified within a range'
+                        );
                     return !parsed ? [] : [parsed];
                 });
             return !parsedRental || !parsedCapacities.length
@@ -346,31 +356,31 @@ const getUnits = (element: HTMLElement): Unit | undefined => {
 
     const bedRooms = parseAsNumber(
         parsePositiveInteger(
-            parseAsString(unitInfo[1]).orElseThrowDefault(
-                'bedRoom or unitInfo[1]'
+            parseAsString(unitInfo[1]).elseThrow(
+                'bedRoom is not a parseable string, it is undefined'
             )
         )
     )
         .inRangeOf(0, Number.MAX_SAFE_INTEGER)
-        .orElseThrowDefault('bedRooms');
+        .elseThrow('bedRooms is not a number within a specified range');
     const bathRooms = parseAsNumber(
         parsePositiveInteger(
-            parseAsString(unitInfo[3]).orElseThrowDefault(
-                'bathRoom or unitInfo[3]'
+            parseAsString(unitInfo[3]).elseThrow(
+                'bathRoom is not a parseable string, it is undefined'
             )
         )
     )
         .inRangeOf(0, Number.MAX_SAFE_INTEGER)
-        .orElseThrowDefault('bathRooms');
+        .elseThrow('bathRooms is not a number within a specified range');
     const rental = parseAsNumber(
         parsePositiveInteger(
-            parseAsString(unitInfo[4]).orElseThrowDefault(
-                'wholeUnit or unitInfo[4]'
+            parseAsString(unitInfo[4]).elseThrow(
+                'wholeUnit is not a number within a specified range'
             )
         )
     )
         .inRangeOf(0, Number.MAX_SAFE_INTEGER)
-        .orElseThrowDefault('rental');
+        .elseThrow(`rental is not a number, it is ${unitInfo[4]}`);
     return bedRooms !== undefined &&
         bathRooms !== undefined &&
         rental != undefined

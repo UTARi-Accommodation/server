@@ -13,4 +13,3 @@ FROM
     :maxRental,
     :userId
   );
-

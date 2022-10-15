@@ -7,4 +7,3 @@ FROM
   room_visit
 GROUP BY
   room;
-

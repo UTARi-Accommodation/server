@@ -14,4 +14,3 @@ FROM
     :minRental,
     :maxRental
   );
-

@@ -7,4 +7,3 @@ FROM
   unit_visit
 GROUP BY
   unit;
-
