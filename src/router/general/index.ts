@@ -48,7 +48,7 @@ const generalRouter = (app: express.Application) => ({
                     return;
                 }
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
                 const verifiedId = token
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };
@@ -61,16 +61,16 @@ const generalRouter = (app: express.Application) => ({
                     search: parseAsSearch(query.search),
                     minRental: parseAsNumber(parseFloat(query.minRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     maxRental: parseAsNumber(parseFloat(query.maxRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     userId: verifiedId.uid,
                     currentPage: parseAsNumber(
                         parseInt(typeof page === 'string' ? page : '1')
-                    ).orElseLazyGet(() => 1),
+                    ).elseGet(1),
                     maxItemsPerPage,
-                })).orElseThrowDefault('query');
+                })).elseThrow(`query is not an object, it is ${query}`);
 
                 const { bedRooms, bathRooms } = await generalUnit.range(
                     { region, unitType },
@@ -152,10 +152,13 @@ const generalRouter = (app: express.Application) => ({
                     page: unitQuery.currentPage,
                     totalPage: empty ? 0 : totalPage,
                     center: getCentralGeocode(
-                        units.map(({ location: { coordinate } }) => coordinate),
+                        units.map(({ location: { coordinate } }) => ({
+                            latitude: coordinate.latitude as number,
+                            longitude: coordinate.longitude as number,
+                        })),
                         region
                     ),
-                } as UnitsQueried;
+                };
                 logger.log(result);
                 res.status(200).json(result);
             }
@@ -185,7 +188,7 @@ const generalRouter = (app: express.Application) => ({
                     return;
                 }
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
                 const verifiedId = token
                     ? await auth.verifyIdToken(token)
                     : { uid: '' };
@@ -194,7 +197,7 @@ const generalRouter = (app: express.Application) => ({
 
                 const parsedPage = parseAsNumber(
                     parseInt(typeof page === 'string' ? page : '1')
-                ).orElseLazyGet(() => 1);
+                ).elseLazyGet(() => 1);
 
                 const roomQuery = parseAsReadonlyObject(query, (query) => ({
                     roomType,
@@ -202,16 +205,16 @@ const generalRouter = (app: express.Application) => ({
                     search: parseAsSearch(query.search),
                     minRental: parseAsNumber(parseFloat(query.minRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     maxRental: parseAsNumber(parseFloat(query.maxRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     userId: verifiedId.uid,
                     currentPage: parseAsNumber(
                         parseInt(typeof page === 'string' ? page : '1')
-                    ).orElseLazyGet(() => 1),
+                    ).elseGet(1),
                     maxItemsPerPage,
-                })).orElseThrowDefault('query');
+                })).elseThrow(`query is not an object, it is ${query}`);
 
                 const capacities = await generalRoom.range(
                     { roomType, region },
@@ -251,12 +254,16 @@ const generalRouter = (app: express.Application) => ({
                 }
 
                 const rooms = await generalRoom.general(
-                    finalizedRoomQuery,
+                    finalizedRoomQuery as Parameters<
+                        typeof generalRoom.general
+                    >[0],
                     postgreSQL.instance.pool
                 );
 
                 const numberOfResultsQueried = await generalRoom.count(
-                    finalizedRoomQuery,
+                    finalizedRoomQuery as Parameters<
+                        typeof generalRoom.count
+                    >[0],
                     postgreSQL.instance.pool
                 );
 
@@ -289,10 +296,13 @@ const generalRouter = (app: express.Application) => ({
                     page: parsedPage,
                     totalPage: empty ? 0 : totalPage,
                     center: getCentralGeocode(
-                        rooms.map(({ location: { coordinate } }) => coordinate),
+                        rooms.map(({ location: { coordinate } }) => ({
+                            latitude: coordinate.latitude as number,
+                            longitude: coordinate.longitude as number,
+                        })),
                         region
                     ),
-                } as RoomsQueried;
+                };
                 logger.log(result);
                 res.status(200).json(result);
             }

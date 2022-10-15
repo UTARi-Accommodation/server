@@ -12,9 +12,9 @@ const visitorRouter = (app: express.Application) => ({
             } else {
                 const { body } = req;
 
-                const visitorId = parseAsString(
-                    body.visitorId
-                ).orElseGetUndefined();
+                const visitorId = parseAsString(body.visitorId).elseGet(
+                    undefined
+                );
 
                 if (!visitorId) {
                     const result = {

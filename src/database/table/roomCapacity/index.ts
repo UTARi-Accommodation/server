@@ -20,8 +20,9 @@ const roomCapacities = {
                 `Expect capacities to have 1 id, got ${capacities.length} instead`
             );
         }
-        return parseAsNumber(capacities[0]?.id).orElseThrowDefault(
-            'capacity ID'
+        const id = capacities[0]?.id;
+        return parseAsNumber(id).elseThrow(
+            `capacity id is not a number, it is ${id}`
         );
     },
     alterIdSequence: async (pool: Pool) => {

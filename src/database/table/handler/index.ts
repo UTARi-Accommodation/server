@@ -16,7 +16,10 @@ const handler = {
                 `Expect handler to have 1 element, got ${handlers.length} instead`
             );
         }
-        return parseAsString(handlers[0]?.id).orElseThrowDefault('handler Id');
+        const id = handlers[0]?.id;
+        return parseAsString(id).elseThrow(
+            `handler id is not a string, it is ${id}`
+        );
     },
 };
 

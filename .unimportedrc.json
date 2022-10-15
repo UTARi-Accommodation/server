@@ -1,0 +1,6 @@
+{
+    "entry": ["src/index.ts", "script/**/*.js"],
+    "ignoreUnimported": ["src/scrapper/scrap.ts"],
+    "ignoreUnused": ["@pgtyped/cli"],
+    "ignorePatterns": ["**/node_modules/**", "**/build/**", "**/__tests__/**"]
+}

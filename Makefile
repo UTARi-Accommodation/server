@@ -17,11 +17,11 @@ install:
 
 ## scrap
 scrap:
-	rm -rf build && node script/esbuild/scrapper.js && node build/scrap.js
+	rm -rf build && node script/esbuild/scrapper.js && node --enable-source-maps build/scrap.js
 
 ## serve
 serve:
-	node build
+	node --enable-source-maps build
 
 ## start
 start:
@@ -88,7 +88,17 @@ format:
 
 ## lint
 lint:
-	$(NODE_BIN)eslint src/ test/ -f='stylish' --color
+	$(NODE_BIN)eslint src/ test/ -f='stylish' --color &&\
+		make find-unused-exports &&\
+		make find-unimported-files
+
+## find unused exports
+find-unused-exports:
+	$(NODE_BIN)find-unused-exports
+
+## find unimported files
+find-unimported-files:
+	$(NODE_BIN)unimported
 
 ## postgres setup and installation
 install-postgresql:

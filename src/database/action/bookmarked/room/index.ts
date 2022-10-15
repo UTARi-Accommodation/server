@@ -172,7 +172,9 @@ const bookmarkedRoom = {
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
             parseRentalFromNumeric(obj.rental),
-            parseAsNumber(obj.frequency).orElseThrowDefault('frequency'),
+            parseAsNumber(obj.frequency).elseThrow(
+                'frequency is not a number, it is null'
+            ),
         ]),
     selectCapacitiesRange: async (
         params: Readonly<ISelectCapacitiesRangeParams>,
@@ -215,7 +217,9 @@ const bookmarkedRoom = {
                 `Expect bookmarked rooms count to have 1 element, got ${results.length} instead`
             );
         }
-        return parseAsNumber(results[0]?.count).orElseThrowDefault('count');
+        return parseAsNumber(results[0]?.count).elseThrow(
+            'count is not a number, it is undefined'
+        );
     },
 };
 

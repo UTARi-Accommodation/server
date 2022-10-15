@@ -6,9 +6,11 @@ const parseNullableToNonNullable = <T>(t: T | null | void) => {
 };
 
 type DeepNonNullable<T> = {
-    [K in keyof T]: T[K] extends Function
+    [K in keyof T]-?: T[K] extends undefined
+        ? undefined
+        : T[K] extends Function
         ? T[K]
-        : Required<DeepNonNullable<NonNullable<T[K]>>>;
+        : DeepNonNullable<NonNullable<T[K]>>;
 };
 
 type DeepReadonly<T> = T extends (infer R)[]
@@ -23,4 +25,4 @@ type DeepReadonlyObject<T> = {
     readonly [P in keyof T]: DeepReadonly<T[P]>;
 };
 
-export { parseNullableToNonNullable, DeepNonNullable, DeepReadonly };
+export { DeepReadonly, DeepNonNullable, parseNullableToNonNullable };

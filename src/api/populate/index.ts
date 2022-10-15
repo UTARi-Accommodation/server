@@ -149,13 +149,20 @@ const upsertAccommodation = async (
     if (queriedId === params.id) {
         await accommodation.update(params, postgreSQL.instance.pool);
     } else {
-        await accommodation.insert(
-            {
-                ...params,
-                ...(await geocode.getGeoCode(params.address)),
-            },
-            postgreSQL.instance.pool
-        );
+        const geocodeResponse = await (
+            await geocode
+        ).getGeoCode(params.address);
+        switch (geocodeResponse.type) {
+            case 'valid': {
+                await accommodation.insert(
+                    {
+                        ...params,
+                        ...geocodeResponse.geocode,
+                    },
+                    postgreSQL.instance.pool
+                );
+            }
+        }
     }
 };
 

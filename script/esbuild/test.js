@@ -3,11 +3,10 @@ import dotenv from 'dotenv';
 import { parseAsEnvs } from 'esbuild-env-parsing';
 import config from './config.js';
 
-dotenv.config({
-    path: `${process.cwd()}/.env.test`,
-});
-
-(() =>
+const main = () => {
+    dotenv.config({
+        path: `${process.cwd()}/.env.test`,
+    });
     build({
         ...config({
             entryPoint: 'test/index.ts',
@@ -20,7 +19,6 @@ dotenv.config({
             'PGDATABASE',
             'PGPASSWORD',
             'PGPORT',
-            'MAPS_API_KEY',
         ]),
     })
         .then((r) => {
@@ -30,4 +28,7 @@ dotenv.config({
         .catch((e) => {
             console.log('Error building:', e.message);
             process.exit(1);
-        }))();
+        });
+};
+
+main();

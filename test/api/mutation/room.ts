@@ -9,6 +9,7 @@ import roomVisit from '../../../src/database/table/roomVisit';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
 import { Accommodations, maxItemsPerPage } from 'utari-common';
+import { Search } from '../query/room';
 
 const testRoomMutation = () =>
     describe('Mutate Room', () => {
@@ -218,7 +219,7 @@ const testRoomMutation = () =>
                     const rowsProps = {
                         region: 'KP',
                         roomType: 'Roommate',
-                        search: undefined,
+                        search: undefined as Search,
                         minRental: undefined,
                         maxRental: undefined,
                         userId,
@@ -232,7 +233,7 @@ const testRoomMutation = () =>
                     } as const;
 
                     const rowsCount = await generalRoom.count(
-                        rowsProps,
+                        rowsProps as Parameters<typeof generalRoom.count>[0],
                         postgreSQL.instance.pool
                     );
                     const rows = await generalRoom.general(
@@ -240,7 +241,7 @@ const testRoomMutation = () =>
                             ...rowsProps,
                             maxItemsPerPage,
                             currentPage: 1,
-                        },
+                        } as Parameters<typeof generalRoom.general>[0],
                         postgreSQL.instance.pool
                     );
 

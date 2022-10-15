@@ -39,10 +39,11 @@ const roomRating = {
                 `Expect result to have at least 1 id, got 0 instead`
             );
         }
+        const id = results[0]?.room;
         await updateScore.one(
             {
-                id: parseAsNumber(results[0]?.room).orElseThrowDefault(
-                    'room rating room id'
+                id: parseAsNumber(id).elseThrow(
+                    'room rating room id is not number, it is undefined'
                 ),
             },
             postgreSQL.instance.pool

@@ -20,7 +20,7 @@ const ratingRouter = (app: express.Application) => ({
             } else {
                 const { body } = req;
 
-                const token = parseAsString(body.token).orElseGetUndefined();
+                const token = parseAsString(body.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -37,15 +37,15 @@ const ratingRouter = (app: express.Application) => ({
                     userId: verifiedId.uid,
                     id: parseAsNumber(parseInt(body.id))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     type: parseAsCustomType<AccommodationType>(
                         body.type,
                         (type) => type === 'Unit' || type === 'Room'
-                    ).orElseGetUndefined(),
+                    ).elseGet(undefined),
                     rating: parseAsNumber(body.rating)
                         .inRangeOf(1, 5)
-                        .orElseGetUndefined(),
-                })).orElseGetUndefined();
+                        .elseGet(undefined),
+                })).elseGet(undefined);
 
                 if (!post) {
                     const result = {
@@ -131,7 +131,7 @@ const ratingRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -148,12 +148,12 @@ const ratingRouter = (app: express.Application) => ({
                     userId: verifiedId.uid,
                     id: parseAsNumber(parseInt(query.id))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     type: parseAsCustomType<AccommodationType>(
                         query.type,
                         (type) => type === 'Unit' || type === 'Room'
-                    ).orElseGetUndefined(),
-                })).orElseGetUndefined();
+                    ).elseGet(undefined),
+                })).elseGet(undefined);
 
                 if (!post) {
                     const result = {

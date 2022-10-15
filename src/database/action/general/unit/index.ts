@@ -10,7 +10,6 @@ import {
     parseRating,
     parseRentalFromNumeric,
 } from '../../../../api/query/common';
-import { parseProperties } from '../../../../api/query/unit';
 import { Pool } from '../../../postgres';
 import {
     ISelectBedRoomsAndBathRoomsRangeParams,
@@ -26,8 +25,11 @@ import {
     selectCountGeneralUnitQuery,
 } from './selectCount.queries';
 import { DeepNonNullable, DeepReadonly } from '../../../../util/type';
+import { parseProperties } from '../../../../api/query/unit';
 
-type Units = ReadonlyArray<DeepNonNullable<ISelectGeneralUnitQueryResult>>;
+type Units = ReadonlyArray<
+    DeepNonNullable<DeepReadonly<ISelectGeneralUnitQueryResult>>
+>;
 
 const transformGeneralQuery = (units: Units) =>
     units.map(
@@ -120,7 +122,9 @@ const generalUnit = {
     ): Promise<ReadonlyArray<Readonly<[number, number]>>> =>
         (await selectRentalFrequency.run(params, pool)).map((obj) => [
             parseRentalFromNumeric(obj.rental),
-            parseAsNumber(obj.frequency).orElseThrowDefault('frequency'),
+            parseAsNumber(obj.frequency).elseThrow(
+                'frequency is not a number, it is null'
+            ),
         ]),
     count: async (
         params: ConvertCurrencyToNumber<
@@ -145,7 +149,10 @@ const generalUnit = {
                 `Expect bookmarked units count to have 1 element, got ${results.length} instead`
             );
         }
-        return parseAsNumber(results[0]?.count).orElseThrowDefault('count');
+        const count = results[0]?.count;
+        return parseAsNumber(count).elseThrow(
+            `count is not a number, it is ${count}`
+        );
     },
 };
 

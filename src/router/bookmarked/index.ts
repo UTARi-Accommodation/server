@@ -30,12 +30,12 @@ const parseAsBookmarkMutationField = (obj: unknown) =>
         userId: obj.userId,
         id: parseAsNumber(parseFloat(obj.id))
             .inRangeOf(1, Number.MAX_VALUE)
-            .orElseGetUndefined(),
+            .elseGet(undefined),
         type: parseAsCustomType<AccommodationType>(
             obj.type,
             (type) => type === 'Unit' || type === 'Room'
-        ).orElseGetUndefined(),
-    })).orElseGetUndefined();
+        ).elseGet(undefined),
+    })).elseGet(undefined);
 
 const bookmarkedRouter = (app: express.Application) => ({
     queryUnit: () =>
@@ -45,7 +45,7 @@ const bookmarkedRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -65,13 +65,13 @@ const bookmarkedRouter = (app: express.Application) => ({
                     search: parseAsSearch(query.search),
                     minRental: parseAsNumber(parseFloat(query.minRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     maxRental: parseAsNumber(parseFloat(query.maxRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     bedRooms: parseAsReadonlyIntArray(query.bedRooms),
                     bathRooms: parseAsReadonlyIntArray(query.bathRooms),
-                })).orElseThrowDefault('query');
+                })).elseThrow(`query is not an object, it is ${query}`);
 
                 const { bedRooms, bathRooms } = await bookmarkedUnit.range(
                     {
@@ -129,7 +129,9 @@ const bookmarkedRouter = (app: express.Application) => ({
                 ) {
                     const result = {
                         units: await bookmarkedUnit.download(
-                            finalizedUnitQuery,
+                            finalizedUnitQuery as Parameters<
+                                typeof bookmarkedUnit.download
+                            >[0],
                             postgreSQL.instance.pool
                         ),
                     };
@@ -142,14 +144,14 @@ const bookmarkedRouter = (app: express.Application) => ({
 
                 const currentPage = parseAsNumber(
                     parseInt(typeof page === 'string' ? page : '1')
-                ).orElseLazyGet(() => 1);
+                ).elseGet(1);
 
                 const units = await bookmarkedUnit.select(
                     {
                         ...finalizedUnitQuery,
                         currentPage,
                         maxItemsPerPage,
-                    },
+                    } as Parameters<typeof bookmarkedUnit.select>[0],
                     postgreSQL.instance.pool
                 );
 
@@ -169,7 +171,10 @@ const bookmarkedRouter = (app: express.Application) => ({
                         numberOfResultsQueried / maxItemsPerPage
                     ),
                     center: getCentralGeocode(
-                        units.map(({ location: { coordinate } }) => coordinate),
+                        units.map(({ location: { coordinate } }) => ({
+                            latitude: coordinate.latitude as number,
+                            longitude: coordinate.longitude as number,
+                        })),
                         'KP'
                     ),
                 } as UnitsQueried;
@@ -184,7 +189,7 @@ const bookmarkedRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -201,15 +206,15 @@ const bookmarkedRouter = (app: express.Application) => ({
                     userId: verifiedId.uid,
                     roomTypes: parseAsReadonlyRoomTypeArray(query.roomTypes),
                     regions: parseAsReadonlyRegionArray(query.regions),
-                    search: parseAsString(query.search).orElseGetUndefined(),
+                    search: parseAsString(query.search).elseGet(undefined),
                     minRental: parseAsNumber(parseFloat(query.minRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     maxRental: parseAsNumber(parseFloat(query.maxRental))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     capacities: parseAsReadonlyIntArray(query.capacities),
-                })).orElseThrowDefault('query');
+                })).elseThrow(`query is not an object, it is ${query}`);
 
                 const capacities = await bookmarkedRoom.selectCapacitiesRange(
                     {
@@ -279,7 +284,7 @@ const bookmarkedRouter = (app: express.Application) => ({
 
                 const currentPage = parseAsNumber(
                     parseInt(typeof page === 'string' ? page : '1')
-                ).orElseLazyGet(() => 1);
+                ).elseGet(1);
 
                 const rooms = await bookmarkedRoom.select(
                     {
@@ -319,7 +324,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 throw new Error('Only accept POST request');
             } else {
                 const { body } = req;
-                const token = parseAsString(body.token).orElseGetUndefined();
+                const token = parseAsString(body.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -405,7 +410,7 @@ const bookmarkedRouter = (app: express.Application) => ({
                 throw new Error('Only accept DELETE request');
             } else {
                 const { query } = req;
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {

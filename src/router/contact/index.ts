@@ -19,14 +19,10 @@ const contactRouter = (app: express.Application) => ({
             } else {
                 const { body } = req;
                 const { name, email, message } = body;
-                const parsedName = getName(
-                    parseAsString(name).orElseGetEmptyString()
-                );
-                const parsedEmail = getEmail(
-                    parseAsString(email).orElseGetEmptyString()
-                );
+                const parsedName = getName(parseAsString(name).elseGet(''));
+                const parsedEmail = getEmail(parseAsString(email).elseGet(''));
                 const parsedMessage = getMessage(
-                    parseAsString(message).orElseGetEmptyString()
+                    parseAsString(message).elseGet('')
                 );
                 if (allValueValid(parsedName, parsedEmail, parsedMessage)) {
                     const result = {

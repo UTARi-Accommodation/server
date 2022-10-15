@@ -28,6 +28,7 @@ import { Accommodations, maxItemsPerPage } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
+import { Search } from './room';
 
 const testUnitQuery = () =>
     describe('Query Unit', () => {
@@ -65,7 +66,7 @@ const testUnitQuery = () =>
                     unitType: 'House',
                     minRental: undefined,
                     maxRental: undefined,
-                    search: undefined,
+                    search: undefined as Search,
                     userId,
                     ...(await generalUnit.range(
                         {
@@ -74,7 +75,7 @@ const testUnitQuery = () =>
                         },
                         postgreSQL.instance.pool
                     )),
-                } as const;
+                };
                 const bthoQueriedWithoutRentalQuery = await generalUnit.general(
                     {
                         ...bthoProps,
@@ -566,10 +567,10 @@ const testUnitQuery = () =>
                             unitTypes: ['Condominium', 'House'],
                             minRental: undefined,
                             maxRental: undefined,
-                            search: undefined,
+                            search: undefined as Search,
                             bedRooms: [3],
                             bathRooms: [2],
-                        },
+                        } as Parameters<typeof bookmarkUnitQuery.download>[0],
                         postgreSQL.instance.pool
                     )
                 ).toStrictEqual(
@@ -744,12 +745,12 @@ const testUnitQuery = () =>
                             unitTypes: ['Condominium', 'House'],
                             minRental: undefined,
                             maxRental: undefined,
-                            search: undefined,
+                            search: undefined as Search,
                             bedRooms: [3],
                             bathRooms: [2],
                             maxItemsPerPage: 15,
                             currentPage: 1,
-                        },
+                        } as Parameters<typeof bookmarkUnitQuery.select>[0],
                         postgreSQL.instance.pool
                     )
                 ).toStrictEqual(bookmarkedUnit);
@@ -778,10 +779,10 @@ const testUnitQuery = () =>
                             unitTypes: ['Condominium', 'House'],
                             minRental: undefined,
                             maxRental: undefined,
-                            search: undefined,
+                            search: undefined as Search,
                             bedRooms: [3],
                             bathRooms: [2],
-                        },
+                        } as Parameters<typeof bookmarkUnitQuery.download>[0],
                         postgreSQL.instance.pool
                     )
                 ).toStrictEqual(

@@ -20,17 +20,15 @@ const visitRouter = (app: express.Application) => ({
                 const { body } = req;
 
                 const post = parseAsReadonlyObject(body, (body) => ({
-                    visitorId: parseAsString(
-                        body.visitorId
-                    ).orElseGetUndefined(),
+                    visitorId: parseAsString(body.visitorId).elseGet(undefined),
                     id: parseAsNumber(parseInt(body.id))
                         .inRangeOf(1, Number.MAX_VALUE)
-                        .orElseGetUndefined(),
+                        .elseGet(undefined),
                     type: parseAsCustomType<AccommodationType>(
                         body.type,
                         (type) => type === 'Unit' || type === 'Room'
-                    ).orElseGetUndefined(),
-                })).orElseGetUndefined();
+                    ).elseGet(undefined),
+                })).elseGet(undefined);
 
                 if (!post) {
                     const result = {

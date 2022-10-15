@@ -13,7 +13,7 @@ const userRouter = (app: express.Application) => ({
             } else {
                 const { body } = req;
 
-                const token = parseAsString(body.token).orElseGetUndefined();
+                const token = parseAsString(body.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {
@@ -29,11 +29,11 @@ const userRouter = (app: express.Application) => ({
                 const post = parseAsReadonlyObject(body, (body) => ({
                     userId: verifiedId.uid,
                     timeCreated: new Date(
-                        parseAsString(body.timeCreated).orElseLazyGet(
+                        parseAsString(body.timeCreated).elseLazyGet(
                             () => new Date(Date.now())
                         )
                     ),
-                })).orElseGetUndefined();
+                })).elseGet(undefined);
 
                 if (!post) {
                     const result = {
@@ -88,7 +88,7 @@ const userRouter = (app: express.Application) => ({
             } else {
                 const { query } = req;
 
-                const token = parseAsString(query.token).orElseGetUndefined();
+                const token = parseAsString(query.token).elseGet(undefined);
 
                 if (!token) {
                     const result = {

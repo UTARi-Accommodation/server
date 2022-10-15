@@ -31,8 +31,9 @@ const accommodation = {
                 `Expect accommodation to have 1 element, got ${accommodations.length} instead`
             );
         }
-        return parseAsNumber(accommodations[0]?.id).orElseThrowDefault(
-            'accommodation Id'
+        const id = accommodations[0]?.id;
+        return parseAsNumber(id).elseThrow(
+            `accommodation id is not a number, it is ${id}`
         );
     },
     update: async (
@@ -45,8 +46,9 @@ const accommodation = {
                 `Expect accommodation to have 1 element, got ${accommodations.length} instead`
             );
         }
-        return parseAsNumber(accommodations[0]?.id).orElseThrowDefault(
-            'accommodation Id'
+        const id = accommodations[0]?.id;
+        return parseAsNumber(id).elseThrow(
+            `accommodation id is not a number, it is ${id}`
         );
     },
     setAvailabilityFalse: async (pool: Pool) => {

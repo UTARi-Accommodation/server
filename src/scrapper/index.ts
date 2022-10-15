@@ -19,10 +19,10 @@ const upsertAllToDatabase = async (region: Region) => {
     if (
         (
             await Promise.all([
-                await upsertToDatabase(scrapRoom, region),
-                await upsertToDatabase(scrapRoommate, region),
-                await upsertToDatabase(scrapHouse, region),
-                await upsertToDatabase(scrapCondominium, region),
+                upsertToDatabase(scrapRoom, region),
+                upsertToDatabase(scrapRoommate, region),
+                upsertToDatabase(scrapHouse, region),
+                upsertToDatabase(scrapCondominium, region),
             ])
         ).length !== 4
     ) {
