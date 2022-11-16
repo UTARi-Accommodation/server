@@ -1,4 +1,5 @@
 import { computeAddressScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeAddressScore = () =>
     describe('Address Computation for Multi-Attribute Decision Model', () => {

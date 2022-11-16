@@ -1,5 +1,6 @@
 import postgreSQL from '../../../src/database/postgres';
 import visitor from '../../../src/database/table/visitor';
+import { describe, it, expect } from 'vitest';
 
 const testVisitorMutation = () =>
     describe('visitor', () => {

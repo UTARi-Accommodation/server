@@ -5,6 +5,7 @@ import {
 } from '../../../../src/api/madm';
 import { roomOne, roomTwo } from '../../../dummy/api/madm/room.json';
 import nonNullableNumber from './util';
+import { describe, it, expect } from 'vitest';
 
 const getMinMaxRental = (room: ReadonlyArray<QueriedRoom>) =>
     getMinMax(

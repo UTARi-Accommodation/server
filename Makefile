@@ -10,14 +10,19 @@ all:
 		make build
 
 NODE_BIN=node_modules/.bin/
+vite-node=$(NODE_BIN)vite-node
+
+tally-pgtyped-file-function-name:
+	$(NODE_BIN)esbuild script/tally-pgtyped-file-function-name/index.ts --sourcemap --bundle --minify --target=node16.3.1 --platform=node --outfile=script/tally-pgtyped-file-function-name/index.js &&\
+		node --enable-source-maps script/tally-pgtyped-file-function-name
 
 ## install
 install:
-	yarn install --frozen-lockfile
+	pnpm i --frozen-lockfile
 
 ## scrap
-scrap:
-	rm -rf build && node script/esbuild/scrapper.js && node --enable-source-maps build/scrap.js
+scrap: pre-build
+	$(vite-node) script/esbuild/scrapper.ts && node --enable-source-maps build/scrap.js
 
 ## serve
 serve:
@@ -32,7 +37,7 @@ pre-build:
 	rm -rf build
 
 build: pre-build
-	node script/esbuild/server.js
+	$(vite-node) script/esbuild/server.ts
 
 ## clean-up:
 clean-up:
@@ -46,31 +51,27 @@ typecheck-watch:
 	make typecheck arguments=--w
 
 ## test
-api=test-api
-pre-test:
-	rm -rf __tests__ && node script/esbuild/test.js 
-
-test: pre-test
-	$(NODE_BIN)jest __tests__
+test:
+	$(NODE_BIN)vitest
 
 ## pg typed generator
 pg-gen:
-	node script/pgTyped.js && $(NODE_BIN)pgtyped $(arguments) -c pgTyped.json
+	$(vite-node) script/pgTyped.ts && $(NODE_BIN)pgtyped $(arguments) -c pgTyped.json
 
 pg-gen-watch:
 	make pg-gen arguments=-w
 
 ## drop all views and functions
 drop:
-	node script/sql/viewsAndFunctions.js drop && psql utari -c "\i temp/drop.sql"
+	$(vite-node) script/sql/viewsAndFunctions.ts -- drop && psql utari -c "\i temp/drop.sql"
 
 ## create all views and functions
 create:
-	node script/sql/viewsAndFunctions.js create && psql utari -c "\i temp/create.sql"
+	$(vite-node) script/sql/viewsAndFunctions.ts -- create && psql utari -c "\i temp/create.sql"
 
 ## format
 format-sql:
-	node script/sql/formatter.js
+	$(vite-node) script/sql/formatter.ts
 
 prettier=$(NODE_BIN)prettier
 prettify:
@@ -119,3 +120,6 @@ setup-postgresql:
 	sudo -u postgres createdb test
 	psql template1 -c "ALTER USER postgres WITH PASSWORD 'postgres'"
 	psql utari -c "\i sql/migration/create.sql"
+
+puppeteer-prerequisite:
+	sudo apt-get install -yq gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget

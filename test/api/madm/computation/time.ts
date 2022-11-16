@@ -1,4 +1,5 @@
 import { computeTimeScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeTimeScore = () =>
     describe('Time Computation for Multi-Attribute Decision Model', () => {

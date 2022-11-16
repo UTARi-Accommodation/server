@@ -1,4 +1,4 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { room, mutated } from '../../dummy/api/mutation/room.json';
@@ -10,6 +10,7 @@ import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
 import { Accommodations, maxItemsPerPage } from 'utari-common';
 import { Search } from '../query/room';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 const testRoomMutation = () =>
     describe('Mutate Room', () => {

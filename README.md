@@ -9,14 +9,14 @@ This is the server of UTARi-client
 | Development Language                                                   | TypeScipt      |
 | Scripting Language                                                     | JavaScript     |
 | Bundling                                                               | Esbuild        |
-| Testing                                                                | Jest           |
+| Testing                                                                | Vitest         |
 | Run-time Environment                                                   | NodeJS         |
 | Database                                                               | PostgreSQL     |
 | TypeScript Code Gen from raw SQL                                       | PgTyped        |
 | Authentication Service                                                 | Firebase       |
 | Build Automation Tool                                                  | Make           |
 | Text Editor                                                            | NeoVim         |
-| Dependency Management                                                  | Yarn           |
+| Dependency Management                                                  | Pnpm           |
 | Continuous Integration, Continuous Delivery, and Continuous Deployment | GitHub Actions |
 
 ## How to build this app?

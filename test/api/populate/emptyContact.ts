@@ -1,8 +1,9 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import room from '../../dummy/api/populate/emptyContact.json';
 import { Accommodations } from 'utari-common';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 const testEmptyContactPopulation = () =>
     describe('Insert Empty Contact', () => {

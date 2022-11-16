@@ -1,4 +1,5 @@
 import { computeFacilitiesScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeFacilitiesScore = () =>
     describe('Facilities Computation for Multi-Attribute Decision Model', () => {

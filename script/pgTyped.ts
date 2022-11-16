@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import dotenv from 'dotenv';
-import { parseAsNumEnv, parseAsStringEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from '../src/util/parse-env';
 
-(() => {
-    dotenv.config({});
+const main = () => {
+    dotenv.config();
     fs.writeFile(
         'pgTyped.json',
         JSON.stringify(
@@ -21,30 +21,34 @@ import { parseAsNumEnv, parseAsStringEnv } from 'esbuild-env-parsing';
                 db: {
                     user: parseAsStringEnv({
                         env: process.env.PGUSER,
-                        name: 'pguser',
+                        name: 'PGUSER',
                     }),
                     host: parseAsStringEnv({
                         env: process.env.PGHOST,
-                        name: 'pghost',
+                        name: 'PGHOST',
                     }),
                     dbName: parseAsStringEnv({
                         env: process.env.PGDATABASE,
-                        name: 'pgdatabase',
+                        name: 'PGDATABASE',
                     }),
                     password: parseAsStringEnv({
                         env: process.env.PGPASSWORD,
-                        name: 'pgpassword',
+                        name: 'PGPASSWORD',
                     }),
-                    port: parseAsNumEnv({
-                        env: process.env.PGPORT,
-                        name: 'pgport',
-                    }),
+                    port: parseInt(
+                        parseAsStringEnv({
+                            env: process.env.PGPORT,
+                            name: 'PGPORT',
+                        })
+                    ),
                 },
             },
-            null,
+            undefined,
             4
         ),
         (error) =>
             error ? console.error(error) : console.log('generated pgTyped.json')
     );
-})();
+};
+
+main();

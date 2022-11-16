@@ -1,6 +1,7 @@
 {
-    "entry": ["src/index.ts", "script/**/*.js"],
+    "entry": ["src/index.ts", "script/**/*.ts"],
     "ignoreUnimported": ["src/scrapper/scrap.ts"],
     "ignoreUnused": ["@pgtyped/cli"],
-    "ignorePatterns": ["**/node_modules/**", "**/build/**", "**/__tests__/**"]
+    "ignorePatterns": ["**/node_modules/**", "**/build/**", "**/__tests__/**"],
+    "ignoreUnresolved": ["fsevents"]
 }

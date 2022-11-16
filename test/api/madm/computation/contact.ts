@@ -1,4 +1,5 @@
 import { computeContactScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeContactScore = () =>
     describe('Contact Computation for Multi-Attribute Decision Model', () => {

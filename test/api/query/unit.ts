@@ -1,4 +1,4 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import upsertToDatabase from '../../../src/api/populate';
 import {
@@ -29,6 +29,7 @@ import utariUser from '../../../src/database/table/utariUser';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
 import { Search } from './room';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 const testUnitQuery = () =>
     describe('Query Unit', () => {

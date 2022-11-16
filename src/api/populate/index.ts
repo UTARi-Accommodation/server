@@ -23,7 +23,7 @@ import accommodation from '../../database/table/accommodation';
 import unit from '../../database/table/unit';
 import updateUnitScore from '../../database/action/updateScore/unit';
 import updateRoomScore from '../../database/action/updateScore/room';
-import { parseAsStringEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from '../../util/parse-env';
 
 const upsertRoom = async ({
     capacities,
@@ -243,7 +243,7 @@ const upsertInfo = async (accommodations: Accommodations, region: Region) => {
                 if (
                     parseAsStringEnv({
                         env: process.env.NODE_ENV,
-                        name: 'node env',
+                        name: 'NODE_ENV',
                     }) === 'test'
                 ) {
                     return await Promise.resolve(num + 1);

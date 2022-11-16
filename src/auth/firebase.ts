@@ -1,48 +1,48 @@
 import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import admin from 'firebase-admin';
-import { parseAsStringEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from '../util/parse-env';
 
 const config = {
     type: parseAsStringEnv({
         env: process.env.FIREBASE_TYPE,
-        name: 'firebase type',
+        name: 'FIREBASE_TYPE',
     }),
     projectId: parseAsStringEnv({
         env: process.env.FIREBASE_PROJECT_ID,
-        name: 'firebase project Id',
+        name: 'FIREBASE_PROJECT_ID',
     }),
     privateKeyId: parseAsStringEnv({
         env: process.env.FIREBASE_KEY_ID,
-        name: 'firebase key Id',
+        name: 'FIREBASE_KEY_ID',
     }),
     privateKey: parseAsStringEnv({
         env: process.env.FIREBASE_KEY,
-        name: 'firebase key',
+        name: 'FIREBASE_KEY',
     }),
     clientEmail: parseAsStringEnv({
         env: process.env.FIREBASE_CLIENT_EMAIL,
-        name: 'firebase client email',
+        name: 'FIREBASE_CLIENT_EMAIL',
     }),
     clientId: parseAsStringEnv({
         env: process.env.FIREBASE_CLIENT_ID,
-        name: 'firebase client Id',
+        name: 'FIREBASE_CLIENT_ID',
     }),
     authUri: parseAsStringEnv({
         env: process.env.FIREBASE_AUTH_URI,
-        name: 'firebase auth uri',
+        name: 'FIREBASE_AUTH_URI',
     }),
     tokenUri: parseAsStringEnv({
         env: process.env.FIREBASE_TOKEN_URI,
-        name: 'firebase token uri',
+        name: 'FIREBASE_TOKEN_URI',
     }),
     authProviderX509CertUrl: parseAsStringEnv({
         env: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
-        name: 'firebase auth provider x509 cert url',
+        name: 'FIREBASE_AUTH_PROVIDER_X509_CERT_URL',
     }),
     clientX509CertUrl: parseAsStringEnv({
         env: process.env.FIREBASE_CLIENT_X509_CERT_URL,
-        name: 'firebase client x509 cert url',
+        name: 'FIREBASE_CLIENT_X509_CERT_URL',
     }),
 };
 

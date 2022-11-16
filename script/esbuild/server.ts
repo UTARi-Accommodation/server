@@ -1,22 +1,22 @@
 import { build } from 'esbuild';
 import dotenv from 'dotenv';
+import { config, generateEnvs } from './shared';
 import child from 'child_process';
-import config from './config.js';
-import { parseAsEnvs, parseAsStringEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from '../../src/util/parse-env';
 
 const main = () => {
-    dotenv.config({});
+    dotenv.config();
     const isDev =
         parseAsStringEnv({
             env: process.env.NODE_ENV,
-            name: 'node env',
+            name: 'NODE_ENV',
         }) === 'development';
     build({
         ...config({
             entryPoint: 'src/index.ts',
             outfile: 'build/index.js',
         }),
-        define: parseAsEnvs(
+        define: generateEnvs(
             [
                 'NODE_ENV',
                 'ORIGIN',
@@ -49,14 +49,14 @@ const main = () => {
             ? undefined
             : [
                   (() => {
-                      let server = undefined;
+                      let server: undefined | child.ChildProcess = undefined;
                       return {
                           name: 'express',
                           setup: (build) => {
                               build.onStart(() => {
                                   if (server) {
                                       console.log('Restarting Server...');
-                                      server.kill('SIGINT');
+                                      process.kill(-server.pid);
                                   }
                               });
                               build.onEnd(() => {
@@ -64,6 +64,10 @@ const main = () => {
                                       console.log('Restarted Server...');
                                   }
                                   server = child.spawn('make', ['serve']);
+                                  server.stdout.setEncoding('utf-8');
+                                  server.stdout.on('data', console.log);
+                                  server.stderr.setEncoding('utf-8');
+                                  server.stderr.on('data', console.error);
                               });
                           },
                       };
@@ -76,7 +80,6 @@ const main = () => {
         })
         .catch((e) => {
             console.log('Error building:', e.message);
-            process.exit(1);
         });
 };
 

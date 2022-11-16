@@ -1,4 +1,5 @@
 import { computeRatingScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeRatingScore = () =>
     describe('Rating Computation for Multi-Attribute Decision Model', () => {
