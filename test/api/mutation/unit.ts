@@ -1,4 +1,4 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { unit, mutated } from '../../dummy/api/mutation/unit.json';
@@ -9,6 +9,7 @@ import unitVisit from '../../../src/database/table/unitVisit';
 import unitRating from '../../../src/database/table/unitRating';
 import unitBookmarked from '../../../src/database/table/unitBookmarked';
 import { Accommodations, maxItemsPerPage } from 'utari-common';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 const testUnitMutation = () =>
     describe('Mutate Unit', () => {

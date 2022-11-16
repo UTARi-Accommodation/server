@@ -1,4 +1,3 @@
-import { parseAsStringEnv } from 'esbuild-env-parsing';
 import express from 'express';
 import nodemailer from 'nodemailer';
 import { parseAsString } from 'parse-dont-validate';
@@ -10,6 +9,7 @@ import {
     getName,
 } from 'utari-common';
 import logger from '../../logger';
+import { parseAsStringEnv } from '../../util/parse-env';
 
 const contactRouter = (app: express.Application) => ({
     sendEmail: () =>
@@ -36,11 +36,11 @@ const contactRouter = (app: express.Application) => ({
                 } else {
                     const email = parseAsStringEnv({
                         env: process.env.EMAIL,
-                        name: 'email',
+                        name: 'EMAIL',
                     });
                     const pass = parseAsStringEnv({
                         env: process.env.PASS,
-                        name: 'pass',
+                        name: 'PASS',
                     });
                     const options = {
                         from: `${parsedName.value.trim()} <${email}>`,

@@ -1,5 +1,6 @@
 import postgreSQL from '../../../src/database/postgres';
 import timeScrap from '../../../src/database/table/timeScrap';
+import { describe, it, expect } from 'vitest';
 
 const testTimeScrapMutation = () =>
     describe('Scrapper', () => {

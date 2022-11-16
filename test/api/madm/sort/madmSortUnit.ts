@@ -5,6 +5,7 @@ import {
 } from '../../../../src/api/madm';
 import { unitOne, unitTwo } from '../../../dummy/api/madm/unit.json';
 import nonNullableNumber from './util';
+import { describe, it, expect } from 'vitest';
 
 const getMinMaxRental = (unit: ReadonlyArray<QueriedUnit>) =>
     getMinMax(

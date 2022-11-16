@@ -1,4 +1,5 @@
 import getCentralGeocode from '../../../src/api/geocode';
+import { describe, it, expect } from 'vitest';
 
 const testGetCentralGeocode = () =>
     describe('Central geocode computer', () => {

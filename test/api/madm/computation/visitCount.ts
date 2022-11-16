@@ -1,4 +1,5 @@
 import { computeVisitCountScore } from '../../../../src/api/madm';
+import { describe, it, expect } from 'vitest';
 
 const testComputeVisitCountScore = () =>
     describe('Visit Count Computation for Multi-Attribute Decision Model', () => {

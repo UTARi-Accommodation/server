@@ -17,6 +17,11 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v2
 
+            - name: Install PNPM
+              run: |
+                  sudo apt install npm
+                  npm i --location=global pnpm
+
             - name: Install and Setup PostgreSQL
               run: make install-postgresql
                   && make setup-postgresql
@@ -54,9 +59,7 @@ jobs:
                   PGPASSWORD: postgres
                   PGPORT: 5432
                   MAPS_API_KEY: ${{ secrets.MAPS_API_KEY }}
-              run: |
-                  make test
-                  rm -rf __tests__
+              run: make test
 
             - name: Run Build
               # just to ensure build dont fail due to absence of env variable

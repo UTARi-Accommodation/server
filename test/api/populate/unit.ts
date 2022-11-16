@@ -1,9 +1,10 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import insertToDatabase from '../../../src/api/populate';
 import { insert, update } from '../../dummy/api/populate/unit.json';
 import resetTablesAndColumns from '../../../src/database/action/resetTablesAndColumns';
 import { Accommodations } from 'utari-common';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 const testUnitPopulation = () =>
     describe('Populate Unit', () => {

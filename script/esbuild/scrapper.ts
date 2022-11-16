@@ -1,16 +1,15 @@
 import { build } from 'esbuild';
-import config from './config.js';
+import { config, generateEnvs } from './shared';
 import dotenv from 'dotenv';
-import { parseAsEnvs } from 'esbuild-env-parsing';
 
 const main = () => {
-    dotenv.config({});
+    dotenv.config();
     build({
         ...config({
             entryPoint: 'src/scrapper/scrap.ts',
             outfile: 'build/scrap.js',
         }),
-        define: parseAsEnvs([
+        define: generateEnvs([
             'NODE_ENV',
             'PGUSER',
             'PGHOST',

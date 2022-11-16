@@ -1,4 +1,4 @@
-import reset from '../../script/reset';
+import reset from '../../../script/resetDatabase';
 import postgreSQL from '../../../src/database/postgres';
 import upsertToDatabase from '../../../src/api/populate';
 import {
@@ -26,6 +26,7 @@ import { Accommodations, maxItemsPerPage } from 'utari-common';
 import utariUser from '../../../src/database/table/utariUser';
 import roomRating from '../../../src/database/table/roomRating';
 import roomBookmarked from '../../../src/database/table/roomBookmarked';
+import { beforeAll, describe, it, expect } from 'vitest';
 
 type Search = undefined | string;
 

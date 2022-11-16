@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import { CronJob } from 'cron';
 import cookieParser from 'cookie-parser';
-
 import accommodationScrapper from './scrapper/';
 import generalRouter from './router/general/';
 import visitorRouter from './router/visitor/';
@@ -14,7 +13,7 @@ import ratingRouter from './router/rating/';
 import contactRouter from './router/contact/';
 import invalidRouter from './router/invalid';
 import logger from './logger';
-import { parseAsStringEnv } from 'esbuild-env-parsing';
+import { parseAsStringEnv } from './util/parse-env';
 
 const { json, urlencoded } = express;
 
@@ -30,7 +29,7 @@ const { json, urlencoded } = express;
                 cors({
                     origin: parseAsStringEnv({
                         env: process.env.ORIGIN,
-                        name: 'origin',
+                        name: 'ORIGIN',
                     }),
                     credentials: true,
                 }),

@@ -1,5 +1,6 @@
 import { Region } from 'utari-common';
 import scrapper from '../../src/scrapper/accommodation';
+import { describe, it, expect } from 'vitest';
 
 const formRegionNameFromAcronym = (region: Region) =>
     region === 'KP'

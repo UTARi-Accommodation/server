@@ -1,4 +1,5 @@
 import geocode from '../../src/scrapper/geocode';
+import { describe, it, expect } from 'vitest';
 
 const testGeocodeScrapper = () =>
     describe('Geocode', () => {

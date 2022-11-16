@@ -1,31 +1,21 @@
-import * as fs from 'fs';
+import fs from 'fs';
+import { getAllFilesAndCode, getAllFiles } from '../util';
 
-import { readCode } from '../util.js';
-
-const getSQLFiles = (dir) =>
-    fs.readdirSync(dir).flatMap((file) => {
-        const path = `${dir}/${file}`;
-        if (fs.statSync(path).isDirectory()) {
-            return getSQLFiles(path);
-        }
-        const extension = path.split('.').pop();
-        return !extension ? [] : extension !== 'sql' ? [] : [path];
-    });
-
-const getAllSQLCode = (files) =>
-    files.map(async (file) => await readCode(file));
-
-const generateMainSQLFile = async (type, dirs) => {
+const generateMainSQLFile = async (
+    type: string,
+    dirs: ReadonlyArray<string>
+) => {
     const destination = `temp/${type}.sql`;
     const finalSQLCode = async () => {
-        const files = dirs.flatMap(getSQLFiles);
+        const files = dirs.flatMap((dir) =>
+            getAllFiles(dir, (extension) => extension === 'sql')
+        );
         if (type === 'create') {
             return (
-                await (
-                    await getAllSQLCode(files)
-                ).reduce(
-                    async (prev, curr) => (await prev).concat(await curr),
-                    Promise.resolve([])
+                await getAllFilesAndCode(files).reduce(
+                    async (prev, curr) =>
+                        (await prev).concat((await curr).code),
+                    Promise.resolve([] as ReadonlyArray<string>)
                 )
             ).join('\n;');
         } else if (type === 'drop') {
