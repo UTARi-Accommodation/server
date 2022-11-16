@@ -1,21 +1,24 @@
 import fs from 'fs';
 import { defineConfig } from 'vitest/config';
+import ci from 'ci-info';
 
 export default defineConfig(() => {
     const timeout = 100_000;
-    const env = fs
-        .readFileSync('.env.test', {
-            encoding: 'utf-8',
-        })
-        .split('\n')
-        .filter(Boolean)
-        .reduce((prev, keyValuePair) => {
-            const [key, value] = keyValuePair.split('=');
-            return {
-                ...prev,
-                [key]: value,
-            };
-        }, {} as Record<string, string>);
+    const env = ci.isCI
+        ? {}
+        : fs
+              .readFileSync('.env.test', {
+                  encoding: 'utf-8',
+              })
+              .split('\n')
+              .filter(Boolean)
+              .reduce((prev, keyValuePair) => {
+                  const [key, value] = keyValuePair.split('=');
+                  return {
+                      ...prev,
+                      [key]: value,
+                  };
+              }, {} as Record<string, string>);
 
     return {
         test: {

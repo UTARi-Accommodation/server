@@ -14,6 +14,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.40.0
   '@typescript-eslint/parser': ^5.40.0
   cases-of-test: ^0.1.0
+  ci-info: ^3.6.1
   cookie-parser: ^1.4.6
   cors: ^2.8.5
   cron: ^1.8.2
@@ -69,6 +70,7 @@ devDependencies:
   '@typescript-eslint/eslint-plugin': 5.42.1_2udltptbznfmezdozpdoa2aemq
   '@typescript-eslint/parser': 5.42.1_rmayb2veg2btbq6mbmnyivgasy
   cases-of-test: 0.1.0
+  ci-info: 3.6.1
   eslint: 8.27.0
   find-unused-exports: 4.0.0
   prettier: 2.7.1
@@ -1383,7 +1385,7 @@ packages:
     resolution: {integrity: sha512-q0JfHlAXiezt3haYTqoiZz0zOAej4Bf2VSoMuz/E6PAoP5Fv2Rduu3dUuWhv1Csd9XMKDevzlaDqaJ5gNcMODw==}
     dependencies:
       boxen: 7.0.0
-      ci-info: 3.5.0
+      ci-info: 3.6.1
     dev: true
 
   /chai/4.3.7:
@@ -1441,8 +1443,9 @@ packages:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
     dev: false
 
-  /ci-info/3.5.0:
-    resolution: {integrity: sha512-yH4RezKOGlOhxkmhbeNuC4eYZKAUsEaGtBuBzDDP1eFUKiccDWzBABxBfOx31IDwDIXMTxWuwAxUGModvkbuVw==}
+  /ci-info/3.6.1:
+    resolution: {integrity: sha512-up5ggbaDqOqJ4UqLKZ2naVkyqSJQgJi5lwD6b6mM748ysrghDBX0bx/qJTUHzw7zu6Mq4gycviSF5hJnwceD8w==}
+    engines: {node: '>=8'}
     dev: true
 
   /cli-boxes/3.0.0:

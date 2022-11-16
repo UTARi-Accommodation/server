@@ -19,6 +19,7 @@
         "@typescript-eslint/eslint-plugin": "^5.40.0",
         "@typescript-eslint/parser": "^5.40.0",
         "cases-of-test": "^0.1.0",
+        "ci-info": "^3.6.1",
         "eslint": "^8.25.0",
         "find-unused-exports": "^4.0.0",
         "prettier": "^2.7.1",
